@@ -1,0 +1,203 @@
+enum UserRole {
+  admin,
+  czlonekZarzadu,
+  czlowiekZarzadu,
+  kierownik,
+  kierownikProdukcji,
+  monter,
+  hala,
+  user,
+}
+
+Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
+  switch (role) {
+    case UserRole.admin:
+      return {
+        'canEditGrafik': true,
+        'canAddGrafik': true,
+        'canSuggestGrafik': true,
+        'canSeeWeeklySummary': true,
+        'canViewServiceTasks': true,
+        'canEditSettings': true,
+        'canLogout': true,
+        'canChangeDate': true,
+        'canUseApp': true,
+      };
+    case UserRole.czlowiekZarzadu:
+    case UserRole.czlonekZarzadu:
+      return {
+        'canEditGrafik': true,
+        'canAddGrafik': true,
+        'canSuggestGrafik': true,
+        'canSeeWeeklySummary': true,
+        'canViewServiceTasks': true,
+        'canEditSettings': true,
+        'canLogout': true,
+        'canChangeDate': true,
+        'canUseApp': true,
+      };
+    case UserRole.kierownik:
+      return {
+        'canEditGrafik': true,
+        'canAddGrafik': true,
+        'canSuggestGrafik': true,
+        'canSeeWeeklySummary': true,
+        'canViewServiceTasks': false,
+        'canEditSettings': false,
+        'canLogout': true,
+        'canChangeDate': true,
+        'canUseApp': true,
+      };
+    case UserRole.monter:
+      return {
+        'canEditGrafik': false,
+        'canAddGrafik': false,
+        'canSuggestGrafik': true,
+        'canSeeWeeklySummary': true,
+        'canViewServiceTasks': false,
+        'canEditSettings': false,
+        'canLogout': true,
+        'canChangeDate': false,
+        'canUseApp': true,
+      };
+    case UserRole.hala:
+      return {
+        'canEditGrafik': false,
+        'canAddGrafik': false,
+        'canSuggestGrafik': false,
+        'canSeeWeeklySummary': false,
+        'canViewServiceTasks': true,
+        'canEditSettings': false,
+        'canLogout': false,
+        'canChangeDate': false,
+        'canUseApp': true,
+      };
+    case UserRole.kierownikProdukcji:
+      return {
+        'canEditGrafik': false,
+        'canAddGrafik': false,
+        'canSuggestGrafik': false,
+        'canSeeWeeklySummary': false,
+        'canViewServiceTasks': true,
+        'canEditSettings': false,
+        'canLogout': true,
+        'canChangeDate': true,
+        'canUseApp': true,
+      };
+    default:
+      return {
+        'canEditGrafik': false,
+        'canAddGrafik': false,
+        'canSuggestGrafik': false,
+        'canSeeWeeklySummary': false,
+        'canViewServiceTasks': false,
+        'canEditSettings': false,
+        'canLogout': true,
+        'canChangeDate': false,
+        'canUseApp': false, // tylko user nie może
+      };
+  }
+}
+
+UserRole userRoleFromString(String roleString) {
+  switch (roleString) {
+    case 'admin':
+      return UserRole.admin;
+    case 'czlonekZarzadu':
+      return UserRole.czlonekZarzadu;
+    case 'czlowiekZarzadu':
+      return UserRole.czlowiekZarzadu;
+    case 'kierownik':
+      return UserRole.kierownik;
+    case 'monter':
+      return UserRole.monter;
+    case 'hala':
+      return UserRole.hala;
+    default:
+      return UserRole.user;
+  }
+}
+
+/// Model użytkownika w Firestore (kolekcja "users")
+class AppUser {
+  final String id;
+  final String email;
+  final String fullName;
+  final String employeeId;
+  final UserRole role;
+  final Map<String, bool> permissionsOverride;
+
+  AppUser({
+    required this.id,
+    required this.email,
+    required this.fullName,
+    required this.employeeId,
+    required this.role,
+    required this.permissionsOverride,
+  });
+
+  /// Konstruktor tworzący domyślnego użytkownika (tylko z id i emailem) z pustymi domyślnymi danymi
+  factory AppUser.defaultUser({required String id, required String email}) {
+    return AppUser(
+      id: id,
+      email: email,
+      fullName: '',
+      employeeId: '',
+      role: UserRole.user,
+      permissionsOverride: {}, // pusta mapa, która dzięki effectivePermissions zostanie rozszerzona domyślnymi uprawnieniami
+    );
+  }
+
+  /// Metoda kopiująca użytkownika z możliwością nadpisania wybranych pól
+  AppUser copyWith({
+    String? id,
+    String? email,
+    String? fullName,
+    String? employeeId,
+    UserRole? role,
+    Map<String, bool>? permissionsOverride,
+  }) {
+    return AppUser(
+      id: id ?? this.id,
+      email: email ?? this.email,
+      fullName: fullName ?? this.fullName,
+      employeeId: employeeId ?? this.employeeId,
+      role: role ?? this.role,
+      permissionsOverride: permissionsOverride ?? this.permissionsOverride,
+    );
+  }
+
+  /// Połączenie uprawnień domyślnych i ewentualnych nadpisań
+  Map<String, bool> get effectivePermissions {
+    final defaults = getDefaultPermissionsForRole(role);
+    // Zawsze wartości z permissionsOverride nadpisują defaulty
+    permissionsOverride.forEach((key, value) {
+      defaults[key] = value;
+    });
+    return defaults;
+  }
+
+  factory AppUser.fromMap(String docId, Map<String, dynamic> data) {
+    return AppUser(
+      id: docId,
+      email: data['email'] ?? '',
+      fullName: data['fullName'] ?? '',
+      employeeId: data['employeeId'] ?? '',
+      role: userRoleFromString(data['role'] ?? 'user'),
+      permissionsOverride: data['permissionsOverride'] != null
+          ? Map<String, bool>.from(data['permissionsOverride'])
+          : {},
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'email': email,
+      'fullName': fullName,
+      'employeeId': employeeId,
+      'role': role.toString().split('.').last,
+      'permissionsOverride': permissionsOverride,
+    };
+  }
+}
