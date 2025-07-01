@@ -13,6 +13,7 @@ import 'feature/grafik/cubit/grafik_cubit.dart';
 import 'data/repositories/grafik_element_repository.dart';
 import 'data/services/auth_service.dart';
 import 'data/services/grafik_element_firebase_service.dart';
+import 'domain/services/i_grafik_element_service.dart';
 
 final getIt = GetIt.instance;
 
@@ -37,7 +38,7 @@ Future<void> setupLocator() async {
   getIt.registerLazySingleton<VehicleFirebaseService>(
     () => VehicleFirebaseService(getIt<FirebaseFirestore>()),
   );
-  getIt.registerLazySingleton<GrafikElementFirebaseService>(
+  getIt.registerLazySingleton<IGrafikElementService>(
     () => GrafikElementFirebaseService(getIt<FirebaseFirestore>()),
   );
 
@@ -52,7 +53,7 @@ Future<void> setupLocator() async {
     () => VehicleRepository(getIt<VehicleFirebaseService>()),
   );
   getIt.registerLazySingleton<GrafikElementRepository>(
-    () => GrafikElementRepository(getIt<GrafikElementFirebaseService>()),
+    () => GrafikElementRepository(getIt<IGrafikElementService>()),
   );
 
   //CUBIT
