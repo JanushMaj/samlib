@@ -3,8 +3,9 @@ import 'package:rxdart/rxdart.dart'; //  ⬅️ NOWE!
 import '../../domain/models/grafik/enums.dart';
 import '../../domain/models/grafik/grafik_element.dart';
 import '../../domain/models/grafik/grafik_element_registry.dart';
+import '../../domain/services/i_grafik_element_service.dart';
 
-class GrafikElementFirebaseService {
+class GrafikElementFirebaseService implements IGrafikElementService {
   final FirebaseFirestore _firestore;
 
   GrafikElementFirebaseService(this._firestore);

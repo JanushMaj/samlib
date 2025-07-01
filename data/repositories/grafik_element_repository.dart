@@ -1,9 +1,9 @@
 import '../../domain/models/grafik/enums.dart';
 import '../../domain/models/grafik/grafik_element.dart';
-import '../services/grafik_element_firebase_service.dart';
+import '../../domain/services/i_grafik_element_service.dart';
 
 class GrafikElementRepository {
-  final GrafikElementFirebaseService _service;
+  final IGrafikElementService _service;
   GrafikElementRepository(this._service);
 
   // ⚠️  teraz korzystamy z wersji „z pendingami”
