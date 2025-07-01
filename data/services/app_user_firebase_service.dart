@@ -7,13 +7,13 @@ class AppUserFirebaseService {
   AppUserFirebaseService(this._firestore);
 
   Future<void> upsertAppUser(AppUser user) async {
-    await _firestore.collection('users').doc(user.id).set(user.toMap());
+    await _firestore.collection('users').doc(user.id).set(user.toJson());
   }
 
   Stream<AppUser?> getAppUserStream(String uid) {
     return _firestore.collection('users').doc(uid).snapshots().map((doc) {
       if (!doc.exists) return null;
-      return AppUser.fromMap(doc.id, doc.data() as Map<String, dynamic>);
+      return AppUser.fromJson(doc.data() as Map<String, dynamic>);
     });
   }
 }

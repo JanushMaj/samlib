@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:json_annotation/json_annotation.dart';
 import '../enums.dart';
 import '../grafik_element.dart';
 
+part 'task_element.g.dart';
+
 /// Element zadania, np. przypisanie pracowników do konkretnego zadania.
+@JsonSerializable()
 class TaskElement extends GrafikElement {
   // ───────── PERSISTOWANE ─────────
   final List<String> workerIds;
@@ -13,9 +17,11 @@ class TaskElement extends GrafikElement {
 
   // ───────── TYLKO DO WIDOKU ─────────
   /// Ilu pracowników pierwotnie planowano (przy konwersji z TaskPlanningElement).
+  @JsonKey(ignore: true)
   final int? expectedWorkerCount;
 
   /// Na ile minut pierwotnie planowano zadanie.
+  @JsonKey(ignore: true)
   final int? plannedMinutes;
 
   TaskElement({
@@ -47,71 +53,10 @@ class TaskElement extends GrafikElement {
   );
 
   @override
-  Map<String, dynamic> toJson() {
-    final base = baseToJson();
-    return {
-      ...base,
-      'workerIds': workerIds,
-      'orderId': orderId,
-      'status': status.toString(),
-      'taskType': taskType.toString(),
-      'carIds': carIds,
-      // ─── expectedWorkerCount & plannedMinutes NIE są zapisywane ───
-    };
-  }
+  Map<String, dynamic> toJson() => _$TaskElementToJson(this);
 
-  factory TaskElement.fromJson(Map<String, dynamic> json) {
-    final id = (json['id'] as String?) ?? '';
-    final startTs = json['startDateTime'] as Timestamp?;
-    final endTs = json['endDateTime'] as Timestamp?;
-    final additionalInfo = (json['additionalInfo'] as String?) ?? '';
-    final addedByUserId = (json['addedByUserId'] as String?) ?? '';
-    final addedTimestamp =
-        (json['addedTimestamp'] as Timestamp?)?.toDate() ?? DateTime(1960, 2, 9);
-    final closed = (json['closed'] as bool?) ?? false;
-
-    final workerIdsRaw = json['workerIds'];
-    final workerIds =
-    workerIdsRaw == null ? <String>[] : List<String>.from(workerIdsRaw);
-
-    final orderId = (json['orderId'] as String?) ?? '';
-
-    final statusStr = (json['status'] as String?) ?? 'GrafikStatus.Realizacja';
-    final status = GrafikStatus.values.firstWhere(
-          (e) => e.toString() == statusStr,
-      orElse: () => GrafikStatus.Realizacja,
-    );
-
-    final taskTypeStr =
-        (json['taskType'] as String?) ?? 'GrafikTaskType.Inne';
-    final taskType = GrafikTaskType.values.firstWhere(
-          (e) => e.toString() == taskTypeStr,
-      orElse: () => GrafikTaskType.Inne,
-    );
-
-    final carIdsRaw = json['carIds'];
-    final carIds =
-    carIdsRaw == null ? <String>[] : List<String>.from(carIdsRaw);
-
-    return TaskElement(
-      id: id,
-      startDateTime: startTs?.toDate() ?? DateTime.now(),
-      endDateTime: endTs?.toDate() ?? DateTime.now(),
-      additionalInfo: additionalInfo,
-      workerIds: workerIds,
-      orderId: orderId,
-      status: status,
-      taskType: taskType,
-      carIds: carIds,
-      addedByUserId: addedByUserId,
-      addedTimestamp: addedTimestamp,
-      closed: closed,
-
-      // ładowane z baz y ⇒ brak
-      expectedWorkerCount: null,
-      plannedMinutes: null,
-    );
-  }
+  factory TaskElement.fromJson(Map<String, dynamic> json) =>
+      _$TaskElementFromJson(json);
 
   // ────────────────────────────────────────
   // uniwersalny copyWith (używany przez cubit)
