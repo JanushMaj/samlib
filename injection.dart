@@ -13,6 +13,10 @@ import 'feature/grafik/cubit/grafik_cubit.dart';
 import 'data/repositories/grafik_element_repository.dart';
 import 'data/services/auth_service.dart';
 import 'data/services/grafik_element_firebase_service.dart';
+import 'domain/services/i_grafik_element_service.dart';
+import 'domain/services/i_app_user_service.dart';
+import 'domain/services/i_employee_service.dart';
+import 'domain/services/i_vehicle_service.dart';
 
 final getIt = GetIt.instance;
 
@@ -28,31 +32,31 @@ Future<void> setupLocator() async {
   getIt.registerLazySingleton<AuthService>(
     () => AuthService(getIt<FirebaseAuth>()),
   );
-  getIt.registerLazySingleton<AppUserFirebaseService>(
+  getIt.registerLazySingleton<IAppUserService>(
     () => AppUserFirebaseService(getIt<FirebaseFirestore>()),
   );
-  getIt.registerLazySingleton<EmployeeFirebaseService>(
+  getIt.registerLazySingleton<IEmployeeService>(
     () => EmployeeFirebaseService(getIt<FirebaseFirestore>()),
   );
-  getIt.registerLazySingleton<VehicleFirebaseService>(
+  getIt.registerLazySingleton<IVehicleService>(
     () => VehicleFirebaseService(getIt<FirebaseFirestore>()),
   );
-  getIt.registerLazySingleton<GrafikElementFirebaseService>(
+  getIt.registerLazySingleton<IGrafikElementService>(
     () => GrafikElementFirebaseService(getIt<FirebaseFirestore>()),
   );
 
   // Repozytoria
   getIt.registerLazySingleton<AppUserRepository>(
-    () => AppUserRepository(getIt<AppUserFirebaseService>()),
+    () => AppUserRepository(getIt<IAppUserService>()),
   );
   getIt.registerLazySingleton<EmployeeRepository>(
-    () => EmployeeRepository(getIt<EmployeeFirebaseService>()),
+    () => EmployeeRepository(getIt<IEmployeeService>()),
   );
   getIt.registerLazySingleton<VehicleRepository>(
-    () => VehicleRepository(getIt<VehicleFirebaseService>()),
+    () => VehicleRepository(getIt<IVehicleService>()),
   );
   getIt.registerLazySingleton<GrafikElementRepository>(
-    () => GrafikElementRepository(getIt<GrafikElementFirebaseService>()),
+    () => GrafikElementRepository(getIt<IGrafikElementService>()),
   );
 
   //CUBIT

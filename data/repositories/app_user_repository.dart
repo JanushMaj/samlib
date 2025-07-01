@@ -1,8 +1,8 @@
 import '../../domain/models/app_user.dart';
-import '../services/app_user_firebase_service.dart';
+import '../../domain/services/i_app_user_service.dart';
 
 class AppUserRepository {
-  final AppUserFirebaseService _service;
+  final IAppUserService _service;
 
   AppUserRepository(this._service);
 

@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../domain/models/app_user.dart';
+import '../../domain/services/i_app_user_service.dart';
 
-class AppUserFirebaseService {
+class AppUserFirebaseService implements IAppUserService {
   final FirebaseFirestore _firestore;
 
   AppUserFirebaseService(this._firestore);

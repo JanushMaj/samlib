@@ -1,9 +1,8 @@
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
-import 'package:kabast/domain/models/grafik/impl/task_planning_element.dart';
-import 'package:kabast/domain/models/grafik/impl/delivery_planning_element.dart';
 import 'package:kabast/domain/models/vehicle.dart';
 import 'package:kabast/domain/models/emplyee.dart';
+import 'states/week_grafik_data.dart';
 
 class GrafikState {
   final List<TaskElement> tasks;
@@ -16,10 +15,7 @@ class GrafikState {
   final DateTime selectedDayInWeekView; // nowa właściwość
   final String? error;
 
-  final List<TaskElement> weekTaskElements;
-  final List<TimeIssueElement> weekTimeIssueElements;
-  final List<TaskPlanningElement> weekTaskPlanningElements;
-  final List<DeliveryPlanningElement> weekDeliveryPlanningElements;
+  final WeekGrafikData weekData;
 
   GrafikState({
     required this.tasks,
@@ -31,10 +27,7 @@ class GrafikState {
     required this.selectedDay,
     required this.selectedDayInWeekView,
     this.error,
-    required this.weekTaskElements,
-    required this.weekTimeIssueElements,
-    required this.weekTaskPlanningElements,
-    required this.weekDeliveryPlanningElements,
+    required this.weekData,
   });
 
   factory GrafikState.initial() {
@@ -51,10 +44,7 @@ class GrafikState {
       selectedDay: now,
       selectedDayInWeekView: monday,
       error: null,
-      weekTaskElements: [],
-      weekTimeIssueElements: [],
-      weekTaskPlanningElements: [],
-      weekDeliveryPlanningElements: [],
+      weekData: WeekGrafikData.initial(),
     );
   }
 
@@ -68,10 +58,7 @@ class GrafikState {
     DateTime? selectedDay,
     DateTime? selectedDayInWeekView,
     String? error,
-    List<TaskElement>? weekTaskElements,
-    List<TimeIssueElement>? weekTaskIssueElements,
-    List<TaskPlanningElement>? weekTaskPlanningElements,
-    List<DeliveryPlanningElement>? weekDeliveryPlanningElements,
+    WeekGrafikData? weekData,
   }) {
     return GrafikState(
       tasks: tasks ?? this.tasks,
@@ -83,10 +70,7 @@ class GrafikState {
       selectedDay: selectedDay ?? this.selectedDay,
       selectedDayInWeekView: selectedDayInWeekView ?? this.selectedDayInWeekView,
       error: error ?? this.error,
-      weekTaskElements: weekTaskElements ?? this.weekTaskElements,
-      weekTimeIssueElements: weekTaskIssueElements ?? this.weekTimeIssueElements,
-      weekTaskPlanningElements: weekTaskPlanningElements ?? this.weekTaskPlanningElements,
-      weekDeliveryPlanningElements: weekDeliveryPlanningElements ?? this.weekDeliveryPlanningElements,
+      weekData: weekData ?? this.weekData,
     );
   }
 }

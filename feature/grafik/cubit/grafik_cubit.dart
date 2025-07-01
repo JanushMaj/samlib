@@ -192,11 +192,15 @@ class GrafikCubit extends Cubit<GrafikState> {
         };
       },
     ).listen((data) {
+      final updatedWeek = state.weekData.copyWith(
+        taskElements: data['taskElements'] as List<TaskElement>,
+        timeIssues: data['timeIssues'] as List<TimeIssueElement>,
+        taskPlannings: data['taskPlannings'] as List<TaskPlanningElement>,
+        deliveryPlannings:
+            data['deliveryPlanningElements'] as List<DeliveryPlanningElement>,
+      );
       emit(state.copyWith(
-        weekTaskElements: data['taskElements'] as List<TaskElement>,
-        weekTaskIssueElements: data['timeIssues'] as List<TimeIssueElement>,
-        weekTaskPlanningElements: data['taskPlannings'] as List<TaskPlanningElement>,
-        weekDeliveryPlanningElements: data['deliveryPlanningElements'] as List<DeliveryPlanningElement>,
+        weekData: updatedWeek,
         employees: data['employees'] as List<Employee>,
       ));
     }, onError: (e) {

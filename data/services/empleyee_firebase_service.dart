@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../domain/models/emplyee.dart';
+import '../../domain/services/i_employee_service.dart';
 
-class EmployeeFirebaseService {
+class EmployeeFirebaseService implements IEmployeeService {
   final FirebaseFirestore _firestore;
 
   EmployeeFirebaseService(this._firestore);

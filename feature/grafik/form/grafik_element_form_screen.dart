@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../domain/models/grafik/enums.dart';
 import '../../../domain/models/grafik/grafik_element.dart';
 import '../../../domain/models/grafik/grafik_element_registry.dart';
-import '../../../domain/models/grafik/impl/task_planning_element.dart';
-import '../../../domain/models/grafik/impl/time_issue_element.dart';
 import '../../../injection.dart';
-import '../../../shared/datetime/date_range_picker_button.dart';
-import '../../../shared/datetime/date_time_picker_field.dart';
+import 'components/date_input_selector.dart';
+import 'components/type_dropdown.dart';
 import '../../../shared/form/custom_button.dart';
 import '../../../shared/form/custom_textfield.dart';
 import '../cubit/form/grafik_element_form_cubit.dart';
@@ -44,56 +41,11 @@ class GrafikElementFormScreen extends StatelessWidget {
           if (state is GrafikElementFormEditing) {
             final element = state.element;
 
-            // ───────────────────────────────────────────────────────────────
-            //  Wybór widgetu wejściowego dla dat / trybu "Wisi i grozi"
-            // ───────────────────────────────────────────────────────────────
-            late final Widget dateInput;
-
-            final bool isTaskPlanning = element is TaskPlanningElement;
-            final bool isPending = isTaskPlanning
-                ? (element as TaskPlanningElement).isPending
-                : false;
-
-            if (isTaskPlanning && isPending) {
-              dateInput = const Padding(
-                padding: EdgeInsets.only(bottom: 8.0),
-                child: Text(
-                  'Wisi i grozi – brak terminu',
-                  style: TextStyle(fontStyle: FontStyle.italic),
-                ),
-              );
-            } else if (isTaskPlanning ||
-                (element is TimeIssueElement &&
-                    element.issueType == TimeIssueType.Nieobecnosc)) {
-              dateInput = DateRangePickerButton(
-                initialRange: DateTimeRange(
-                  start: element.startDateTime,
-                  end: element.endDateTime,
-                ),
-                onRangeSelected: (range) {
-                  context.read<GrafikElementFormCubit>()
-                      .updateField('startDateTime', range.start);
-                  context.read<GrafikElementFormCubit>()
-                      .updateField('endDateTime', range.end);
-                },
-              );
-            } else {
-              dateInput = DateTimePickerField(
-                initialDate: element.startDateTime,
-                initialStartHour: element.startDateTime.hour.toDouble(),
-                initialEndHour: element.endDateTime.hour.toDouble(),
-                onChanged: (range) {
-                  context.read<GrafikElementFormCubit>()
-                      .updateField('startDateTime', range.start);
-                  context.read<GrafikElementFormCubit>()
-                      .updateField('endDateTime', range.end);
-                },
-              );
-            }
+            final dateInput = DateInputSelector(element: element);
 
             return Scaffold(
               appBar: AppBar(
-                title: _buildTypeDropdown(context, element),
+                title: TypeDropdown(element: element),
               ),
               body: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
@@ -127,44 +79,4 @@ class GrafikElementFormScreen extends StatelessWidget {
     );
   }
 
-  /// Buduje DropdownButton umieszczony w AppBar, który pozwala na wybór typu elementu.
-  /// Dodano ikonę strzałki w dół jako wizualny wskaźnik możliwości rozwinięcia listy.
-  Widget _buildTypeDropdown(BuildContext ctx, GrafikElement element) {
-    final types = GrafikElementRegistry.getRegisteredTypes();
-    final mapping = {
-      'TaskElement': 'Zadanie',
-      'TaskPlanningElement': 'Planowane zadanie',
-      'TimeIssueElement': 'Czas Pracy',
-      'DeliveryPlanningElement': 'Dostawa',
-    };
-
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        DropdownButton<String>(
-          value: element.type,
-          underline: const SizedBox(),
-          icon: const Icon(
-            Icons.arrow_drop_down,
-            color: Colors.blueAccent,
-            size: 42.0,
-          ),
-          items: types.map((t) {
-            return DropdownMenuItem(
-              value: t,
-              child: Text(
-                mapping[t] ?? t,
-                style: const TextStyle(color: Colors.black),
-              ),
-            );
-          }).toList(),
-          onChanged: (val) {
-            if (val != null) {
-              ctx.read<GrafikElementFormCubit>().updateField('type', val);
-            }
-          },
-        ),
-      ],
-    );
-  }
 }

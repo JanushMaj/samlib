@@ -13,10 +13,10 @@ class PendingTasksColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<GrafikCubit, GrafikState>(
       buildWhen: (prev, next) =>
-      prev.weekTaskPlanningElements != next.weekTaskPlanningElements,
+      prev.weekData.taskPlannings != next.weekData.taskPlannings,
       builder: (context, state) {
         // filtrowanie tylko "wisi‑grozi"
-        final pending = state.weekTaskPlanningElements
+        final pending = state.weekData.taskPlannings
             .where((e) => e.isPending)
             .toList()
           ..sort(

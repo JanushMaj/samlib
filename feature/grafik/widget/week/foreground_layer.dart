@@ -25,10 +25,10 @@ class ForegroundLayer extends StatelessWidget {
         // Używamy selectedDayInWeekView jako daty początkowej
         final startDate = state.selectedDayInWeekView;
         final planningElements = <GrafikElement>[
-          ...state.weekTaskPlanningElements,
-          ...state.weekDeliveryPlanningElements,
-          ...state.weekTaskElements,
-          ...state.weekTimeIssueElements,
+          ...state.weekData.taskPlannings,
+          ...state.weekData.deliveryPlannings,
+          ...state.weekData.taskElements,
+          ...state.weekData.timeIssues,
         ];
 
         return GrafikGrid(

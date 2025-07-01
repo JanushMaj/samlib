@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../domain/models/vehicle.dart';
+import '../../domain/services/i_vehicle_service.dart';
 
-class VehicleFirebaseService {
+class VehicleFirebaseService implements IVehicleService {
   final FirebaseFirestore _firestore;
 
   VehicleFirebaseService(this._firestore);

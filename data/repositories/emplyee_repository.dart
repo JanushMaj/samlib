@@ -1,9 +1,9 @@
 
 import '../../domain/models/emplyee.dart';
-import '../services/empleyee_firebase_service.dart';
+import '../../domain/services/i_employee_service.dart';
 
 class EmployeeRepository {
-  final EmployeeFirebaseService _service;
+  final IEmployeeService _service;
 
   EmployeeRepository(this._service);
 

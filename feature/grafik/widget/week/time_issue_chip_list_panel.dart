@@ -13,7 +13,7 @@ class TimeIssueChipListPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<GrafikCubit, GrafikState>(
       builder: (context, state) {
-        final issues = state.weekTimeIssueElements;
+        final issues = state.weekData.timeIssues;
         final employees = state.employees;
 
         final List<Widget> chips = [];

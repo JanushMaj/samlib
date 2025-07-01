@@ -1,8 +1,8 @@
 import '../../domain/models/vehicle.dart';
-import '../services/vehicle_firebase_service.dart';
+import '../../domain/services/i_vehicle_service.dart';
 
 class VehicleRepository {
-  final VehicleFirebaseService _service;
+  final IVehicleService _service;
 
   VehicleRepository(this._service);
 
