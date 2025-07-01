@@ -14,9 +14,7 @@ import 'data/repositories/grafik_element_repository.dart';
 import 'data/services/auth_service.dart';
 import 'data/services/grafik_element_firebase_service.dart';
 import 'domain/services/i_grafik_element_service.dart';
-import 'domain/services/i_app_user_service.dart';
-import 'domain/services/i_employee_service.dart';
-import 'domain/services/i_vehicle_service.dart';
+
 
 final getIt = GetIt.instance;
 

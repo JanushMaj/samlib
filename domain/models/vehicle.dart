@@ -1,5 +1,10 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'vehicle.g.dart';
+
 enum VehicleType { osobowka, dostawczy }
 
+@JsonSerializable()
 class Vehicle {
   final String id;
   final String color;
@@ -23,50 +28,7 @@ class Vehicle {
     required this.maxLoad,
   });
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'color': color,
-      'brand': brand,
-      'model': model,
-      'nrRejestracyjny': nrRejestracyjny,
-      'type': type.toString().split('.').last,
-      'sittingCapacity': sittingCapacity,
-      'cargoDimensions': cargoDimensions,
-      'maxLoad': maxLoad,
-    };
-  }
+  factory Vehicle.fromJson(Map<String, dynamic> json) => _$VehicleFromJson(json);
 
-  factory Vehicle.fromJson(Map<String, dynamic> json) {
-    T getValue<T>(String key, {T? defaultValue}) {
-      final value = json[key];
-      if (value == null) return defaultValue as T;
-
-      if (T == String) return value.toString() as T;
-      if (T == int) {
-        if (value is int) return value as T;
-        if (value is String) return int.tryParse(value) as T? ?? defaultValue as T;
-      }
-      return value as T? ?? defaultValue as T;
-    }
-
-    VehicleType parseVehicleType(String? typeStr) {
-      return VehicleType.values.firstWhere(
-            (e) => e.toString().split('.').last == typeStr,
-        orElse: () => VehicleType.osobowka,
-      );
-    }
-
-    return Vehicle(
-      id: getValue<String>('id', defaultValue: ''),
-      color: getValue<String>('color', defaultValue: ''),
-      brand: getValue<String>('brand', defaultValue: 'Unknown'),
-      model: getValue<String>('model', defaultValue: 'Unknown'),
-      nrRejestracyjny: getValue<String>('nrRejestracyjny', defaultValue: ''),
-      type: parseVehicleType(getValue<String>('type')),
-      sittingCapacity: getValue<int>('sittingCapacity', defaultValue: 0),
-      cargoDimensions: getValue<String>('cargoDimensions', defaultValue: ''),
-      maxLoad: getValue<String>('maxLoad', defaultValue: ''),
-    );
-  }
+  Map<String, dynamic> toJson() => _$VehicleToJson(this);
 }

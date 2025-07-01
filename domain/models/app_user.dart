@@ -1,3 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'app_user.g.dart';
+
 enum UserRole {
   admin,
   czlonekZarzadu,
@@ -99,31 +103,14 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
   }
 }
 
-UserRole userRoleFromString(String roleString) {
-  switch (roleString) {
-    case 'admin':
-      return UserRole.admin;
-    case 'czlonekZarzadu':
-      return UserRole.czlonekZarzadu;
-    case 'czlowiekZarzadu':
-      return UserRole.czlowiekZarzadu;
-    case 'kierownik':
-      return UserRole.kierownik;
-    case 'monter':
-      return UserRole.monter;
-    case 'hala':
-      return UserRole.hala;
-    default:
-      return UserRole.user;
-  }
-}
-
 /// Model użytkownika w Firestore (kolekcja "users")
+@JsonSerializable()
 class AppUser {
   final String id;
   final String email;
   final String fullName;
   final String employeeId;
+  @JsonKey(unknownEnumValue: UserRole.user)
   final UserRole role;
   final Map<String, bool> permissionsOverride;
 
@@ -177,27 +164,7 @@ class AppUser {
     return defaults;
   }
 
-  factory AppUser.fromMap(String docId, Map<String, dynamic> data) {
-    return AppUser(
-      id: docId,
-      email: data['email'] ?? '',
-      fullName: data['fullName'] ?? '',
-      employeeId: data['employeeId'] ?? '',
-      role: userRoleFromString(data['role'] ?? 'user'),
-      permissionsOverride: data['permissionsOverride'] != null
-          ? Map<String, bool>.from(data['permissionsOverride'])
-          : {},
-    );
-  }
+  factory AppUser.fromJson(Map<String, dynamic> json) => _$AppUserFromJson(json);
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'email': email,
-      'fullName': fullName,
-      'employeeId': employeeId,
-      'role': role.toString().split('.').last,
-      'permissionsOverride': permissionsOverride,
-    };
-  }
+  Map<String, dynamic> toJson() => _$AppUserToJson(this);
 }
