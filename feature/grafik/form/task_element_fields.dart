@@ -8,10 +8,10 @@ import '../../../domain/models/grafik/enums.dart';
 import '../../../domain/models/grafik/impl/task_element.dart';
 import '../../../shared/form/custom_textfield.dart';
 import '../../../shared/form/enum_picker/enum_picker.dart';
-import '../../emplyee/emplyee_picker.dart';
+import '../../employee/employee_picker.dart';
 import '../../vehicle/widget/vehicle_picker.dart';
 import '../cubit/form/grafik_element_form_cubit.dart';
-import '../../../../data/repositories/emplyee_repository.dart';
+import '../../../../data/repositories/employee_repository.dart';
 import '../../../../data/repositories/vehicle_repository.dart';
 
 class TaskFields extends StatelessWidget {

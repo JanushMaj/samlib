@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kabast/domain/models/emplyee.dart';
+import 'package:kabast/domain/models/employee.dart';
 import 'package:kabast/theme/app_tokens.dart';
 
 class EmployeeChipList extends StatelessWidget {

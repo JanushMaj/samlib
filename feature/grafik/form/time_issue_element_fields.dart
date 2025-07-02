@@ -6,9 +6,9 @@ import 'package:kabast/theme/app_tokens.dart';
 import '../../../domain/models/grafik/enums.dart';
 import '../../../domain/models/grafik/impl/time_issue_element.dart';
 import '../../../shared/form/enum_picker/enum_picker.dart';
-import '../../emplyee/emplyee_picker.dart';
+import '../../employee/employee_picker.dart';
 import '../cubit/form/grafik_element_form_cubit.dart';
-import '../../../../data/repositories/emplyee_repository.dart';
+import '../../../../data/repositories/employee_repository.dart';
 
 class TimeIssueFields extends StatelessWidget {
   final TimeIssueElement element;
