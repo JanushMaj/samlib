@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:kabast/domain/models/emplyee.dart';
+import 'package:kabast/domain/models/employee.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
 

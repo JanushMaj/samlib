@@ -4,9 +4,9 @@ import 'package:get_it/get_it.dart';
 import 'package:kabast/data/repositories/app_user_repository.dart';
 import 'package:kabast/data/services/app_user_firebase_service.dart';
 
-import 'data/repositories/emplyee_repository.dart';
+import 'data/repositories/employee_repository.dart';
 import 'data/repositories/vehicle_repository.dart';
-import 'package:kabast/data/services/empleyee_firebase_service.dart';
+import 'package:kabast/data/services/employee_firebase_service.dart';
 import 'package:kabast/data/services/vehicle_firebase_service.dart';
 import 'domain/services/i_app_user_service.dart';
 import 'domain/services/i_employee_service.dart';

@@ -7,7 +7,7 @@ import '../../../../domain/models/grafik/enums.dart';
 import '../../cubit/grafik_cubit.dart';
 import '../../cubit/grafik_state.dart';
 import '../../form/standard_task_row.dart';
-import 'emplyee_daily_summary.dart';
+import 'employee_daily_summary.dart';
 import 'task_tile.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 

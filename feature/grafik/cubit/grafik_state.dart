@@ -1,8 +1,12 @@
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
 import 'package:kabast/domain/models/vehicle.dart';
+<<<<<<< HEAD
 import 'package:kabast/domain/models/emplyee.dart';
 import 'states/week_grafik_data.dart';
+=======
+import 'package:kabast/domain/models/employee.dart';
+>>>>>>> f31b4e4f21ac90b05b7d56404f5fa23e7a182d8e
 
 class GrafikState {
   final List<TaskElement> tasks;

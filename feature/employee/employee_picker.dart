@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kabast/theme/app_tokens.dart';
-import '../../domain/models/emplyee.dart';
-import 'emplyee_tile.dart';
+import '../../domain/models/employee.dart';
+import 'employee_tile.dart';
 
 class EmployeePicker extends StatefulWidget {
   final Stream<List<Employee>> employeeStream;
