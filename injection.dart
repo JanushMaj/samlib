@@ -4,14 +4,13 @@ import 'package:get_it/get_it.dart';
 import 'package:kabast/data/repositories/app_user_repository.dart';
 import 'package:kabast/data/services/app_user_firebase_service.dart';
 
-import 'data/repositories/emplyee_repository.dart';
+import 'data/repositories/employee_repository.dart';
 import 'data/repositories/vehicle_repository.dart';
-import 'package:kabast/data/services/empleyee_firebase_service.dart';
+import 'package:kabast/data/services/employee_firebase_service.dart';
 import 'package:kabast/data/services/vehicle_firebase_service.dart';
 import 'feature/auth/auth_cubit.dart';
 import 'feature/grafik/cubit/grafik_cubit.dart';
 import 'data/repositories/grafik_element_repository.dart';
-import 'data/services/auth_service.dart';
 import 'data/services/grafik_element_firebase_service.dart';
 import 'domain/services/i_grafik_element_service.dart';
 
@@ -26,9 +25,6 @@ Future<void> setupLocator() async {
   );
 
   // FIREBASE SERVICE
-  getIt.registerLazySingleton<AuthService>(
-    () => AuthService(getIt<FirebaseAuth>()),
-  );
   getIt.registerLazySingleton<AppUserFirebaseService>(
     () => AppUserFirebaseService(getIt<FirebaseFirestore>()),
   );
