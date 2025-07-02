@@ -31,9 +31,6 @@ class AppAssets {
   static const logoGradient = 'lib/assets/images/logo_gradient.png';
 }
 
-DateTime pendingPlaceholderDate = DateTime(1410, 7, 15);
-
-
 /// Teksty używane w aplikacji
 class AppStrings {
   static const pickDateRange = 'Wybierz zakres dat';

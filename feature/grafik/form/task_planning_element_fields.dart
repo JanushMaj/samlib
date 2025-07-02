@@ -11,7 +11,7 @@ import '../../../shared/form/custom_textfield.dart';
 import '../../../shared/form/enum_picker/enum_picker.dart';
 import '../../../shared/form/minutes_picker/minutes_picker_field.dart';
 import '../../../shared/form/small_number_picker/small_number_picker.dart';
-import '../../../theme/app_tokens.dart' as AppTokens;
+import '../../../domain/constants/pending_placeholder_date.dart';
 import '../../emplyee/emplyee_picker.dart';
 import '../cubit/form/grafik_element_form_cubit.dart';
 
@@ -88,10 +88,10 @@ class GrafikPlanningFields extends StatelessWidget {
 
             // 2. dopasowujemy daty
             if (val) {
-              cubit.updateField('startDateTime', AppTokens.pendingPlaceholderDate);
+              cubit.updateField('startDateTime', pendingPlaceholderDate);
               cubit.updateField(
                 'endDateTime',
-                AppTokens.pendingPlaceholderDate.add(
+                pendingPlaceholderDate.add(
                   Duration(minutes: element.minutes),
                 ),
               );
