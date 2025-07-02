@@ -15,7 +15,7 @@ import 'package:kabast/feature/permission/permission_widget.dart';
 import 'package:kabast/injection.dart';
 
 import '../../cubit/grafik_cubit.dart';
-import '../task/emplyee_list.dart';
+import '../task/employee_list.dart';
 import '../task/vehicle_list.dart';
 
 Future<void> showGrafikElementPopup(

@@ -3,7 +3,7 @@ import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
 import 'package:kabast/domain/models/grafik/impl/task_planning_element.dart';
 import 'package:kabast/domain/models/grafik/impl/delivery_planning_element.dart';
 import 'package:kabast/domain/models/vehicle.dart';
-import 'package:kabast/domain/models/emplyee.dart';
+import 'package:kabast/domain/models/employee.dart';
 
 class GrafikState {
   final List<TaskElement> tasks;

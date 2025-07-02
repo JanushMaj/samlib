@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
-import '../../../../domain/models/emplyee.dart';
+import '../../../../domain/models/employee.dart';
 import '../../../../domain/models/grafik/impl/task_element.dart';
 import '../../../../domain/models/grafik/impl/time_issue_element.dart';
 import '../../../../theme/app_tokens.dart';
