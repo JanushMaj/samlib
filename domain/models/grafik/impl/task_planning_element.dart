@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../../../theme/app_tokens.dart' as AppTokens;
+import '../../../constants/pending_placeholder_date.dart';
 import '../enums.dart';
 import '../grafik_element.dart';
 
@@ -98,10 +98,10 @@ class TaskPlanningElement extends GrafikElement {
     return TaskPlanningElement(
       id: id,
       startDateTime: isPending
-          ? AppTokens.pendingPlaceholderDate
+          ? pendingPlaceholderDate
           : startTs?.toDate() ?? DateTime.now(),
       endDateTime: isPending
-          ? AppTokens.pendingPlaceholderDate.add(Duration(minutes: 60))
+          ? pendingPlaceholderDate.add(Duration(minutes: 60))
           : endTs?.toDate() ?? DateTime.now(),
       additionalInfo: additionalInfo,
       workerCount: workerCount,
