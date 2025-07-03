@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain/models/grafik/grafik_element.dart';
-import '../../../domain/models/grafik/grafik_element_registry.dart';
+import 'grafik_element_registry.dart';
 import '../../../injection.dart';
 import 'components/date_input_selector.dart';
 import 'components/type_dropdown.dart';
