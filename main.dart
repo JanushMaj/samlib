@@ -7,6 +7,7 @@ import 'feature/auth/wrapeer/auth_wrapper.dart';
 import 'firebase_options.dart';
 import 'injection.dart';
 import 'feature/auth/auth_cubit.dart';
+import 'feature/grafik/cubit/grafik_cubit.dart';
 import 'app_router.dart';
 import 'theme/theme.dart';
 
@@ -26,8 +27,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AuthCubit>(
-      create: (_) => GetIt.instance<AuthCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthCubit>(
+          create: (_) => GetIt.instance<AuthCubit>(),
+        ),
+        BlocProvider<GrafikCubit>(
+          create: (_) => GetIt.instance<GrafikCubit>(),
+        ),
+      ],
       child: AuthWrapper(
         navigatorKey: navigatorKey,
         child: MaterialApp(
