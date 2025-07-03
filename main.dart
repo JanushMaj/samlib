@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
-import 'feature/auth/wrapeer/auth_wrapper.dart';
+import 'feature/auth/wrapper/auth_wrapper.dart';
 import 'firebase_options.dart';
 import 'injection.dart';
 import 'feature/auth/auth_cubit.dart';
