@@ -1,10 +1,5 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'vehicle.g.dart';
 
 enum VehicleType { osobowka, dostawczy }
-
-@JsonSerializable()
 class Vehicle {
   final String id;
   final String color;
@@ -28,7 +23,4 @@ class Vehicle {
     required this.maxLoad,
   });
 
-  factory Vehicle.fromJson(Map<String, dynamic> json) => _$VehicleFromJson(json);
-
-  Map<String, dynamic> toJson() => _$VehicleToJson(this);
 }
