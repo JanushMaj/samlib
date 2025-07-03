@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:kabast/feature/grafik/widget/week/grafik_planning_stac.dart';
 import 'package:kabast/theme/app_tokens.dart';
-import '../../../../domain/models/grafik/pending_task_column.dart';
+import '../pending_task_column.dart';
 import '../../../../shared/appbar/grafik_appbar.dart';
 import '../../../../shared/cutomFAB.dart';
 import '../../../permission/permission_widget.dart';

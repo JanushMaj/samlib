@@ -1,4 +1,3 @@
-import 'grafik_element_registry.dart';
 
 abstract class GrafikElement {
   final String id;

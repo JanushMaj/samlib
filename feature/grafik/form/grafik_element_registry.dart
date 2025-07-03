@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../../../feature/grafik/form/delivery_planning_element_fields.dart';
-import '../../../feature/grafik/form/task_element_fields.dart';
-import '../../../feature/grafik/form/task_planning_element_fields.dart';
-import '../../../feature/grafik/form/time_issue_element_fields.dart';
-import 'impl/delivery_planning_element.dart';
-import 'impl/task_element.dart';
-import 'impl/task_planning_element.dart';
-import 'impl/time_issue_element.dart';
-import 'grafik_element.dart';
+import 'delivery_planning_element_fields.dart';
+import 'task_element_fields.dart';
+import 'task_planning_element_fields.dart';
+import 'time_issue_element_fields.dart';
+import '../../../domain/models/grafik/impl/delivery_planning_element.dart';
+import '../../../domain/models/grafik/impl/task_element.dart';
+import '../../../domain/models/grafik/impl/task_planning_element.dart';
+import '../../../domain/models/grafik/impl/time_issue_element.dart';
+import '../../../domain/models/grafik/grafik_element.dart';
 
 typedef GrafikElementFormBuilder = Widget Function(GrafikElement);
 

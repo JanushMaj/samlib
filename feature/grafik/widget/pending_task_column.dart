@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
 import 'package:kabast/feature/grafik/cubit/grafik_state.dart';
 
-import '../../../feature/grafik/widget/week/tiles/task_planning_week_tile.dart';
+import 'week/tiles/task_planning_week_tile.dart';
 
 /// Kolumna z zadaniami oznaczonymi `isPending == true` („Wisi i Grozi”).
 class PendingTasksColumn extends StatelessWidget {
