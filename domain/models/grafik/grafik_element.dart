@@ -1,4 +1,3 @@
-
 abstract class GrafikElement {
   final String id;
   final DateTime startDateTime;
