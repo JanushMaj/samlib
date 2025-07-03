@@ -12,7 +12,6 @@ import '../../../shared/form/enum_picker/enum_picker.dart';
 import '../../../shared/form/minutes_picker/minutes_picker_field.dart';
 import '../../../shared/form/small_number_picker/small_number_picker.dart';
 import '../../../domain/constants/pending_placeholder_date.dart';
-import '../../../theme/app_tokens.dart' as AppTokens;
 import '../../employee/employee_picker.dart';
 import '../cubit/form/grafik_element_form_cubit.dart';
 
