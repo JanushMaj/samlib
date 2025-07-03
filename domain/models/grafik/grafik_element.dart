@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'grafik_element_registry.dart';
 
 abstract class GrafikElement {
@@ -24,22 +22,4 @@ abstract class GrafikElement {
     required this.closed,
   });
 
-  Map<String, dynamic> toJson();
-
-  Map<String, dynamic> baseToJson() {
-    return {
-      'id': id,
-      'startDateTime': Timestamp.fromDate(startDateTime),
-      'endDateTime': Timestamp.fromDate(endDateTime),
-      'type': type,
-      'additionalInfo': additionalInfo,
-      'addedByUserId': addedByUserId,
-      'addedTimestamp': Timestamp.fromDate(addedTimestamp),
-      'closed': closed,
-    };
-  }
-
-  static GrafikElement fromJson(Map<String, dynamic> json) {
-    return GrafikElementRegistry.fromJson(json);
-  }
 }

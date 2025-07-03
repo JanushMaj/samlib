@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart'; //  ⬅️ NOWE!
 import '../../domain/models/grafik/enums.dart';
 import '../../domain/models/grafik/grafik_element.dart';
-import '../../domain/models/grafik/grafik_element_registry.dart';
+import '../dto/grafik/grafik_element_dto.dart';
 import '../../domain/services/i_grafik_element_service.dart';
 
 class GrafikElementFirebaseService implements IGrafikElementService {
@@ -32,8 +32,8 @@ class GrafikElementFirebaseService implements IGrafikElementService {
 
     return query.snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
-        final data = doc.data()..['id'] = doc.id;
-        return GrafikElementRegistry.fromJson(data);
+        final dto = GrafikElementDto.fromFirestore(doc);
+        return dto.toDomain();
       }).toList();
     });
   }
@@ -50,8 +50,8 @@ class GrafikElementFirebaseService implements IGrafikElementService {
     return q.snapshots().map(
       (snap) =>
           snap.docs.map((doc) {
-            final data = doc.data()..['id'] = doc.id;
-            return GrafikElementRegistry.fromJson(data);
+            final dto = GrafikElementDto.fromFirestore(doc);
+            return dto.toDomain();
           }).toList(),
     );
   }
@@ -93,7 +93,8 @@ class GrafikElementFirebaseService implements IGrafikElementService {
   // ───────────────────────────────────────────────────────────
 
   Future<void> upsertGrafikElement(GrafikElement element) async {
-    final data = element.toJson();
+    final dto = GrafikElementDto.fromDomain(element);
+    final data = dto.toJson();
     if (element.id.isEmpty) {
       final docRef = await _firestore.collection('grafik_elements').add(data);
       await docRef.update({'id': docRef.id});
@@ -114,7 +115,8 @@ class GrafikElementFirebaseService implements IGrafikElementService {
 
     for (final e in elements) {
       final ref = col.doc();
-      final data = e.toJson()..['id'] = ref.id;
+      final dto = GrafikElementDto.fromDomain(e);
+      final data = dto.toJson()..['id'] = ref.id;
       batch.set(ref, data);
     }
     await batch.commit();

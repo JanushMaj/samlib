@@ -10,6 +10,7 @@ import '../../../../domain/models/grafik/enums.dart';
 import '../../../../domain/models/grafik/impl/task_element.dart';
 import '../../../../domain/models/grafik/impl/task_template.dart';
 import '../../../../domain/models/grafik/impl/time_issue_element.dart';
+import '../../../../data/dto/grafik/grafik_element_dto.dart';
 import '../../../../main.dart';
 import '../../widget/dialog/worker_conflict_popup.dart';
 import 'grafik_element_form_state.dart';
@@ -28,9 +29,8 @@ class GrafikElementFormCubit extends Cubit<GrafikElementFormState> {
     if (existingElement != null) {
       emit(GrafikElementFormEditing(element: existingElement));
     } else {
-      final defaultJson =
-      GrafikElementRegistry.createDefaultJsonForType('TaskElement');
-      final defaultElement = GrafikElementRegistry.fromJson(defaultJson);
+      final defaultElement =
+          GrafikElementRegistry.createDefaultElementForType('TaskElement');
       emit(GrafikElementFormEditing(element: defaultElement));
     }
   }
@@ -47,21 +47,23 @@ class GrafikElementFormCubit extends Cubit<GrafikElementFormState> {
     // zmiana typu elementu => generujemy nowy szablon tego typu
     if (field == 'type') {
       final newType = value as String;
-      final newJson = GrafikElementRegistry.createDefaultJsonForType(newType);
-      final oldJson = oldElement.toJson();
+      final newElement =
+          GrafikElementRegistry.createDefaultElementForType(newType);
+      final newJson = GrafikElementDto.fromDomain(newElement).toJson();
+      final oldJson = GrafikElementDto.fromDomain(oldElement).toJson();
 
       newJson['id'] = oldJson['id'];
       newJson['startDateTime'] = oldJson['startDateTime'];
       newJson['endDateTime'] = oldJson['endDateTime'];
       newJson['additionalInfo'] = oldJson['additionalInfo'];
 
-      final updatedElement = GrafikElementRegistry.fromJson(newJson);
+      final updatedElement = GrafikElementDto.fromJson(newJson).toDomain();
       emit(currentState.copyWith(element: updatedElement));
       return;
     }
 
     // zwykła zamiana pola
-    final elementMap = oldElement.toJson();
+    final elementMap = GrafikElementDto.fromDomain(oldElement).toJson();
     if (field == 'startDateTime' || field == 'endDateTime') {
       final dt = value as DateTime;
       elementMap[field] = Timestamp.fromDate(dt);
@@ -69,7 +71,7 @@ class GrafikElementFormCubit extends Cubit<GrafikElementFormState> {
       elementMap[field] = value;
     }
 
-    final updatedElement = GrafikElementRegistry.fromJson(elementMap);
+    final updatedElement = GrafikElementDto.fromJson(elementMap).toDomain();
     emit(currentState.copyWith(element: updatedElement));
   }
 
@@ -84,9 +86,9 @@ class GrafikElementFormCubit extends Cubit<GrafikElementFormState> {
 
     // Jeżeli to TimeIssueElement – zaktualizuj workerId
     if (updatedElement is TimeIssueElement && ids.length == 1) {
-      final json = updatedElement.toJson();
+      final json = GrafikElementDto.fromDomain(updatedElement).toJson();
       json['workerId'] = ids.first;
-      updatedElement = GrafikElementRegistry.fromJson(json);
+      updatedElement = GrafikElementDto.fromJson(json).toDomain() as GrafikElement;
     }
 
     emit(current.copyWith(
@@ -106,9 +108,7 @@ class GrafikElementFormCubit extends Cubit<GrafikElementFormState> {
     TaskElement task = s.element is TaskElement
         ? (s.element as TaskElement)
         : GrafikElementRegistry
-        .fromJson(
-        GrafikElementRegistry.createDefaultJsonForType('TaskElement'))
-    as TaskElement;
+            .createDefaultElementForType('TaskElement') as TaskElement;
 
     // zachowujemy ID i dzień/miesiąc/rok
     final day = task.startDateTime;
@@ -224,10 +224,11 @@ class GrafikElementFormCubit extends Cubit<GrafikElementFormState> {
       // splitowanie TimeIssueElement jeśli wybrano wielu pracowników
       if (element is TimeIssueElement && currentState.selectedWorkerIds.length > 1) {
         final List<GrafikElement> splitted = currentState.selectedWorkerIds.map((workerId) {
-          final json = Map<String, dynamic>.from(element.toJson());
+          final json = Map<String, dynamic>.from(
+              GrafikElementDto.fromDomain(element).toJson());
           json['workerId'] = workerId;
           json['id'] = '';
-          return GrafikElementRegistry.fromJson(json).fillMeta(userId);
+          return GrafikElementDto.fromJson(json).toDomain().fillMeta(userId);
         }).toList();
 
         await grafikService.saveManyGrafikElements(splitted);
@@ -254,10 +255,10 @@ extension _GrafikMeta on GrafikElement {
 
     if (!needUser && !needTs) return this;
 
-    final json = toJson();
+    final json = GrafikElementDto.fromDomain(this).toJson();
     if (needUser) json['addedByUserId'] = userId;
     if (needTs) json['addedTimestamp'] = Timestamp.fromDate(DateTime.now());
 
-    return GrafikElementRegistry.fromJson(json);
+    return GrafikElementDto.fromJson(json).toDomain();
   }
 }
