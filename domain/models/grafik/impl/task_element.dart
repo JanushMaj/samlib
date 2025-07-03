@@ -1,12 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:json_annotation/json_annotation.dart';
 import '../enums.dart';
 import '../grafik_element.dart';
 
-part 'task_element.g.dart';
-
 /// Element zadania, np. przypisanie pracowników do konkretnego zadania.
-@JsonSerializable()
 class TaskElement extends GrafikElement {
   // ───────── PERSISTOWANE ─────────
   final List<String> workerIds;
@@ -17,11 +12,9 @@ class TaskElement extends GrafikElement {
 
   // ───────── TYLKO DO WIDOKU ─────────
   /// Ilu pracowników pierwotnie planowano (przy konwersji z TaskPlanningElement).
-  @JsonKey(ignore: true)
   final int? expectedWorkerCount;
 
   /// Na ile minut pierwotnie planowano zadanie.
-  @JsonKey(ignore: true)
   final int? plannedMinutes;
 
   TaskElement({
@@ -52,11 +45,7 @@ class TaskElement extends GrafikElement {
     closed: closed,
   );
 
-  @override
-  Map<String, dynamic> toJson() => _$TaskElementToJson(this);
-
-  factory TaskElement.fromJson(Map<String, dynamic> json) =>
-      _$TaskElementFromJson(json);
+  // Serialization moved to DTOs
 
   // ────────────────────────────────────────
   // uniwersalny copyWith (używany przez cubit)
