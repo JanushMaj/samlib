@@ -1,4 +1,4 @@
-import '../models/emplyee.dart';
+import '../models/employee.dart';
 
 abstract class IEmployeeService {
   Stream<List<Employee>> getEmployeesStream();
