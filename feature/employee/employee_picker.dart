@@ -44,31 +44,24 @@ class _EmployeePickerState extends State<EmployeePicker> {
   }
 
   void _toggleSelection(Employee employee) {
-    print('Kliknięto: ${employee.fullName} (${employee.uid})');
-    print('Przed kliknięciem zaznaczone: $_selectedEmployeeIds');
 
     setState(() {
       if (widget.singleSelection) {
         if (_selectedEmployeeIds.contains(employee.uid)) {
           _selectedEmployeeIds.clear(); // Odznacz jeśli już był zaznaczony
-          print('Odznaczono wszystko (singleSelection)');
         } else {
           _selectedEmployeeIds = {employee.uid}; // Zaznacz nowego
-          print('Zaznaczono: ${employee.uid}');
         }
       } else {
         if (_selectedEmployeeIds.contains(employee.uid)) {
           _selectedEmployeeIds.remove(employee.uid);
-          print('Usunięto: ${employee.uid}');
         } else {
           _selectedEmployeeIds.add(employee.uid);
-          print('Dodano: ${employee.uid}');
         }
       }
     });
 
     final selected = _getSelectedEmployees();
-    print('Po kliknięciu wybrani: ${selected.map((e) => e.uid)}');
 
     widget.onSelectionChanged(selected);
   }

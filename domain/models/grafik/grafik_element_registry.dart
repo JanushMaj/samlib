@@ -24,7 +24,6 @@ class GrafikElementRegistry {
   static Widget buildFormFields(GrafikElement element) {
     final builder = _formBuilders[element.type];
     if (builder == null) {
-      debugPrint('[GrafikElementRegistry] Brak formularza dla typu: ${element.type}');
       return const SizedBox.shrink();
     }
     return builder(element);
