@@ -1,6 +1,3 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'app_user.g.dart';
 
 enum UserRole {
   admin,
@@ -104,13 +101,11 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
 }
 
 /// Model użytkownika w Firestore (kolekcja "users")
-@JsonSerializable()
 class AppUser {
   final String id;
   final String email;
   final String fullName;
   final String employeeId;
-  @JsonKey(unknownEnumValue: UserRole.user)
   final UserRole role;
   final Map<String, bool> permissionsOverride;
 
@@ -164,7 +159,4 @@ class AppUser {
     return defaults;
   }
 
-  factory AppUser.fromJson(Map<String, dynamic> json) => _$AppUserFromJson(json);
-
-  Map<String, dynamic> toJson() => _$AppUserToJson(this);
 }

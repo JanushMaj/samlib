@@ -9,26 +9,6 @@ class Employee {
     required this.fullName,
   });
 
-  Map<String, dynamic> toJson() {
-    return {
-      'uid': uid,
-      'role': role,
-      'fullName': fullName,
-    };
-  }
-
-  factory Employee.fromJson(Map<String, dynamic> json) {
-    String getValue(String key, {String defaultValue = ''}) {
-      final value = json[key];
-      return value?.toString() ?? defaultValue;
-    }
-
-    return Employee(
-      uid: getValue('uid'),
-      role: getValue('role', defaultValue: 'worker'),
-      fullName: getValue('fullName', defaultValue: 'Anonimowy Pracownik'),
-    );
-  }
 
   String get surname {
     final parts = fullName.split(' ');
