@@ -36,15 +36,21 @@ class TaskPlanningElementDto extends GrafikElementDto {
   factory TaskPlanningElementDto.fromJson(Map<String, dynamic> json) {
     return TaskPlanningElementDto(
       id: json['id'] as String? ?? '',
-      startDateTime: (json['startDateTime'] as Timestamp?)?.toDate() ??
-          DateTime.now(),
-      endDateTime: (json['endDateTime'] as Timestamp?)?.toDate() ??
-          DateTime.now(),
+      startDateTime: GrafikElementDto.parseDateTime(
+        json['startDateTime'],
+        DateTime.now(),
+      ),
+      endDateTime: GrafikElementDto.parseDateTime(
+        json['endDateTime'],
+        DateTime.now(),
+      ),
       type: 'TaskPlanningElement',
       additionalInfo: json['additionalInfo'] as String? ?? '',
       addedByUserId: json['addedByUserId'] as String? ?? '',
-      addedTimestamp:
-          (json['addedTimestamp'] as Timestamp?)?.toDate() ?? DateTime(1960, 2, 9),
+      addedTimestamp: GrafikElementDto.parseDateTime(
+        json['addedTimestamp'],
+        DateTime(1960, 2, 9),
+      ),
       closed: json['closed'] as bool? ?? false,
       workerCount: json['workerCount'] as int? ?? 1,
       orderId: json['orderId'] as String? ?? '',

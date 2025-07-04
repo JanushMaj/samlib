@@ -8,6 +8,17 @@ import '../../domain/models/grafik/impl/task_planning_element.dart';
 import '../../domain/models/grafik/enums.dart';
 
 abstract class GrafikElementDto {
+  static DateTime parseDateTime(dynamic value, DateTime fallback) {
+    if (value is Timestamp) return value.toDate();
+    if (value is DateTime) return value;
+    if (value is int) {
+      return DateTime.fromMillisecondsSinceEpoch(value);
+    }
+    if (value is String) {
+      return DateTime.tryParse(value) ?? fallback;
+    }
+    return fallback;
+  }
   final String id;
   final DateTime startDateTime;
   final DateTime endDateTime;
