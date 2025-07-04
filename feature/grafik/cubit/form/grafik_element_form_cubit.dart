@@ -1,6 +1,6 @@
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../data/repositories/grafik_element_repository.dart';
@@ -10,7 +10,7 @@ import '../../../../domain/models/grafik/enums.dart';
 import '../../../../domain/models/grafik/impl/task_element.dart';
 import '../../../../domain/models/grafik/impl/task_template.dart';
 import '../../../../domain/models/grafik/impl/time_issue_element.dart';
-import '../../../../data/dto/grafik/grafik_element_dto.dart';
+import '../../form/adapter/grafik_element_form_adapter.dart';
 import '../../../../main.dart';
 import '../../widget/dialog/worker_conflict_popup.dart';
 import 'grafik_element_form_state.dart';
@@ -18,9 +18,13 @@ import 'grafik_element_form_state.dart';
 // ───────── CUBIT ─────────
 class GrafikElementFormCubit extends Cubit<GrafikElementFormState> {
   final GrafikElementRepository grafikService;
+  final GrafikElementFormAdapter _adapter;
 
-  GrafikElementFormCubit({required this.grafikService})
-      : super(GrafikElementFormInitial());
+  GrafikElementFormCubit({
+    required this.grafikService,
+    GrafikElementFormAdapter? adapter,
+  })  : _adapter = adapter ?? GrafikElementFormAdapter(),
+        super(GrafikElementFormInitial());
 
   // ────────────────────────────────────────────────────────────
   //  Inicjalizacja
@@ -47,31 +51,12 @@ class GrafikElementFormCubit extends Cubit<GrafikElementFormState> {
     // zmiana typu elementu => generujemy nowy szablon tego typu
     if (field == 'type') {
       final newType = value as String;
-      final newElement =
-          GrafikElementRegistry.createDefaultElementForType(newType);
-      final newJson = GrafikElementDto.fromDomain(newElement).toJson();
-      final oldJson = GrafikElementDto.fromDomain(oldElement).toJson();
-
-      newJson['id'] = oldJson['id'];
-      newJson['startDateTime'] = oldJson['startDateTime'];
-      newJson['endDateTime'] = oldJson['endDateTime'];
-      newJson['additionalInfo'] = oldJson['additionalInfo'];
-
-      final updatedElement = GrafikElementDto.fromJson(newJson).toDomain();
+      final updatedElement = _adapter.changeType(oldElement, newType);
       emit(currentState.copyWith(element: updatedElement));
       return;
     }
 
-    // zwykła zamiana pola
-    final elementMap = GrafikElementDto.fromDomain(oldElement).toJson();
-    if (field == 'startDateTime' || field == 'endDateTime') {
-      final dt = value as DateTime;
-      elementMap[field] = Timestamp.fromDate(dt);
-    } else {
-      elementMap[field] = value;
-    }
-
-    final updatedElement = GrafikElementDto.fromJson(elementMap).toDomain();
+    final updatedElement = _adapter.updateField(oldElement, field, value);
     emit(currentState.copyWith(element: updatedElement));
   }
 
@@ -86,9 +71,8 @@ class GrafikElementFormCubit extends Cubit<GrafikElementFormState> {
 
     // Jeżeli to TimeIssueElement – zaktualizuj workerId
     if (updatedElement is TimeIssueElement && ids.length == 1) {
-      final json = GrafikElementDto.fromDomain(updatedElement).toJson();
-      json['workerId'] = ids.first;
-      updatedElement = GrafikElementDto.fromJson(json).toDomain() as GrafikElement;
+      updatedElement =
+          _adapter.updateField(updatedElement, 'workerId', ids.first);
     }
 
     emit(current.copyWith(
@@ -141,7 +125,7 @@ class GrafikElementFormCubit extends Cubit<GrafikElementFormState> {
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? 'unknown';
 
     // ✨ upewnij się, że meta‑dane są wpisane
-    GrafikElement element = currentState.element.fillMeta(userId);
+    GrafikElement element = _adapter.fillMeta(currentState.element, userId);
 
     // Jeśli to nowe zadanie – generujemy ID (tylko TaskElement)
     if (element is TaskElement && element.id.isEmpty) {
@@ -224,11 +208,11 @@ class GrafikElementFormCubit extends Cubit<GrafikElementFormState> {
       // splitowanie TimeIssueElement jeśli wybrano wielu pracowników
       if (element is TimeIssueElement && currentState.selectedWorkerIds.length > 1) {
         final List<GrafikElement> splitted = currentState.selectedWorkerIds.map((workerId) {
-          final json = Map<String, dynamic>.from(
-              GrafikElementDto.fromDomain(element).toJson());
-          json['workerId'] = workerId;
-          json['id'] = '';
-          return GrafikElementDto.fromJson(json).toDomain().fillMeta(userId);
+          final copy = _adapter.copyWithOverrides(element, {
+            'workerId': workerId,
+            'id': '',
+          });
+          return _adapter.fillMeta(copy, userId);
         }).toList();
 
         await grafikService.saveManyGrafikElements(splitted);
@@ -238,27 +222,5 @@ class GrafikElementFormCubit extends Cubit<GrafikElementFormState> {
     } catch (e) {
       emit(currentState.copyWith(isSubmitting: false, isFailure: true));
     }
-  }
-}
-
-// ────────────────────────────────────────────────────────────────
-//  Extension: automatyczne wypełnianie meta‑danych
-// ────────────────────────────────────────────────────────────────
-extension _GrafikMeta on GrafikElement {
-  /// Zwraca kopię elementu, w której wypełniono
-  ///   • addedByUserId – jeśli było puste
-  ///   • addedTimestamp – jeśli null lub < 1970
-  GrafikElement fillMeta(String userId) {
-    final needUser = (addedByUserId ?? '').isEmpty;
-    final needTs = addedTimestamp == null ||
-        addedTimestamp!.isBefore(DateTime(1970));
-
-    if (!needUser && !needTs) return this;
-
-    final json = GrafikElementDto.fromDomain(this).toJson();
-    if (needUser) json['addedByUserId'] = userId;
-    if (needTs) json['addedTimestamp'] = Timestamp.fromDate(DateTime.now());
-
-    return GrafikElementDto.fromJson(json).toDomain();
   }
 }
