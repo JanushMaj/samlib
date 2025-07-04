@@ -29,9 +29,6 @@ class _VehiclePickerState extends State<VehiclePicker> {
     _selectedVehicleIds = widget.initialSelectedIds?.toSet() ?? {};
   }
 
-  // ───────────────────────────────────────────────────────────
-  // NEW – aktualizacja po zmianie initialSelectedIds
-  // ───────────────────────────────────────────────────────────
   @override
   void didUpdateWidget(covariant VehiclePicker oldWidget) {
     super.didUpdateWidget(oldWidget);
