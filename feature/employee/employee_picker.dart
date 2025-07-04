@@ -31,9 +31,6 @@ class _EmployeePickerState extends State<EmployeePicker> {
     _selectedEmployeeIds = widget.initialSelectedIds?.toSet() ?? {};
   }
 
-  // ───────────────────────────────────────────────────────────
-  // NEW – aktualizacja po zmianie initialSelectedIds
-  // ───────────────────────────────────────────────────────────
   @override
   void didUpdateWidget(covariant EmployeePicker oldWidget) {
     super.didUpdateWidget(oldWidget);
