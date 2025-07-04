@@ -11,8 +11,8 @@ import 'package:kabast/feature/grafik/widget/week/tiles/task_planning_week_tile.
 import 'package:kabast/feature/grafik/widget/week/tiles/task_week_tile.dart';
 import 'package:kabast/feature/grafik/widget/week/tiles/time_issue_week_tile.dart';
 
-import '../../cubit/grafik_cubit.dart';
-import '../../cubit/grafik_state.dart';
+import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
+import 'package:kabast/feature/grafik/cubit/grafik_state.dart';
 import 'grafik_grid.dart';
 
 class ForegroundLayer extends StatelessWidget {

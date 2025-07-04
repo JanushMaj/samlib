@@ -1,10 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
-import '../../../../domain/models/employee.dart';
-import '../../../../domain/models/grafik/impl/task_element.dart';
-import '../../../../domain/models/grafik/impl/time_issue_element.dart';
-import '../../../../theme/app_tokens.dart';
+import 'package:kabast/domain/models/employee.dart';
+import 'package:kabast/domain/models/grafik/impl/task_element.dart';
+import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
+import 'package:kabast/theme/app_tokens.dart';
 
 class EmployeeDailySummary extends StatelessWidget {
   final List<TaskElement> tasks;

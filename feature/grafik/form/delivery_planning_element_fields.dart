@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../domain/models/grafik/enums.dart';
-import '../../../domain/models/grafik/impl/delivery_planning_element.dart';
-import '../../../shared/form/custom_textfield.dart';
-import '../../../shared/form/enum_picker/enum_picker.dart';
-import '../cubit/form/grafik_element_form_cubit.dart';
+import 'package:kabast/domain/models/grafik/enums.dart';
+import 'package:kabast/domain/models/grafik/impl/delivery_planning_element.dart';
+import 'package:kabast/shared/form/custom_textfield.dart';
+import 'package:kabast/shared/form/enum_picker/enum_picker.dart';
+import 'package:kabast/feature/grafik/cubit/form/grafik_element_form_cubit.dart';
 
 // Nowy import z tokenami
 import 'package:kabast/theme/app_tokens.dart';

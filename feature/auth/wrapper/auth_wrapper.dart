@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../auth_cubit.dart';
-import '../auth_state.dart';
-import '../screen/no_access_screen.dart';
+import 'package:kabast/feature/auth/auth_cubit.dart';
+import 'package:kabast/feature/auth/auth_state.dart';
+import 'package:kabast/feature/auth/screen/no_access_screen.dart';
 
 class AuthWrapper extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey;

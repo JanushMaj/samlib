@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:kabast/feature/grafik/widget/week/grafik_planning_stack.dart';
 import 'package:kabast/theme/app_tokens.dart';
-import '../pending_task_column.dart';
-import '../../../../shared/appbar/grafik_appbar.dart';
-import '../../../../shared/custom_fab.dart';
-import '../../../permission/permission_widget.dart';
-import '../../cubit/grafik_cubit.dart';
-import '../../cubit/grafik_state.dart';
+import 'package:kabast/feature/grafik/widget/pending_task_column.dart';
+import 'package:kabast/shared/appbar/grafik_appbar.dart';
+import 'package:kabast/shared/custom_fab.dart';
+import 'package:kabast/feature/permission/permission_widget.dart';
+import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
+import 'package:kabast/feature/grafik/cubit/grafik_state.dart';
 
 class WeekGrafikView extends StatelessWidget {
   const WeekGrafikView({super.key});

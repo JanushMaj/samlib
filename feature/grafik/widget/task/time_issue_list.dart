@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kabast/shared/responsive/responsive_element.dart';
 import 'package:kabast/shared/responsive/responsive_multiline_text.dart';
 
-import '../../cubit/grafik_cubit.dart';
-import '../../cubit/grafik_state.dart';
+import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
+import 'package:kabast/feature/grafik/cubit/grafik_state.dart';
 
 class TimeIssueList extends StatelessWidget with ResponsiveElement{
   final String taskId;

@@ -4,9 +4,9 @@ import 'package:kabast/theme/app_tokens.dart';
 import 'package:kabast/feature/grafik/widget/task/task_list.dart';
 import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
 
-import '../../../shared/appbar/grafik_appbar.dart';
-import '../../../shared/custom_fab.dart';
-import '../../permission/permission_widget.dart'; // Dodaj ten import
+import 'package:kabast/shared/appbar/grafik_appbar.dart';
+import 'package:kabast/shared/custom_fab.dart';
+import 'package:kabast/feature/permission/permission_widget.dart'; // Dodaj ten import
 
 class SingleDayGrafikView extends StatelessWidget {
   final DateTime date;

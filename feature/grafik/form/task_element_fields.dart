@@ -4,15 +4,15 @@ import 'package:get_it/get_it.dart';
 import 'package:kabast/feature/grafik/form/task_templates_row.dart';
 import 'package:kabast/theme/app_tokens.dart';
 
-import '../../../domain/models/grafik/enums.dart';
-import '../../../domain/models/grafik/impl/task_element.dart';
-import '../../../shared/form/custom_textfield.dart';
-import '../../../shared/form/enum_picker/enum_picker.dart';
-import '../../employee/employee_picker.dart';
-import '../../vehicle/widget/vehicle_picker.dart';
-import '../cubit/form/grafik_element_form_cubit.dart';
-import '../../../../data/repositories/employee_repository.dart';
-import '../../../../data/repositories/vehicle_repository.dart';
+import 'package:kabast/domain/models/grafik/enums.dart';
+import 'package:kabast/domain/models/grafik/impl/task_element.dart';
+import 'package:kabast/shared/form/custom_textfield.dart';
+import 'package:kabast/shared/form/enum_picker/enum_picker.dart';
+import 'package:kabast/feature/employee/employee_picker.dart';
+import 'package:kabast/feature/vehicle/widget/vehicle_picker.dart';
+import 'package:kabast/feature/grafik/cubit/form/grafik_element_form_cubit.dart';
+import 'package:kabast/data/repositories/employee_repository.dart';
+import 'package:kabast/data/repositories/vehicle_repository.dart';
 
 class TaskFields extends StatelessWidget {
   final TaskElement element;

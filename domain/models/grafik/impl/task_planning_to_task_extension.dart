@@ -1,6 +1,6 @@
-import '../impl/task_planning_element.dart';
-import '../impl/task_element.dart';
-import '../enums.dart';
+import 'package:kabast/domain/models/grafik/impl/task_planning_element.dart';
+import 'package:kabast/domain/models/grafik/impl/task_element.dart';
+import 'package:kabast/domain/models/grafik/enums.dart';
 
 /// Zamiana planu na zadanie.
 extension ToTaskElement on TaskPlanningElement {

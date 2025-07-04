@@ -1,5 +1,5 @@
-import '../../domain/models/vehicle.dart';
-import '../../domain/services/i_vehicle_service.dart';
+import 'package:kabast/domain/models/vehicle.dart';
+import 'package:kabast/domain/services/i_vehicle_service.dart';
 
 class VehicleRepository {
   final IVehicleService _service;

@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../domain/models/employee.dart';
+import 'package:kabast/domain/models/employee.dart';
 
 class EmployeeDto {
   final String uid;

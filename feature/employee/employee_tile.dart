@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // Nowy import
 import 'package:kabast/theme/app_tokens.dart';
 
-import '../../domain/models/employee.dart';
+import 'package:kabast/domain/models/employee.dart';
 
 class EmployeeTile extends StatelessWidget {
   final Employee employee;

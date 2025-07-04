@@ -5,10 +5,10 @@ import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
 import 'package:kabast/shared/turbo_grid/turbo_grid.dart';
 import 'package:kabast/theme/app_tokens.dart';
 
-import '../../../../../shared/turbo_grid/turbo_tile.dart';
-import '../../../../../shared/turbo_grid/widgets/clock_view_delegate.dart';
-import '../../../../../shared/turbo_grid/widgets/simple_text_delegate.dart';
-import '../../dialog/grafik_element_popup.dart';
+import 'package:kabast/shared/turbo_grid/turbo_tile.dart';
+import 'package:kabast/shared/turbo_grid/widgets/clock_view_delegate.dart';
+import 'package:kabast/shared/turbo_grid/widgets/simple_text_delegate.dart';
+import 'package:kabast/feature/grafik/widget/dialog/grafik_element_popup.dart';
 
 class TimeIssueWeekTile extends StatelessWidget {
   final TimeIssueElement timeIssue;

@@ -2,16 +2,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../data/repositories/grafik_element_repository.dart';
-import '../../../../domain/models/grafik/grafik_element.dart';
-import '../../form/grafik_element_registry.dart';
-import '../../../../domain/models/grafik/enums.dart';
-import '../../../../domain/models/grafik/impl/task_element.dart';
-import '../../../../domain/models/grafik/impl/task_template.dart';
-import '../../../../domain/models/grafik/impl/time_issue_element.dart';
-import '../../form/adapter/grafik_element_form_adapter.dart';
-import '../../../../main.dart';
-import '../../widget/dialog/worker_conflict_popup.dart';
+import 'package:kabast/data/repositories/grafik_element_repository.dart';
+import 'package:kabast/domain/models/grafik/grafik_element.dart';
+import 'package:kabast/feature/grafik/form/grafik_element_registry.dart';
+import 'package:kabast/domain/models/grafik/enums.dart';
+import 'package:kabast/domain/models/grafik/impl/task_element.dart';
+import 'package:kabast/domain/models/grafik/impl/task_template.dart';
+import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
+import 'package:kabast/feature/grafik/form/adapter/grafik_element_form_adapter.dart';
+import 'package:kabast/main.dart';
+import 'package:kabast/feature/grafik/widget/dialog/worker_conflict_popup.dart';
 import 'grafik_element_form_state.dart';
 
 // ───────── CUBIT ─────────

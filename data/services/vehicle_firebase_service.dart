@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../domain/models/vehicle.dart';
-import '../../domain/services/i_vehicle_service.dart';
-import '../dto/vehicle_dto.dart';
+import 'package:kabast/domain/models/vehicle.dart';
+import 'package:kabast/domain/services/i_vehicle_service.dart';
+import 'package:kabast/data/dto/vehicle_dto.dart';
 
 class VehicleFirebaseService implements IVehicleService {
   final FirebaseFirestore _firestore;

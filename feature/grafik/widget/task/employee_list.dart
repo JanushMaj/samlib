@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../shared/responsive/responsive_chip.dart';
-import '../../../../shared/responsive/responsive_chip_list.dart';
-import '../../cubit/grafik_cubit.dart';
-import '../../cubit/grafik_state.dart';
+import 'package:kabast/shared/responsive/responsive_chip.dart';
+import 'package:kabast/shared/responsive/responsive_chip_list.dart';
+import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
+import 'package:kabast/feature/grafik/cubit/grafik_state.dart';
 
 class EmployeeList extends StatelessWidget {
   final List<String> employeeIds;

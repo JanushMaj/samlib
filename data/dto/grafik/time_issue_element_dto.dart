@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../../domain/models/grafik/impl/time_issue_element.dart';
-import '../../../domain/models/grafik/enums.dart';
+import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
+import 'package:kabast/domain/models/grafik/enums.dart';
 import 'grafik_element_dto.dart';
 
 class TimeIssueElementDto extends GrafikElementDto {

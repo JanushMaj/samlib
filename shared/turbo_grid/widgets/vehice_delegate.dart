@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../domain/models/vehicle.dart';
-import '../../../theme/size_variants.dart';
-import '../turbo_tile_delegate.dart';
-import '../turbo_tile_variant.dart';
+import 'package:kabast/domain/models/vehicle.dart';
+import 'package:kabast/theme/size_variants.dart';
+import 'package:kabast/shared/turbo_grid/turbo_tile_delegate.dart';
+import 'package:kabast/shared/turbo_grid/turbo_tile_variant.dart';
 
 class VehicleDelegate extends TurboTileDelegate {
   final Vehicle vehicle;
