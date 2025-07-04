@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'auth_state.dart';
-import '../../data/repositories/app_user_repository.dart';
-import '../../domain/models/app_user.dart';
+import 'package:kabast/data/repositories/app_user_repository.dart';
+import 'package:kabast/domain/models/app_user.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final FirebaseAuth _firebaseAuth;

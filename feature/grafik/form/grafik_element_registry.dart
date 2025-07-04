@@ -4,11 +4,11 @@ import 'delivery_planning_element_fields.dart';
 import 'task_element_fields.dart';
 import 'task_planning_element_fields.dart';
 import 'time_issue_element_fields.dart';
-import '../../../domain/models/grafik/impl/delivery_planning_element.dart';
-import '../../../domain/models/grafik/impl/task_element.dart';
-import '../../../domain/models/grafik/impl/task_planning_element.dart';
-import '../../../domain/models/grafik/impl/time_issue_element.dart';
-import '../../../domain/models/grafik/grafik_element.dart';
+import 'package:kabast/domain/models/grafik/impl/delivery_planning_element.dart';
+import 'package:kabast/domain/models/grafik/impl/task_element.dart';
+import 'package:kabast/domain/models/grafik/impl/task_planning_element.dart';
+import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
+import 'package:kabast/domain/models/grafik/grafik_element.dart';
 
 typedef GrafikElementFormBuilder = Widget Function(GrafikElement);
 

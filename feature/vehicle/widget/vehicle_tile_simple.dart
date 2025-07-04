@@ -1,7 +1,7 @@
 // lib/feature/vehicle/widget/vehicle_tile_simple.dart
 import 'package:flutter/material.dart';
 import 'package:kabast/theme/app_tokens.dart';
-import '../../../domain/models/vehicle.dart';
+import 'package:kabast/domain/models/vehicle.dart';
 
 class VehicleTileSimple extends StatelessWidget {
   final Vehicle vehicle;

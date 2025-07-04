@@ -14,9 +14,9 @@ import 'package:kabast/domain/models/grafik/enums.dart';
 import 'package:kabast/feature/permission/permission_widget.dart';
 import 'package:kabast/injection.dart';
 
-import '../../cubit/grafik_cubit.dart';
-import '../task/employee_list.dart';
-import '../task/vehicle_list.dart';
+import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
+import 'package:kabast/feature/grafik/widget/task/employee_list.dart';
+import 'package:kabast/feature/grafik/widget/task/vehicle_list.dart';
 
 Future<void> showGrafikElementPopup(
     BuildContext parentContext,

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:kabast/theme/app_tokens.dart';
-import '../../../grafik/cubit/grafik_cubit.dart';
-import '../../../grafik/cubit/grafik_state.dart';
-import '../../../../shared/small_chip.dart';
+import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
+import 'package:kabast/feature/grafik/cubit/grafik_state.dart';
+import 'package:kabast/shared/small_chip.dart';
 
 class TimeIssueChipListPanel extends StatelessWidget {
   const TimeIssueChipListPanel({super.key});

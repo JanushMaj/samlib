@@ -1,5 +1,5 @@
-import '../enums.dart';
-import '../grafik_element.dart';
+import 'package:kabast/domain/models/grafik/enums.dart';
+import 'package:kabast/domain/models/grafik/grafik_element.dart';
 
 
 class TimeIssueElement extends GrafikElement {

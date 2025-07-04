@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../domain/models/grafik/impl/task_template.dart';
-import '../cubit/form/grafik_element_form_cubit.dart';
+import 'package:kabast/domain/models/grafik/impl/task_template.dart';
+import 'package:kabast/feature/grafik/cubit/form/grafik_element_form_cubit.dart';
 
 class TaskTemplatesRow extends StatelessWidget {
   const TaskTemplatesRow({super.key});

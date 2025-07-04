@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
-import '../../domain/models/grafik/enums.dart';
-import '../../domain/models/grafik/grafik_element.dart';
-import '../dto/grafik/grafik_element_dto.dart';
-import '../../domain/services/i_grafik_element_service.dart';
+import 'package:kabast/domain/models/grafik/enums.dart';
+import 'package:kabast/domain/models/grafik/grafik_element.dart';
+import 'package:kabast/data/dto/grafik/grafik_element_dto.dart';
+import 'package:kabast/domain/services/i_grafik_element_service.dart';
 
 class GrafikElementFirebaseService implements IGrafikElementService {
   final FirebaseFirestore _firestore;

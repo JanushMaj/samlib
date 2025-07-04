@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../domain/models/grafik/grafik_element.dart';
+import 'package:kabast/domain/models/grafik/grafik_element.dart';
 import 'grafik_element_registry.dart';
-import '../../../injection.dart';
+import 'package:kabast/injection.dart';
 import 'components/date_input_selector.dart';
 import 'components/type_dropdown.dart';
-import '../../../shared/form/custom_button.dart';
-import '../../../shared/form/custom_textfield.dart';
-import '../cubit/form/grafik_element_form_cubit.dart';
-import '../../../data/repositories/grafik_element_repository.dart';
+import 'package:kabast/shared/form/custom_button.dart';
+import 'package:kabast/shared/form/custom_textfield.dart';
+import 'package:kabast/feature/grafik/cubit/form/grafik_element_form_cubit.dart';
+import 'package:kabast/data/repositories/grafik_element_repository.dart';
 
 class GrafikElementFormScreen extends StatelessWidget {
   final GrafikElement? existingElement;

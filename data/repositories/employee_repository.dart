@@ -1,6 +1,6 @@
 
-import '../../domain/models/employee.dart';
-import '../../domain/services/i_employee_service.dart';
+import 'package:kabast/domain/models/employee.dart';
+import 'package:kabast/domain/services/i_employee_service.dart';
 
 class EmployeeRepository {
   final IEmployeeService _service;

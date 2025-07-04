@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kabast/theme/app_tokens.dart';
-import '../../domain/models/employee.dart';
+import 'package:kabast/domain/models/employee.dart';
 import 'employee_tile.dart';
 
 class EmployeePicker extends StatefulWidget {

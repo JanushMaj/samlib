@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../domain/models/vehicle.dart';
+import 'package:kabast/domain/models/vehicle.dart';
 
 class VehicleDto {
   final String id;

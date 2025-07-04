@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kabast/theme/app_tokens.dart';
 
-import '../../../domain/models/grafik/enums.dart';
-import '../../../domain/models/grafik/impl/time_issue_element.dart';
-import '../../../shared/form/enum_picker/enum_picker.dart';
-import '../../employee/employee_picker.dart';
-import '../cubit/form/grafik_element_form_cubit.dart';
-import '../../../../data/repositories/employee_repository.dart';
+import 'package:kabast/domain/models/grafik/enums.dart';
+import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
+import 'package:kabast/shared/form/enum_picker/enum_picker.dart';
+import 'package:kabast/feature/employee/employee_picker.dart';
+import 'package:kabast/feature/grafik/cubit/form/grafik_element_form_cubit.dart';
+import 'package:kabast/data/repositories/employee_repository.dart';
 
 class TimeIssueFields extends StatelessWidget {
   final TimeIssueElement element;

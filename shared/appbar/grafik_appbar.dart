@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../feature/auth/auth_cubit.dart';
-import '../../feature/permission/permission_widget.dart';
+import 'package:kabast/feature/auth/auth_cubit.dart';
+import 'package:kabast/feature/permission/permission_widget.dart';
 
 class GrafikAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget title;

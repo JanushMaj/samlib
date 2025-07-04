@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kabast/theme/app_tokens.dart';
-import '../auth_cubit.dart';
-import '../auth_state.dart';
+import 'package:kabast/feature/auth/auth_cubit.dart';
+import 'package:kabast/feature/auth/auth_state.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});

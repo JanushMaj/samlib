@@ -3,7 +3,7 @@
 ///  ► **label** – napis na przycisku
 ///  ► pozostałe pola – wartości, które mają trafić do TaskElement
 ///
-import '../enums.dart';
+import 'package:kabast/domain/models/grafik/enums.dart';
 
 class TaskTemplate {
   final String label;
