@@ -1,20 +1,8 @@
-import 'package:flutter/material.dart';
-
 enum GrafikStatus {
   Realizacja,
   Wstrzymane,
   Zakonczone,
   Anulowane,
-}
-extension GrafikStatusX on GrafikStatus {
-  IconData get icon {
-    switch (this) {
-      case GrafikStatus.Realizacja: return Icons.play_arrow;
-      case GrafikStatus.Wstrzymane:  return Icons.pause;
-      case GrafikStatus.Zakonczone:  return Icons.check;
-      case GrafikStatus.Anulowane:   return Icons.cancel; // ✨ można podmienić
-    }
-  }
 }
 
 enum GrafikTaskType {
