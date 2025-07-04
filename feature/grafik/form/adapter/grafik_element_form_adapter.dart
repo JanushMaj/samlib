@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../../../../data/dto/grafik/grafik_element_dto.dart';
 import '../../form/grafik_element_registry.dart';
 import '../../../../domain/models/grafik/grafik_element.dart';
@@ -32,7 +30,7 @@ class GrafikElementFormAdapter {
     final map = GrafikElementDto.fromDomain(element).toJson();
     if (field == 'startDateTime' || field == 'endDateTime') {
       if (value is DateTime) {
-        map[field] = Timestamp.fromDate(value);
+        map[field] = value;
       }
     } else {
       map[field] = value;
@@ -60,7 +58,7 @@ class GrafikElementFormAdapter {
 
     final json = GrafikElementDto.fromDomain(element).toJson();
     if (needUser) json['addedByUserId'] = userId;
-    if (needTs) json['addedTimestamp'] = Timestamp.fromDate(DateTime.now());
+    if (needTs) json['addedTimestamp'] = DateTime.now();
 
     return GrafikElementDto.fromJson(json).toDomain();
   }
