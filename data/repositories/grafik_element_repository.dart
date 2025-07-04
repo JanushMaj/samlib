@@ -19,6 +19,8 @@ class GrafikElementRepository {
     );
   }
 
+  String generateNewTaskId() => _service.generateNewTaskId();
+
   // ───────── pozostałe metody bez zmian ─────────
 
   Future<void> saveGrafikElement(GrafikElement element) =>

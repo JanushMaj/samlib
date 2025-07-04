@@ -1,6 +1,5 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../data/repositories/grafik_element_repository.dart';
@@ -129,10 +128,7 @@ class GrafikElementFormCubit extends Cubit<GrafikElementFormState> {
 
     // Jeśli to nowe zadanie – generujemy ID (tylko TaskElement)
     if (element is TaskElement && element.id.isEmpty) {
-      final newId = FirebaseFirestore.instance
-          .collection('grafikElements')
-          .doc()
-          .id;
+      final newId = grafikService.generateNewTaskId();
       element = element.copyWithId(newId);
     }
 

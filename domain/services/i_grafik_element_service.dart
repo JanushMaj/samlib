@@ -16,6 +16,9 @@ abstract class IGrafikElementService {
     List<String>? types,
   });
 
+  /// Generate a new unique ID for creating task elements.
+  String generateNewTaskId();
+
   Future<void> upsertGrafikElement(GrafikElement element);
 
   Future<void> updateGrafikElementField(String id, Map<String, dynamic> data);

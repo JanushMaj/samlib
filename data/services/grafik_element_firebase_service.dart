@@ -10,6 +10,11 @@ class GrafikElementFirebaseService implements IGrafikElementService {
 
   GrafikElementFirebaseService(this._firestore);
 
+  @override
+  String generateNewTaskId() {
+    return _firestore.collection('grafik_elements').doc().id;
+  }
+
   // ───────────────────────────────────────────────────────────
   //  1.  Dotychczasowe zapytanie zakresem                 ════
   // ───────────────────────────────────────────────────────────
