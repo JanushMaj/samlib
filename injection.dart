@@ -4,18 +4,18 @@ import 'package:get_it/get_it.dart';
 import 'package:kabast/data/repositories/app_user_repository.dart';
 import 'package:kabast/data/services/app_user_firebase_service.dart';
 
-import 'data/repositories/employee_repository.dart';
-import 'data/repositories/vehicle_repository.dart';
+import 'package:kabast/data/repositories/employee_repository.dart';
+import 'package:kabast/data/repositories/vehicle_repository.dart';
 import 'package:kabast/data/services/employee_firebase_service.dart';
 import 'package:kabast/data/services/vehicle_firebase_service.dart';
-import 'domain/services/i_app_user_service.dart';
-import 'domain/services/i_employee_service.dart';
-import 'domain/services/i_vehicle_service.dart';
-import 'feature/auth/auth_cubit.dart';
-import 'feature/grafik/cubit/grafik_cubit.dart';
-import 'data/repositories/grafik_element_repository.dart';
-import 'data/services/grafik_element_firebase_service.dart';
-import 'domain/services/i_grafik_element_service.dart';
+import 'package:kabast/domain/services/i_app_user_service.dart';
+import 'package:kabast/domain/services/i_employee_service.dart';
+import 'package:kabast/domain/services/i_vehicle_service.dart';
+import 'package:kabast/feature/auth/auth_cubit.dart';
+import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
+import 'package:kabast/data/repositories/grafik_element_repository.dart';
+import 'package:kabast/data/services/grafik_element_firebase_service.dart';
+import 'package:kabast/domain/services/i_grafik_element_service.dart';
 
 
 final getIt = GetIt.instance;

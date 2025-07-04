@@ -8,11 +8,11 @@ class GrafikState {
   final List<TaskElement> tasks;
   final List<TimeIssueElement> issues;
   final Map<String, List<String>> taskTimeIssueDisplayMapping;
-  final Map<String, List<String>> taskTransferDisplayMapping; // <<< NOWE POLE
+  final Map<String, List<String>> taskTransferDisplayMapping;
   final List<Vehicle> vehicles;
   final List<Employee> employees;
   final DateTime selectedDay;
-  final DateTime selectedDayInWeekView; // nowa właściwość
+  final DateTime selectedDayInWeekView;
   final String? error;
 
   final WeekGrafikData weekData;
@@ -21,7 +21,7 @@ class GrafikState {
     required this.tasks,
     required this.issues,
     required this.taskTimeIssueDisplayMapping,
-    required this.taskTransferDisplayMapping, // <<< NOWE POLE
+    required this.taskTransferDisplayMapping,
     required this.vehicles,
     required this.employees,
     required this.selectedDay,
@@ -38,7 +38,7 @@ class GrafikState {
       tasks: [],
       issues: [],
       taskTimeIssueDisplayMapping: {},
-      taskTransferDisplayMapping: {}, // <<< INICJALIZACJA
+      taskTransferDisplayMapping: {},
       vehicles: [],
       employees: [],
       selectedDay: now,
@@ -52,7 +52,7 @@ class GrafikState {
     List<TaskElement>? tasks,
     List<TimeIssueElement>? issues,
     Map<String, List<String>>? taskTimeIssueDisplayMapping,
-    Map<String, List<String>>? taskTransferDisplayMapping, // <<< NOWY PARAMETR
+    Map<String, List<String>>? taskTransferDisplayMapping,
     List<Vehicle>? vehicles,
     List<Employee>? employees,
     DateTime? selectedDay,
@@ -64,7 +64,7 @@ class GrafikState {
       tasks: tasks ?? this.tasks,
       issues: issues ?? this.issues,
       taskTimeIssueDisplayMapping: taskTimeIssueDisplayMapping ?? this.taskTimeIssueDisplayMapping,
-      taskTransferDisplayMapping: taskTransferDisplayMapping ?? this.taskTransferDisplayMapping, // <<< NOWE POLE
+      taskTransferDisplayMapping: taskTransferDisplayMapping ?? this.taskTransferDisplayMapping,
       vehicles: vehicles ?? this.vehicles,
       employees: employees ?? this.employees,
       selectedDay: selectedDay ?? this.selectedDay,
