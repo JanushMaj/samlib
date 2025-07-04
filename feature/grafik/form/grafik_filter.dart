@@ -1,9 +1,9 @@
 import 'package:kabast/domain/models/grafik/enums.dart';
 
-import '../../../domain/models/grafik/impl/delivery_planning_element.dart';
-import '../../../domain/models/grafik/impl/task_element.dart';
-import '../../../domain/models/grafik/impl/task_planning_element.dart';
-import '../../../domain/models/grafik/impl/time_issue_element.dart';
+import 'package:kabast/domain/models/grafik/impl/delivery_planning_element.dart';
+import 'package:kabast/domain/models/grafik/impl/task_element.dart';
+import 'package:kabast/domain/models/grafik/impl/task_planning_element.dart';
+import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
 
 /// Model filtra i funkcja sprawdzająca passFilter.
 /// Nie zawiera referencji do styli/kolorów, więc jest OK.

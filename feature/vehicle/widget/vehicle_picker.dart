@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kabast/theme/app_tokens.dart';
-import '../../../domain/models/vehicle.dart';
+import 'package:kabast/domain/models/vehicle.dart';
 import 'vehicle_tile_simple.dart';
 
 class VehiclePicker extends StatefulWidget {

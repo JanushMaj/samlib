@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kabast/shared/responsive/responsive_element.dart';
 
-import '../../../../domain/models/vehicle.dart';
-import '../../cubit/grafik_cubit.dart';
-import '../../cubit/grafik_state.dart';
-import '../../../../shared/responsive/responsive_chip.dart';
-import '../../../../shared/responsive/responsive_chip_list.dart';
+import 'package:kabast/domain/models/vehicle.dart';
+import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
+import 'package:kabast/feature/grafik/cubit/grafik_state.dart';
+import 'package:kabast/shared/responsive/responsive_chip.dart';
+import 'package:kabast/shared/responsive/responsive_chip_list.dart';
 
 class VehicleList extends StatelessWidget with ResponsiveElement{
   final List<String> vehicleIds;

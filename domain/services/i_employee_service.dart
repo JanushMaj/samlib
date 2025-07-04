@@ -1,4 +1,4 @@
-import '../models/employee.dart';
+import 'package:kabast/domain/models/employee.dart';
 
 abstract class IEmployeeService {
   Stream<List<Employee>> getEmployeesStream();

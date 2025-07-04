@@ -4,7 +4,7 @@ import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/theme/app_tokens.dart';
 
-import '../widget/dialog/grafik_element_popup.dart';
+import 'package:kabast/feature/grafik/widget/dialog/grafik_element_popup.dart';
 
 class StandardTaskRow extends StatelessWidget {
   final List<TaskElement> standardTasks;

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../domain/models/employee.dart';
-import '../../domain/services/i_employee_service.dart';
-import '../dto/employee_dto.dart';
+import 'package:kabast/domain/models/employee.dart';
+import 'package:kabast/domain/services/i_employee_service.dart';
+import 'package:kabast/data/dto/employee_dto.dart';
 
 class EmployeeFirebaseService implements IEmployeeService {
   final FirebaseFirestore _firestore;

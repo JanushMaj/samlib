@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../theme/size_variants.dart';
-import '../turbo_tile_delegate.dart';
-import '../turbo_tile_variant.dart';
+import 'package:kabast/theme/size_variants.dart';
+import 'package:kabast/shared/turbo_grid/turbo_tile_delegate.dart';
+import 'package:kabast/shared/turbo_grid/turbo_tile_variant.dart';
 
 class WorkerCountDelegate extends TurboTileDelegate {
   final int workerCount;

@@ -1,4 +1,4 @@
-import '../../../../domain/models/grafik/grafik_element.dart';
+import 'package:kabast/domain/models/grafik/grafik_element.dart';
 
 abstract class GrafikElementFormState {}
 

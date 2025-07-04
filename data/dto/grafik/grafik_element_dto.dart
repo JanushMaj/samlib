@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../domain/models/grafik/grafik_element.dart';
-import '../../domain/models/grafik/impl/task_element.dart';
-import '../../domain/models/grafik/impl/time_issue_element.dart';
-import '../../domain/models/grafik/impl/delivery_planning_element.dart';
-import '../../domain/models/grafik/impl/task_planning_element.dart';
-import '../../domain/models/grafik/enums.dart';
+import 'package:kabast/data/domain/models/grafik/grafik_element.dart';
+import 'package:kabast/data/domain/models/grafik/impl/task_element.dart';
+import 'package:kabast/data/domain/models/grafik/impl/time_issue_element.dart';
+import 'package:kabast/data/domain/models/grafik/impl/delivery_planning_element.dart';
+import 'package:kabast/data/domain/models/grafik/impl/task_planning_element.dart';
+import 'package:kabast/data/domain/models/grafik/enums.dart';
 
 abstract class GrafikElementDto {
   static DateTime parseDateTime(dynamic value, DateTime fallback) {

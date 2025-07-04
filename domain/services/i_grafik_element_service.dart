@@ -1,5 +1,5 @@
-import '../models/grafik/enums.dart';
-import '../models/grafik/grafik_element.dart';
+import 'package:kabast/domain/models/grafik/enums.dart';
+import 'package:kabast/domain/models/grafik/grafik_element.dart';
 
 abstract class IGrafikElementService {
   Stream<List<GrafikElement>> getGrafikElementsWithinRange({

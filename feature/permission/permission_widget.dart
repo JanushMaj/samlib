@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../feature/auth/auth_cubit.dart';
-import '../../domain/models/app_user.dart';
+import 'package:kabast/feature/auth/auth_cubit.dart';
+import 'package:kabast/domain/models/app_user.dart';
 
 class PermissionWidget extends StatelessWidget {
   final String permission;

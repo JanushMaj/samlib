@@ -1,5 +1,5 @@
-import '../../domain/models/app_user.dart';
-import '../../domain/services/i_app_user_service.dart';
+import 'package:kabast/domain/models/app_user.dart';
+import 'package:kabast/domain/services/i_app_user_service.dart';
 
 class AppUserRepository {
   final IAppUserService _service;
