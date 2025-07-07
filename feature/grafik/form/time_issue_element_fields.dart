@@ -35,8 +35,11 @@ class TimeIssueFields extends StatelessWidget {
           employeeStream: GetIt.I<EmployeeRepository>().getEmployees(),
           initialSelectedIds: [element.workerId],
           onSelectionChanged: (selectedEmployees) {
-            final ids = selectedEmployees.map((e) => e.uid).toList();
-            context.read<GrafikElementFormCubit>().updateSelectedWorkerIds(ids);
+            if (selectedEmployees.isNotEmpty) {
+              context
+                  .read<GrafikElementFormCubit>()
+                  .updateField('workerId', selectedEmployees.first.uid);
+            }
           },
         ),
       ],
