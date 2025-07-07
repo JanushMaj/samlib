@@ -10,8 +10,6 @@ import '../../../../domain/models/grafik/impl/task_element.dart';
 import '../../../../domain/models/grafik/impl/task_template.dart';
 import '../../../../domain/models/grafik/impl/time_issue_element.dart';
 import '../../form/adapter/grafik_element_form_adapter.dart';
-import '../../../../main.dart';
-import '../../widget/dialog/worker_conflict_popup.dart';
 import 'grafik_element_form_state.dart';
 
 // ───────── CUBIT ─────────
@@ -115,11 +113,11 @@ class GrafikElementFormCubit extends Cubit<GrafikElementFormState> {
   // ────────────────────────────────────────────────────────────
   //  Zapis elementu
   // ────────────────────────────────────────────────────────────
-  Future<void> saveElement() async {
+  Future<void> saveElement({bool resolveConflict = false}) async {
     if (state is! GrafikElementFormEditing) return;
 
     final currentState = state as GrafikElementFormEditing;
-    emit(currentState.copyWith(isSubmitting: true));
+    emit(currentState.copyWith(isSubmitting: true, conflictWorkerIds: const []));
 
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? 'unknown';
 
@@ -135,7 +133,7 @@ class GrafikElementFormCubit extends Cubit<GrafikElementFormState> {
     List<TimeIssueElement> transfers = [];
 
     try {
-      // konflikt pracowników – pokazujemy popup
+      // konflikt pracowników – emituj stan
       if (element is TaskElement) {
         final taskElement = element;
 
@@ -159,20 +157,18 @@ class GrafikElementFormCubit extends Cubit<GrafikElementFormState> {
             .toSet()
             .toList();
 
+        if (conflictWorkerIds.isNotEmpty && !resolveConflict) {
+          emit(currentState.copyWith(
+            isSubmitting: false,
+            conflictWorkerIds: conflictWorkerIds,
+          ));
+          return;
+        }
+
         if (conflictWorkerIds.isNotEmpty) {
-          final userDecision = await showWorkerConflictDialog(
-            navigatorKey.currentContext!,
-            conflictWorkerIds,
-          );
-
-          if (userDecision != true) {
-            emit(currentState.copyWith(isSubmitting: false));
-            return;
-          }
-
           transfers = conflictWorkerIds.map((workerId) {
             final fromTask =
-            overlapping.firstWhere((task) => task.workerIds.contains(workerId));
+                overlapping.firstWhere((task) => task.workerIds.contains(workerId));
             return TimeIssueElement(
               id: '',
               startDateTime: taskElement.startDateTime,
