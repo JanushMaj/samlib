@@ -8,6 +8,7 @@ import 'firebase_options.dart';
 import 'injection.dart';
 import 'feature/auth/auth_cubit.dart';
 import 'feature/grafik/cubit/grafik_cubit.dart';
+import 'feature/date/date_cubit.dart';
 import 'app_router.dart';
 import 'theme/theme.dart';
 
@@ -31,6 +32,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<AuthCubit>(
           create: (_) => GetIt.instance<AuthCubit>(),
+        ),
+        BlocProvider<DateCubit>(
+          create: (_) => GetIt.instance<DateCubit>(),
         ),
         BlocProvider<GrafikCubit>(
           create: (_) => GetIt.instance<GrafikCubit>(),

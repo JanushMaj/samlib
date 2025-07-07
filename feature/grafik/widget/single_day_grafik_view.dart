@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kabast/theme/app_tokens.dart';
 import 'package:kabast/feature/grafik/widget/task/task_list.dart';
-import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
+import 'package:kabast/feature/date/date_cubit.dart';
 
 import '../../../shared/appbar/grafik_appbar.dart';
 import '../../../shared/custom_fab.dart';
@@ -14,7 +14,7 @@ class SingleDayGrafikView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectedDay = context.watch<GrafikCubit>().state.selectedDay;
+    final selectedDay = context.watch<DateCubit>().state.selectedDay;
 
     return Scaffold(
       appBar: GrafikAppBar(
@@ -34,7 +34,7 @@ class SingleDayGrafikView extends StatelessWidget {
                   lastDate: DateTime(now.year + 2),
                 );
                 if (picked != null) {
-                  context.read<GrafikCubit>().changeSelectedDay(picked);
+                  context.read<DateCubit>().changeSelectedDay(picked);
                 }
               },
             ),

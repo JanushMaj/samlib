@@ -12,7 +12,7 @@ import 'package:kabast/feature/grafik/widget/week/tiles/task_week_tile.dart';
 import 'package:kabast/feature/grafik/widget/week/tiles/time_issue_week_tile.dart';
 
 import '../../cubit/grafik_cubit.dart';
-import '../../cubit/grafik_state.dart';
+import '../../../date/date_cubit.dart';
 import 'grafik_grid.dart';
 
 class ForegroundLayer extends StatelessWidget {
@@ -22,8 +22,7 @@ class ForegroundLayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<GrafikCubit, GrafikState>(
       builder: (context, state) {
-        // Używamy selectedDayInWeekView jako daty początkowej
-        final startDate = state.selectedDayInWeekView;
+        final startDate = context.watch<DateCubit>().state.selectedDayInWeekView;
         final planningElements = <GrafikElement>[
           ...state.weekData.taskPlannings,
           ...state.weekData.deliveryPlannings,

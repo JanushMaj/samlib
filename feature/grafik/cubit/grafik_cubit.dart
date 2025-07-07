@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
-import '../../../data/grafik_resolver.dart';
 import '../../../data/repositories/employee_repository.dart';
 import '../../../data/repositories/grafik_element_repository.dart';
 import '../../../data/repositories/vehicle_repository.dart';
+import '../../date/date_cubit.dart';
 import '../../../domain/models/employee.dart';
 import '../../../domain/models/grafik/grafik_element.dart';
 import '../../../domain/models/grafik/impl/delivery_planning_element.dart';
@@ -25,71 +25,28 @@ class GrafikCubit extends Cubit<GrafikState> {
   final GrafikElementRepository _grafikRepo;
   final VehicleRepository _vehicleRepo;
   final EmployeeRepository _employeeRepo;
-  late final GrafikResolver _grafikResolver;
+  final DateCubit _dateCubit;
 
   late StreamSubscription<Map<String, dynamic>> _mappingSub;
   StreamSubscription<List<Vehicle>>? _vehicleSub;
   late StreamSubscription _weekDataSub;
-  Timer? _updateTimer;
+  late final StreamSubscription<DateState> _dateSub;
 
   GrafikCubit(
       this._grafikRepo,
       this._vehicleRepo,
       this._employeeRepo,
+      this._dateCubit,
       ) : super(GrafikState.initial()) {
-    _grafikResolver = GrafikResolver(_grafikRepo);
-    _resolveInitialDayAndLoad();
     _subscribeVehicles();
-    _scheduleUpdateAtGrafikChangeTime();
-  }
-
-  void _resolveInitialDayAndLoad() async {
-    final resolved = await _resolveGrafikLogicBasedOnTime(DateTime.now());
-    changeSelectedDay(resolved);
-    _loadWeekForSelectedDay();
-  }
-
-  Future<DateTime> _resolveGrafikLogicBasedOnTime(DateTime now) async {
-    final grafikChangeTime = DateTime(now.year, now.month, now.day, 14, 45);
-    final baseDay = now.isBefore(grafikChangeTime)
-        ? DateTime(now.year, now.month, now.day)
-        : DateTime(now.year, now.month, now.day).add(const Duration(days: 1));
-
-    return await _grafikResolver.nextDayWithGrafik(baseDay);
-  }
-
-  void _scheduleUpdateAtGrafikChangeTime() {
-    final now = DateTime.now();
-    DateTime nextUpdate = DateTime(now.year, now.month, now.day, 14, 45);
-    if (now.isAfter(nextUpdate)) {
-      nextUpdate = nextUpdate.add(const Duration(days: 1));
-    }
-
-    final durationUntilUpdate = nextUpdate.difference(now);
-    _updateTimer?.cancel();
-    _updateTimer = Timer(durationUntilUpdate, () async {
-      final resolvedDay = await _resolveGrafikLogicBasedOnTime(DateTime.now());
-      changeSelectedDay(resolvedDay);
-      _scheduleUpdateAtGrafikChangeTime();
+    _dateSub = _dateCubit.stream.listen((dateState) {
+      _subscribeMapping(dateState.selectedDay);
+      _loadWeek(dateState.selectedDayInWeekView);
     });
+    _subscribeMapping(_dateCubit.state.selectedDay);
+    _loadWeek(_dateCubit.state.selectedDayInWeekView);
   }
 
-  void changeSelectedDay(DateTime newDay) {
-    final monday = _calculateMonday(newDay);
-    if (!isClosed) {
-      emit(state.copyWith(
-        selectedDay: newDay,
-        selectedDayInWeekView: monday,
-      ));
-    }
-    _subscribeMapping(newDay);
-    _loadWeekForSelectedDay();
-  }
-
-  DateTime _calculateMonday(DateTime day) {
-    final monday = day.subtract(Duration(days: day.weekday - 1));
-    return DateTime(monday.year, monday.month, monday.day);
-  }
 
   void _subscribeVehicles() {
     _vehicleSub = _vehicleRepo.getVehicles().listen(
@@ -157,8 +114,7 @@ class GrafikCubit extends Cubit<GrafikState> {
     });
   }
 
-  void _loadWeekForSelectedDay() {
-    final monday = state.selectedDayInWeekView;
+  void _loadWeek(DateTime monday) {
     final friday = monday.add(const Duration(days: 4, hours: 23, minutes: 59, seconds: 59, milliseconds: 999));
 
     final grafikStream = _grafikRepo.getElementsWithinRange(
@@ -213,7 +169,7 @@ class GrafikCubit extends Cubit<GrafikState> {
     _mappingSub.cancel();
     _vehicleSub?.cancel();
     _weekDataSub.cancel();
-    _updateTimer?.cancel();
+    _dateSub.cancel();
     return super.close();
   }
 }

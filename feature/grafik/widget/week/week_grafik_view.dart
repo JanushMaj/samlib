@@ -7,8 +7,7 @@ import '../pending_task_column.dart';
 import '../../../../shared/appbar/grafik_appbar.dart';
 import '../../../../shared/custom_fab.dart';
 import '../../../permission/permission_widget.dart';
-import '../../cubit/grafik_cubit.dart';
-import '../../cubit/grafik_state.dart';
+import '../../../date/date_cubit.dart';
 
 class WeekGrafikView extends StatelessWidget {
   const WeekGrafikView({super.key});
@@ -17,9 +16,9 @@ class WeekGrafikView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: GrafikAppBar(
-        title: BlocBuilder<GrafikCubit, GrafikState>(
-          builder: (context, state) {
-            final monday  = state.selectedDayInWeekView;
+        title: BlocBuilder<DateCubit, DateState>(
+          builder: (context, dateState) {
+            final monday  = dateState.selectedDayInWeekView;
             final friday  = monday.add(const Duration(days: 4));
             final start   = DateFormat('dd.MM').format(monday);
             final end     = DateFormat('dd.MM').format(friday);
@@ -33,10 +32,10 @@ class WeekGrafikView extends StatelessWidget {
               icon: const Icon(Icons.arrow_back),
               tooltip: AppStrings.previousWeek,
               onPressed: () {
-                final cubit = context.read<GrafikCubit>();
-                final newMonday = cubit.state.selectedDayInWeekView
+                final dateCubit = context.read<DateCubit>();
+                final newMonday = dateCubit.state.selectedDayInWeekView
                     .subtract(const Duration(days: 7));
-                cubit.changeSelectedDay(newMonday);
+                dateCubit.changeSelectedDay(newMonday);
               },
             ),
           ),
@@ -46,10 +45,10 @@ class WeekGrafikView extends StatelessWidget {
               icon: const Icon(Icons.arrow_forward),
               tooltip: AppStrings.nextWeek,
               onPressed: () {
-                final cubit = context.read<GrafikCubit>();
-                final newMonday = cubit.state.selectedDayInWeekView
+                final dateCubit = context.read<DateCubit>();
+                final newMonday = dateCubit.state.selectedDayInWeekView
                     .add(const Duration(days: 7));
-                cubit.changeSelectedDay(newMonday);
+                dateCubit.changeSelectedDay(newMonday);
               },
             ),
           ),
