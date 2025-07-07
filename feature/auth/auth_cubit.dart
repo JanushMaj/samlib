@@ -9,6 +9,7 @@ import '../../domain/models/app_user.dart';
 class AuthCubit extends Cubit<AuthState> {
   final FirebaseAuth _firebaseAuth;
   final AppUserRepository _userRepository;
+  late final StreamSubscription<User?> _authSub;
   StreamSubscription<AppUser?>? _userStreamSub;
 
   AppUser? _currentUser;
@@ -25,7 +26,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   AuthCubit(this._firebaseAuth, this._userRepository) : super(AuthInitial()) {
     // Nasłuchujemy zmian stanu autoryzacji.
-    _firebaseAuth.authStateChanges().listen((user) async {
+    _authSub = _firebaseAuth.authStateChanges().listen((user) async {
       if (user == null) {
         await _userStreamSub?.cancel();
         emit(AuthUnauthenticated());
@@ -114,6 +115,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   @override
   Future<void> close() async {
+    await _authSub.cancel();
     await _userStreamSub?.cancel();
     return super.close();
   }
