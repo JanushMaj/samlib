@@ -72,7 +72,6 @@ Future<void> setupLocator() async {
       getIt<EmployeeRepository>(),
     ),
   );
-
   //CUBIT
   // Rejestracja AuthCUBIT jako factory – przekazujemy FirebaseAuth oraz AppUserRepository
   getIt.registerFactory<AuthCubit>(
