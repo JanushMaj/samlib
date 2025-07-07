@@ -4,11 +4,16 @@ import 'delivery_planning_element_fields.dart';
 import 'task_element_fields.dart';
 import 'task_planning_element_fields.dart';
 import 'time_issue_element_fields.dart';
+import 'strategy/delivery_planning_element_strategy.dart';
+import 'strategy/task_element_strategy.dart';
+import 'strategy/task_planning_element_strategy.dart';
+import 'strategy/time_issue_element_strategy.dart';
 import '../../../domain/models/grafik/impl/delivery_planning_element.dart';
 import '../../../domain/models/grafik/impl/task_element.dart';
 import '../../../domain/models/grafik/impl/task_planning_element.dart';
 import '../../../domain/models/grafik/impl/time_issue_element.dart';
 import '../../../domain/models/grafik/grafik_element.dart';
+import 'strategy/grafik_element_form_strategy.dart';
 
 typedef GrafikElementFormBuilder = Widget Function(GrafikElement);
 
@@ -18,6 +23,13 @@ class GrafikElementRegistry {
     'DeliveryPlanningElement': (e) => DeliveryPlanningFields(element: e as DeliveryPlanningElement),
     'TaskElement': (e) => TaskFields(element: e as TaskElement),
     'TaskPlanningElement': (e) => GrafikPlanningFields(element: e as TaskPlanningElement),
+  };
+
+  static final Map<String, GrafikElementFormStrategy> _strategies = {
+    'TimeIssueElement': TimeIssueElementStrategy(),
+    'DeliveryPlanningElement': DeliveryPlanningElementStrategy(),
+    'TaskElement': TaskElementStrategy(),
+    'TaskPlanningElement': TaskPlanningElementStrategy(),
   };
 
 
@@ -31,71 +43,11 @@ class GrafikElementRegistry {
 
   static List<String> getRegisteredTypes() => _formBuilders.keys.toList();
 
+  static GrafikElementFormStrategy getStrategyForType(String type) {
+    return _strategies[type] ?? TaskElementStrategy();
+  }
+
   static GrafikElement createDefaultElementForType(String type) {
-    final tomorrow = DateTime.now().add(const Duration(days: 1));
-
-    final start = DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 7);
-    final end = DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 15);
-
-    switch (type) {
-      case 'TimeIssueElement':
-        return TimeIssueElement(
-          id: '',
-          startDateTime: start,
-          endDateTime: end,
-          additionalInfo: '',
-          issueType: TimeIssueType.Spoznienie,
-          issuePaymentType: PaymentType.zero,
-          workerId: '',
-          addedByUserId: '',
-          addedTimestamp: DateTime.now(),
-          closed: false,
-        );
-      case 'DeliveryPlanningElement':
-        return DeliveryPlanningElement(
-          id: '',
-          startDateTime: start,
-          endDateTime: end,
-          additionalInfo: '',
-          orderId: '',
-          category: DeliveryPlanningCategory.Inne,
-          addedByUserId: '',
-          addedTimestamp: DateTime.now(),
-          closed: false,
-        );
-      case 'TaskPlanningElement':
-        return TaskPlanningElement(
-          id: '',
-          startDateTime: start,
-          endDateTime: end,
-          additionalInfo: '',
-          workerCount: 1,
-          orderId: '',
-          probability: GrafikProbability.Pewne,
-          taskType: GrafikTaskType.Inne,
-          minutes: 60,
-          highPriority: false,
-          workerIds: const [],
-          addedByUserId: '',
-          addedTimestamp: DateTime.now(),
-          closed: false,
-        );
-      case 'TaskElement':
-      default:
-        return TaskElement(
-          id: '',
-          startDateTime: start,
-          endDateTime: end,
-          additionalInfo: '',
-          workerIds: const [],
-          orderId: '',
-          status: GrafikStatus.Realizacja,
-          taskType: GrafikTaskType.Inne,
-          carIds: const [],
-          addedByUserId: '',
-          addedTimestamp: DateTime.now(),
-          closed: false,
-        );
-    }
+    return getStrategyForType(type).createDefault();
   }
 }

@@ -10,7 +10,6 @@ import '../../../shared/form/custom_button.dart';
 import '../../../shared/form/custom_textfield.dart';
 import '../cubit/form/grafik_element_form_cubit.dart';
 import '../../../data/repositories/grafik_element_repository.dart';
-import '../widget/dialog/worker_conflict_popup.dart';
 
 class GrafikElementFormScreen extends StatelessWidget {
   final GrafikElement? existingElement;
@@ -29,20 +28,6 @@ class GrafikElementFormScreen extends StatelessWidget {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               if (Navigator.of(context).canPop()) {
                 Navigator.of(context).pop(true);
-              }
-            });
-          }
-
-          if (state is GrafikElementFormEditing && state.conflictWorkerIds.isNotEmpty) {
-            WidgetsBinding.instance.addPostFrameCallback((_) async {
-              final decision = await showWorkerConflictDialog(
-                context,
-                state.conflictWorkerIds,
-              );
-              if (decision == true) {
-                context
-                    .read<GrafikElementFormCubit>()
-                    .saveElement(resolveConflict: true);
               }
             });
           }
