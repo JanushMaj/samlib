@@ -4,7 +4,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
 import '../../../data/repositories/employee_repository.dart';
 import '../../../data/repositories/grafik_element_repository.dart';
-import '../../../data/repositories/vehicle_repository.dart';
+import '../../../data/services/vehicle_watcher.dart';
 import '../../date/date_cubit.dart';
 import '../../../domain/models/employee.dart';
 import '../../../domain/models/grafik/grafik_element.dart';
@@ -23,7 +23,7 @@ extension DateOnlyCompare on DateTime {
 
 class GrafikCubit extends Cubit<GrafikState> {
   final GrafikElementRepository _grafikRepo;
-  final VehicleRepository _vehicleRepo;
+  final VehicleWatcher _vehicleWatcher;
   final EmployeeRepository _employeeRepo;
   final DateCubit _dateCubit;
 
@@ -34,7 +34,7 @@ class GrafikCubit extends Cubit<GrafikState> {
 
   GrafikCubit(
       this._grafikRepo,
-      this._vehicleRepo,
+      this._vehicleWatcher,
       this._employeeRepo,
       this._dateCubit,
       ) : super(GrafikState.initial()) {
@@ -49,7 +49,7 @@ class GrafikCubit extends Cubit<GrafikState> {
 
 
   void _subscribeVehicles() {
-    _vehicleSub = _vehicleRepo.getVehicles().listen(
+    _vehicleSub = _vehicleWatcher.watchVehicles().listen(
           (vehicles) {
         if (!isClosed) {
           emit(state.copyWith(vehicles: vehicles));

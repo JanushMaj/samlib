@@ -6,6 +6,7 @@ import 'package:kabast/data/services/app_user_firebase_service.dart';
 
 import 'package:kabast/data/repositories/employee_repository.dart';
 import 'package:kabast/data/repositories/vehicle_repository.dart';
+import 'package:kabast/data/services/vehicle_watcher.dart';
 import 'package:kabast/data/services/employee_firebase_service.dart';
 import 'package:kabast/data/services/vehicle_firebase_service.dart';
 import 'package:kabast/domain/services/i_app_user_service.dart';
@@ -55,6 +56,9 @@ Future<void> setupLocator() async {
   getIt.registerLazySingleton<VehicleRepository>(
     () => VehicleRepository(getIt<IVehicleService>()),
   );
+  getIt.registerLazySingleton<VehicleWatcher>(
+    () => VehicleWatcher(getIt<VehicleRepository>()),
+  );
   getIt.registerLazySingleton<GrafikElementRepository>(
     () => GrafikElementRepository(getIt<IGrafikElementService>()),
   );
@@ -85,7 +89,7 @@ Future<void> setupLocator() async {
   getIt.registerFactory<GrafikCubit>(
     () => GrafikCubit(
       getIt<GrafikElementRepository>(),
-      getIt<VehicleRepository>(),
+      getIt<VehicleWatcher>(),
       getIt<EmployeeRepository>(),
       getIt<DateCubit>(),
     ),
