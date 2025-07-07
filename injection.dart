@@ -13,6 +13,7 @@ import 'package:kabast/domain/services/i_employee_service.dart';
 import 'package:kabast/domain/services/i_vehicle_service.dart';
 import 'package:kabast/feature/auth/auth_cubit.dart';
 import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
+import 'package:kabast/feature/date/date_cubit.dart';
 import 'package:kabast/data/repositories/grafik_element_repository.dart';
 import 'package:kabast/data/services/grafik_element_firebase_service.dart';
 import 'package:kabast/domain/services/i_grafik_element_service.dart';
@@ -62,11 +63,16 @@ Future<void> setupLocator() async {
     () => AuthCubit(getIt<FirebaseAuth>(), getIt<AppUserRepository>()),
   );
 
+  getIt.registerLazySingleton<DateCubit>(
+    () => DateCubit(getIt<GrafikElementRepository>()),
+  );
+
   getIt.registerFactory<GrafikCubit>(
     () => GrafikCubit(
       getIt<GrafikElementRepository>(),
       getIt<VehicleRepository>(),
       getIt<EmployeeRepository>(),
+      getIt<DateCubit>(),
     ),
   );
 }

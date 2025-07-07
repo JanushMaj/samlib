@@ -11,8 +11,6 @@ class GrafikState {
   final Map<String, List<String>> taskTransferDisplayMapping;
   final List<Vehicle> vehicles;
   final List<Employee> employees;
-  final DateTime selectedDay;
-  final DateTime selectedDayInWeekView;
   final String? error;
 
   final WeekGrafikData weekData;
@@ -24,16 +22,11 @@ class GrafikState {
     required this.taskTransferDisplayMapping,
     required this.vehicles,
     required this.employees,
-    required this.selectedDay,
-    required this.selectedDayInWeekView,
     this.error,
     required this.weekData,
   });
 
   factory GrafikState.initial() {
-    final now = DateTime.now();
-    // Obliczamy poniedziałek bieżącego tygodnia
-    final monday = now.subtract(Duration(days: now.weekday - 1));
     return GrafikState(
       tasks: [],
       issues: [],
@@ -41,8 +34,6 @@ class GrafikState {
       taskTransferDisplayMapping: {},
       vehicles: [],
       employees: [],
-      selectedDay: now,
-      selectedDayInWeekView: monday,
       error: null,
       weekData: WeekGrafikData.initial(),
     );
@@ -55,8 +46,6 @@ class GrafikState {
     Map<String, List<String>>? taskTransferDisplayMapping,
     List<Vehicle>? vehicles,
     List<Employee>? employees,
-    DateTime? selectedDay,
-    DateTime? selectedDayInWeekView,
     String? error,
     WeekGrafikData? weekData,
   }) {
@@ -67,8 +56,6 @@ class GrafikState {
       taskTransferDisplayMapping: taskTransferDisplayMapping ?? this.taskTransferDisplayMapping,
       vehicles: vehicles ?? this.vehicles,
       employees: employees ?? this.employees,
-      selectedDay: selectedDay ?? this.selectedDay,
-      selectedDayInWeekView: selectedDayInWeekView ?? this.selectedDayInWeekView,
       error: error ?? this.error,
       weekData: weekData ?? this.weekData,
     );
