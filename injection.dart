@@ -19,7 +19,6 @@ import 'package:kabast/data/repositories/grafik_element_repository.dart';
 import 'package:kabast/data/services/grafik_element_firebase_service.dart';
 import 'package:kabast/domain/services/i_grafik_element_service.dart';
 import 'package:kabast/data/services/week_grafik_data_service.dart';
-import 'package:kabast/data/services/task_issue_mapping_service.dart';
 
 
 final getIt = GetIt.instance;
@@ -70,12 +69,6 @@ Future<void> setupLocator() async {
     ),
   );
 
-  getIt.registerLazySingleton<TaskIssueMappingService>(
-    () => TaskIssueMappingService(
-      getIt<GrafikElementRepository>(),
-      getIt<EmployeeRepository>(),
-    ),
-  );
   //CUBIT
   // Rejestracja AuthCUBIT jako factory – przekazujemy FirebaseAuth oraz AppUserRepository
   getIt.registerFactory<AuthCubit>(
