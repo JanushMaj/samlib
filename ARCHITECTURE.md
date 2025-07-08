@@ -71,10 +71,9 @@ The DTO converts back to domain objects with a `toDomain()` method.
 - Serialization is explicit through DTOs.
 
 ## Unused Components
-The repository registers some services that are not referenced elsewhere:
-- `WeekGrafikDataService`
+The repository registers a service that is not referenced elsewhere:
 - `TaskIssueMappingService`
-These could be removed or integrated in the future.
+This could be removed or integrated in the future.
 
 ## Missing Tests
 There are currently no unit or widget tests. Adding tests for Cubits and repository logic is a TODO.
