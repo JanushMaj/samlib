@@ -18,7 +18,6 @@ import 'package:kabast/feature/date/date_cubit.dart';
 import 'package:kabast/data/repositories/grafik_element_repository.dart';
 import 'package:kabast/data/services/grafik_element_firebase_service.dart';
 import 'package:kabast/domain/services/i_grafik_element_service.dart';
-import 'package:kabast/data/services/week_grafik_data_service.dart';
 import 'package:kabast/data/services/task_issue_mapping_service.dart';
 
 
@@ -61,13 +60,6 @@ Future<void> setupLocator() async {
   );
   getIt.registerLazySingleton<GrafikElementRepository>(
     () => GrafikElementRepository(getIt<IGrafikElementService>()),
-  );
-
-  getIt.registerLazySingleton<WeekGrafikDataService>(
-    () => WeekGrafikDataService(
-      getIt<GrafikElementRepository>(),
-      getIt<EmployeeRepository>(),
-    ),
   );
 
   getIt.registerLazySingleton<TaskIssueMappingService>(
