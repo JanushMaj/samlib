@@ -70,11 +70,6 @@ The DTO converts back to domain objects with a `toDomain()` method.
 - `DateCubit` resolves the next working day using `GrafikResolver` instead of relying on UI logic.
 - Serialization is explicit through DTOs.
 
-## Unused Components
-The repository registers some services that are not referenced elsewhere:
-- `WeekGrafikDataService`
-- `TaskIssueMappingService`
-These could be removed or integrated in the future.
 
 ## Missing Tests
 There are currently no unit or widget tests. Adding tests for Cubits and repository logic is a TODO.
