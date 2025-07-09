@@ -8,11 +8,14 @@ import 'package:kabast/data/services/auth_firebase_service.dart';
 import 'package:kabast/data/repositories/employee_repository.dart';
 import 'package:kabast/data/repositories/vehicle_repository.dart';
 import 'package:kabast/data/services/vehicle_watcher.dart';
+import 'package:kabast/data/services/grafik_resolver.dart';
 import 'package:kabast/data/services/employee_firebase_service.dart';
 import 'package:kabast/data/services/vehicle_firebase_service.dart';
 import 'package:kabast/domain/services/i_app_user_service.dart';
 import 'package:kabast/domain/services/i_employee_service.dart';
 import 'package:kabast/domain/services/i_vehicle_service.dart';
+import 'package:kabast/domain/services/i_vehicle_watcher_service.dart';
+import 'package:kabast/domain/services/i_grafik_resolver.dart';
 import 'package:kabast/domain/services/i_auth_service.dart';
 import 'package:kabast/feature/auth/auth_cubit.dart';
 import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
@@ -54,11 +57,14 @@ Future<void> setupLocator() async {
   getIt.registerLazySingleton<VehicleRepository>(
     () => VehicleRepository(getIt<IVehicleService>()),
   );
-  getIt.registerLazySingleton<VehicleWatcher>(
+  getIt.registerLazySingleton<IVehicleWatcherService>(
     () => VehicleWatcher(getIt<VehicleRepository>()),
   );
   getIt.registerLazySingleton<GrafikElementRepository>(
     () => GrafikElementRepository(getIt<IGrafikElementService>()),
+  );
+  getIt.registerLazySingleton<IGrafikResolver>(
+    () => GrafikResolver(getIt<GrafikElementRepository>()),
   );
 
   getIt.registerLazySingleton<IAuthService>(
@@ -74,13 +80,13 @@ Future<void> setupLocator() async {
   );
 
   getIt.registerLazySingleton<DateCubit>(
-    () => DateCubit(getIt<GrafikElementRepository>()),
+    () => DateCubit(getIt<IGrafikResolver>()),
   );
 
   getIt.registerFactory<GrafikCubit>(
     () => GrafikCubit(
       getIt<GrafikElementRepository>(),
-      getIt<VehicleWatcher>(),
+      getIt<IVehicleWatcherService>(),
       getIt<EmployeeRepository>(),
       getIt<DateCubit>(),
     ),

@@ -1,12 +1,14 @@
-import 'package:kabast/data/repositories/grafik_element_repository.dart';
+import '../repositories/grafik_element_repository.dart';
+import '../../domain/services/i_grafik_resolver.dart';
 
-class GrafikResolver {
+class GrafikResolver implements IGrafikResolver {
   final GrafikElementRepository _repo;
 
   GrafikResolver(this._repo);
 
   /// Szuka najbliższego dnia z jakimkolwiek zadaniem (TaskElement/TimeIssueElement),
   /// zaczynając od `from` (inclusive).
+  @override
   Future<DateTime> nextDayWithGrafik(DateTime from) async {
     DateTime current = DateTime(from.year, from.month, from.day);
 
