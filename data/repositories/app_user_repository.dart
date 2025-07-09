@@ -13,4 +13,8 @@ class AppUserRepository {
   Stream<AppUser?> getUserStream(String uid) {
     return _service.getAppUserStream(uid);
   }
+
+  Future<AppUser?> getUser(String uid) {
+    return _service.getAppUser(uid);
+  }
 }
