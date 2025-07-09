@@ -4,7 +4,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
 import '../../../data/repositories/employee_repository.dart';
 import '../../../data/repositories/grafik_element_repository.dart';
-import '../../../data/services/vehicle_watcher.dart';
+import '../../../domain/services/i_vehicle_watcher_service.dart';
 import '../../date/date_cubit.dart';
 import '../../../domain/models/employee.dart';
 import '../../../domain/models/grafik/grafik_element.dart';
@@ -23,7 +23,7 @@ extension DateOnlyCompare on DateTime {
 
 class GrafikCubit extends Cubit<GrafikState> {
   final GrafikElementRepository _grafikRepo;
-  final VehicleWatcher _vehicleWatcher;
+  final IVehicleWatcherService _vehicleWatcher;
   final EmployeeRepository _employeeRepo;
   final DateCubit _dateCubit;
 

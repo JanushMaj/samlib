@@ -1,18 +1,15 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import '../../data/grafik_resolver.dart';
-import '../../data/repositories/grafik_element_repository.dart';
+import '../../domain/services/i_grafik_resolver.dart';
 
 import 'date_state.dart';
 
 class DateCubit extends Cubit<DateState> {
-  final GrafikElementRepository _grafikRepo;
-  late final GrafikResolver _grafikResolver;
+  final IGrafikResolver _grafikResolver;
   Timer? tickTimer;
 
-  DateCubit(this._grafikRepo) : super(DateState.initial()) {
-    _grafikResolver = GrafikResolver(_grafikRepo);
+  DateCubit(this._grafikResolver) : super(DateState.initial()) {
     _resolveInitialDayAndLoad();
     _scheduleUpdateAtGrafikChangeTime();
   }
