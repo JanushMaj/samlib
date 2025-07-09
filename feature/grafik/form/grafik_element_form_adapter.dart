@@ -1,6 +1,6 @@
-import '../dto/grafik/grafik_element_dto.dart';
-import '../../feature/grafik/form/grafik_element_registry.dart';
-import '../../domain/models/grafik/grafik_element.dart';
+import '../../../data/dto/grafik/grafik_element_dto.dart';
+import 'grafik_element_registry.dart';
+import '../../../domain/models/grafik/grafik_element.dart';
 
 class GrafikElementFormAdapter {
   GrafikElement toDomainFromDto(GrafikElementDto dto) => dto.toDomain();
