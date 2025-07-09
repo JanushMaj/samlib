@@ -65,13 +65,13 @@ class WeekGrafikView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //  ←  5‑dniowy grafik
-                const Expanded(child: GrafikPlanningStack()),
+                const Expanded(flex: 3, child: GrafikPlanningStack()),
 
                 const SizedBox(width: 12),
 
-                //  →  „Wisi‑grozi”  – 200 px
-                SizedBox(
-                  width: 200,
+                // -> Wisi-grozi column
+                Flexible(
+                  flex: 1,
                   child: PendingTasksColumn(),
                 ),
               ],

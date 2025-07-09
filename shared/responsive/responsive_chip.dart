@@ -23,7 +23,10 @@ class ResponsiveChip extends StatelessWidget {
             label,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: textColor, fontSize: 22),
+            style: Theme.of(context)
+                .textTheme
+                .bodySmall
+                ?.copyWith(color: textColor),
           ),
         ),
       padding: EdgeInsets.symmetric(horizontal: 2, vertical: 1),
