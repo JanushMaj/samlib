@@ -2,11 +2,13 @@ import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
 import 'package:kabast/domain/models/vehicle.dart';
 import 'package:kabast/domain/models/employee.dart';
+import 'package:kabast/domain/models/grafik/assignment.dart';
 import 'states/week_grafik_data.dart';
 
 class GrafikState {
   final List<TaskElement> tasks;
   final List<TimeIssueElement> issues;
+  final List<Assignment> assignments;
   final Map<String, List<String>> taskTimeIssueDisplayMapping;
   final Map<String, List<String>> taskTransferDisplayMapping;
   final List<Vehicle> vehicles;
@@ -20,6 +22,7 @@ class GrafikState {
     required this.issues,
     required this.taskTimeIssueDisplayMapping,
     required this.taskTransferDisplayMapping,
+    required this.assignments,
     required this.vehicles,
     required this.employees,
     this.error,
@@ -32,6 +35,7 @@ class GrafikState {
       issues: [],
       taskTimeIssueDisplayMapping: {},
       taskTransferDisplayMapping: {},
+      assignments: [],
       vehicles: [],
       employees: [],
       error: null,
@@ -44,6 +48,7 @@ class GrafikState {
     List<TimeIssueElement>? issues,
     Map<String, List<String>>? taskTimeIssueDisplayMapping,
     Map<String, List<String>>? taskTransferDisplayMapping,
+    List<Assignment>? assignments,
     List<Vehicle>? vehicles,
     List<Employee>? employees,
     String? error,
@@ -54,6 +59,7 @@ class GrafikState {
       issues: issues ?? this.issues,
       taskTimeIssueDisplayMapping: taskTimeIssueDisplayMapping ?? this.taskTimeIssueDisplayMapping,
       taskTransferDisplayMapping: taskTransferDisplayMapping ?? this.taskTransferDisplayMapping,
+      assignments: assignments ?? this.assignments,
       vehicles: vehicles ?? this.vehicles,
       employees: employees ?? this.employees,
       error: error ?? this.error,

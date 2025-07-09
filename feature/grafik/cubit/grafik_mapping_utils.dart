@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:kabast/domain/models/employee.dart';
+import 'package:kabast/domain/models/grafik/assignment.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
 
@@ -52,42 +53,43 @@ Map<String, List<String>> calculateTaskTimeIssueDisplayMapping({
 }
 
 
-/// NOWA METODA – calculateTaskTransferDisplayMapping (tylko na TaskElementach)
-/// Dla każdego pracownika szukamy wszystkich tasków, w których jest przypisany.
-/// Jeśli dla danego pracownika kolejny task zaczyna się, zanim poprzedni się skończy,
-/// dodajemy komunikat transferowy do wcześniejszego taska.
-/// Format komunikatu: "Przeniesienie <surname> na <ID Taska docelowego> o godzinie XX:XX"
+/// Generuje komunikaty transferów na podstawie przypisań pracowników.
+/// Każdy transfer opisuje moment przejścia pracownika z jednego zadania do kolejnego.
 Map<String, List<String>> calculateTaskTransferDisplayMapping({
   required List<TaskElement> tasks,
   required List<Employee> employees,
+  required List<Assignment> assignments,
 }) {
   final mapping = <String, List<String>>{};
+  final tasksById = {for (final t in tasks) t.id: t};
 
-  // Dla każdego pracownika sprawdzamy, w jakich taskach jest obecny
-  for (var employee in employees) {
-    // Filtrujemy taski, w których pracownik jest przypisany
-    final workerTasks = tasks.where((task) => task.workerIds.contains(employee.uid)).toList();
-    if (workerTasks.isEmpty) continue;
-    // Sortujemy taski wg. czasu rozpoczęcia
-    workerTasks.sort((a, b) => a.startDateTime.compareTo(b.startDateTime));
+  final assignmentsByWorker = <String, List<Assignment>>{};
+  for (final a in assignments) {
+    assignmentsByWorker.putIfAbsent(a.workerId, () => []).add(a);
+  }
 
-    // Dla kolejnych tasków (w obrębie tego samego pracownika) sprawdzamy, czy występuje pokrycie czasu
-    for (int i = 0; i < workerTasks.length - 1; i++) {
-      final earlierTask = workerTasks[i];
-      final laterTask = workerTasks[i + 1];
+  assignmentsByWorker.forEach((workerId, workerAssignments) {
+    workerAssignments.sort((a, b) => a.startDateTime.compareTo(b.startDateTime));
 
-      // Jeśli wcześniejszy task nie zakończył się przed rozpoczęciem kolejnego – pokrycie występuje
-      if (earlierTask.endDateTime.isAfter(laterTask.startDateTime)) {
-        final surname = employee.fullName.split(' ').first;
-        final message = "Przeniesienie $surname na ${laterTask.orderId}";
-        // Dodajemy komunikat do wcześniejszego taska – jeśli już jakieś istnieją, dołączamy, inaczej tworzymy nową listę
-        if (mapping.containsKey(earlierTask.id)) {
-          mapping[earlierTask.id]!.add(message);
-        } else {
-          mapping[earlierTask.id] = [message];
-        }
+    for (var i = 0; i < workerAssignments.length - 1; i++) {
+      final current = workerAssignments[i];
+      final next = workerAssignments[i + 1];
+      if (current.taskId == next.taskId) continue;
+
+      try {
+        final employee = employees.firstWhere((e) => e.uid == workerId);
+        final toTask = tasksById[next.taskId];
+        if (toTask == null) continue;
+        final time = next.startDateTime;
+        final timeStr =
+            "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}";
+        final message =
+            "Przeniesienie ${employee.surname} na ${toTask.orderId} o $timeStr";
+        mapping.putIfAbsent(current.taskId, () => []).add(message);
+      } catch (_) {
+        continue;
       }
     }
-  }
-  return mapping;
-}
+  });
+
+  return mapping;}

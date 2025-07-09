@@ -23,6 +23,9 @@ import 'package:kabast/feature/date/date_cubit.dart';
 import 'package:kabast/data/repositories/grafik_element_repository.dart';
 import 'package:kabast/data/services/grafik_element_firebase_service.dart';
 import 'package:kabast/domain/services/i_grafik_element_service.dart';
+import 'package:kabast/data/repositories/assignment_repository.dart';
+import 'package:kabast/data/services/assignment_firebase_service.dart';
+import 'package:kabast/domain/services/i_assignment_service.dart';
 final getIt = GetIt.instance;
 
 Future<void> setupLocator() async {
@@ -63,6 +66,12 @@ Future<void> setupLocator() async {
   getIt.registerLazySingleton<GrafikElementRepository>(
     () => GrafikElementRepository(getIt<IGrafikElementService>()),
   );
+  getIt.registerLazySingleton<IAssignmentService>(
+    () => AssignmentFirebaseService(getIt<FirebaseFirestore>()),
+  );
+  getIt.registerLazySingleton<AssignmentRepository>(
+    () => AssignmentRepository(getIt<IAssignmentService>()),
+  );
   getIt.registerLazySingleton<IGrafikResolver>(
     () => GrafikResolver(getIt<GrafikElementRepository>()),
   );
@@ -88,6 +97,7 @@ Future<void> setupLocator() async {
       getIt<GrafikElementRepository>(),
       getIt<IVehicleWatcherService>(),
       getIt<EmployeeRepository>(),
+      getIt<AssignmentRepository>(),
       getIt<DateCubit>(),
     ),
   );
