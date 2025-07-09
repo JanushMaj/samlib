@@ -33,7 +33,8 @@ class DateInputSelector extends StatelessWidget {
 
     if (isTaskPlanning ||
         (element is TimeIssueElement &&
-            element.issueType == TimeIssueType.Nieobecnosc)) {
+            (element as TimeIssueElement).issueType ==
+                TimeIssueType.Nieobecnosc)) {
       return DateRangePickerButton(
         initialRange: DateTimeRange(
           start: element.startDateTime,
