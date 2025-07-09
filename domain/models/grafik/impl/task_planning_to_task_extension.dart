@@ -24,6 +24,7 @@ extension ToTaskElement on TaskPlanningElement {
       status: GrafikStatus.Realizacja,
       taskType: taskType,
       carIds: const [],
+      assignments: const [],
       addedByUserId: addedByUserId,
       addedTimestamp: DateTime.now(),
       closed: false,
