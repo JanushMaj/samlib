@@ -1,6 +1,7 @@
 import '../../domain/models/grafik/enums.dart';
 import '../../domain/models/grafik/grafik_element.dart';
 import '../../domain/services/i_grafik_element_service.dart';
+import '../dto/grafik/grafik_element_dto.dart';
 
 class GrafikElementRepository {
   final IGrafikElementService _service;
@@ -20,6 +21,18 @@ class GrafikElementRepository {
   }
 
   String generateNewTaskId() => _service.generateNewTaskId();
+
+  // ────────────── DTO/JSON helpers ──────────────
+  GrafikElement fromDto(GrafikElementDto dto) => dto.toDomain();
+
+  GrafikElementDto toDto(GrafikElement element) =>
+      GrafikElementDto.fromDomain(element);
+
+  GrafikElement fromJson(Map<String, dynamic> json) =>
+      GrafikElementDto.fromJson(json).toDomain();
+
+  Map<String, dynamic> toJson(GrafikElement element) =>
+      GrafikElementDto.fromDomain(element).toJson();
 
   // ───────── pozostałe metody bez zmian ─────────
 

@@ -1,25 +1,26 @@
-import '../../../data/dto/grafik/grafik_element_dto.dart';
 import 'grafik_element_registry.dart';
 import '../../../domain/models/grafik/grafik_element.dart';
+import '../../../data/repositories/grafik_element_repository.dart';
+import '../../../injection.dart';
 
 class GrafikElementFormAdapter {
-  GrafikElement toDomainFromDto(GrafikElementDto dto) => dto.toDomain();
+  final GrafikElementRepository _repo;
 
-  GrafikElementDto toDtoFromDomain(GrafikElement element) =>
-      GrafikElementDto.fromDomain(element);
+  GrafikElementFormAdapter({GrafikElementRepository? repo})
+      : _repo = repo ?? getIt<GrafikElementRepository>();
 
   GrafikElement changeType(GrafikElement oldElement, String newType) {
     final newElement =
         GrafikElementRegistry.createDefaultElementForType(newType);
-    final newJson = GrafikElementDto.fromDomain(newElement).toJson();
-    final oldJson = GrafikElementDto.fromDomain(oldElement).toJson();
+    final newJson = _repo.toJson(newElement);
+    final oldJson = _repo.toJson(oldElement);
 
     newJson['id'] = oldJson['id'];
     newJson['startDateTime'] = oldJson['startDateTime'];
     newJson['endDateTime'] = oldJson['endDateTime'];
     newJson['additionalInfo'] = oldJson['additionalInfo'];
 
-    return GrafikElementDto.fromJson(newJson).toDomain();
+    return _repo.fromJson(newJson);
   }
 
   GrafikElement updateField(
@@ -27,7 +28,7 @@ class GrafikElementFormAdapter {
     String field,
     dynamic value,
   ) {
-    final map = GrafikElementDto.fromDomain(element).toJson();
+    final map = _repo.toJson(element);
     if (field == 'startDateTime' || field == 'endDateTime') {
       if (value is DateTime) {
         map[field] = value;
@@ -36,18 +37,18 @@ class GrafikElementFormAdapter {
       map[field] = value;
     }
 
-    return GrafikElementDto.fromJson(map).toDomain();
+    return _repo.fromJson(map);
   }
 
   GrafikElement copyWithOverrides(
     GrafikElement element,
     Map<String, dynamic> overrides,
   ) {
-    final map = GrafikElementDto.fromDomain(element).toJson();
+    final map = _repo.toJson(element);
     overrides.forEach((key, val) {
       map[key] = val;
     });
-    return GrafikElementDto.fromJson(map).toDomain();
+    return _repo.fromJson(map);
   }
 
   GrafikElement fillMeta(GrafikElement element, String userId) {
@@ -56,10 +57,10 @@ class GrafikElementFormAdapter {
 
     if (!needUser && !needTs) return element;
 
-    final json = GrafikElementDto.fromDomain(element).toJson();
+    final json = _repo.toJson(element);
     if (needUser) json['addedByUserId'] = userId;
     if (needTs) json['addedTimestamp'] = DateTime.now();
 
-    return GrafikElementDto.fromJson(json).toDomain();
+    return _repo.fromJson(json);
   }
 }

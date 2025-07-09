@@ -1,12 +1,14 @@
 import '../grafik_element_form_adapter.dart';
 import '../../../../data/repositories/grafik_element_repository.dart';
+import '../../../../injection.dart';
 import '../../../../domain/models/grafik/enums.dart';
 import '../../../../domain/models/grafik/grafik_element.dart';
 import '../../../../domain/models/grafik/impl/time_issue_element.dart';
 import 'grafik_element_form_strategy.dart';
 
 class TimeIssueElementStrategy implements GrafikElementFormStrategy {
-  final GrafikElementFormAdapter _adapter = GrafikElementFormAdapter();
+  final GrafikElementFormAdapter _adapter =
+      GrafikElementFormAdapter(repo: getIt<GrafikElementRepository>());
 
   @override
   GrafikElement createDefault() {
