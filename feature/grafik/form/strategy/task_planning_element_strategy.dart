@@ -4,6 +4,7 @@ import '../../../../injection.dart';
 import '../../../../domain/models/grafik/enums.dart';
 import '../../../../domain/models/grafik/grafik_element.dart';
 import '../../../../domain/models/grafik/impl/task_planning_element.dart';
+import '../../../../domain/models/grafik/impl/task_template.dart';
 import 'grafik_element_form_strategy.dart';
 
 class TaskPlanningElementStrategy implements GrafikElementFormStrategy {
@@ -39,14 +40,9 @@ class TaskPlanningElementStrategy implements GrafikElementFormStrategy {
   }
 
   @override
-  GrafikElement applyTemplate(GrafikElement element, GrafikElement template) {
-    if (template is! TaskPlanningElement) return element;
-    final overrides = getIt<GrafikElementRepository>().toJson(template)
-      ..remove('id');
-    return _adapter.copyWithOverrides(
-      element.type == template.type ? element : _adapter.changeType(element, template.type),
-      overrides,
-    );
+  GrafikElement applyTemplate(GrafikElement element, TaskTemplate template) {
+    final overrides = GrafikElementRepository.toJson(template)..remove('id');
+    return _adapter.copyWithOverrides(element, overrides);
   }
 
   @override
