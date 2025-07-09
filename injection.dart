@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kabast/data/repositories/app_user_repository.dart';
 import 'package:kabast/data/services/app_user_firebase_service.dart';
+import 'package:kabast/data/services/auth_firebase_service.dart';
 
 import 'package:kabast/data/repositories/employee_repository.dart';
 import 'package:kabast/data/repositories/vehicle_repository.dart';
@@ -12,6 +13,7 @@ import 'package:kabast/data/services/vehicle_firebase_service.dart';
 import 'package:kabast/domain/services/i_app_user_service.dart';
 import 'package:kabast/domain/services/i_employee_service.dart';
 import 'package:kabast/domain/services/i_vehicle_service.dart';
+import 'package:kabast/domain/services/i_auth_service.dart';
 import 'package:kabast/feature/auth/auth_cubit.dart';
 import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
 import 'package:kabast/feature/date/date_cubit.dart';
@@ -59,10 +61,16 @@ Future<void> setupLocator() async {
     () => GrafikElementRepository(getIt<IGrafikElementService>()),
   );
 
+  getIt.registerLazySingleton<IAuthService>(
+    () => AuthFirebaseService(
+      getIt<FirebaseAuth>(),
+      getIt<AppUserRepository>(),
+    ),
+  );
+
   //CUBIT
-  // Rejestracja AuthCUBIT jako factory – przekazujemy FirebaseAuth oraz AppUserRepository
   getIt.registerFactory<AuthCubit>(
-    () => AuthCubit(getIt<FirebaseAuth>(), getIt<AppUserRepository>()),
+    () => AuthCubit(getIt<IAuthService>()),
   );
 
   getIt.registerLazySingleton<DateCubit>(
