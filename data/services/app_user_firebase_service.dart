@@ -10,7 +10,17 @@ class AppUserFirebaseService implements IAppUserService {
 
   Future<void> upsertAppUser(AppUser user) async {
     final dto = AppUserDto.fromDomain(user);
-    await _firestore.collection('users').doc(user.id).set(dto.toJson());
+    await _firestore
+        .collection('users')
+        .doc(user.id)
+        .set(dto.toJson(), SetOptions(merge: true));
+  }
+
+  @override
+  Future<AppUser?> getAppUser(String uid) async {
+    final doc = await _firestore.collection('users').doc(uid).get();
+    if (!doc.exists) return null;
+    return AppUserDto.fromFirestore(doc).toDomain();
   }
 
   Stream<AppUser?> getAppUserStream(String uid) {

@@ -16,7 +16,7 @@ class AuthFirebaseService implements IAuthService {
         yield null;
         return;
       }
-      final existing = await _userRepository.getUserStream(user.uid).first;
+      final existing = await _userRepository.getUser(user.uid);
       if (existing == null) {
         final newUser = AppUser.defaultUser(
           id: user.uid,
