@@ -11,7 +11,7 @@ import '../../../shared/form/enum_picker/enum_picker.dart';
 import '../../employee/employee_picker.dart';
 import '../../vehicle/widget/vehicle_picker.dart';
 import '../cubit/form/grafik_element_form_cubit.dart';
-import '../../../../data/repositories/employee_repository.dart';
+import '../../../domain/services/i_employee_service.dart';
 import '../../../../data/repositories/vehicle_repository.dart';
 
 class TaskFields extends StatelessWidget {
@@ -63,7 +63,7 @@ class TaskFields extends StatelessWidget {
         const SizedBox(height: AppSpacing.sm * 2),
 
         EmployeePicker(
-          employeeStream: GetIt.I<EmployeeRepository>().getEmployees(),
+          employeeStream: GetIt.I<IEmployeeService>().getEmployeesStream(),
           initialSelectedIds: element.workerIds,
           onSelectionChanged: (selectedEmployees) {
             final ids = selectedEmployees.map((e) => e.uid).toList();

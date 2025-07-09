@@ -1,5 +1,5 @@
 import '../grafik_element_form_adapter.dart';
-import '../../../../data/repositories/grafik_element_repository.dart';
+import '../../../../domain/services/i_grafik_element_service.dart';
 import '../../../../domain/models/grafik/enums.dart';
 import '../../../../domain/models/grafik/grafik_element.dart';
 import '../../../../domain/models/grafik/impl/task_element.dart';
@@ -56,13 +56,13 @@ class TaskElementStrategy implements GrafikElementFormStrategy {
   }
 
   @override
-  Future<void> save(GrafikElementRepository repo, GrafikElement element) async {
+  Future<void> save(IGrafikElementService service, GrafikElement element) async {
     if (element is! TaskElement) return;
     var task = element;
     if (task.id.isEmpty) {
-      final newId = repo.generateNewTaskId();
+      final newId = service.generateNewTaskId();
       task = task.copyWithId(newId);
     }
-    await repo.saveGrafikElement(task);
+    await service.upsertGrafikElement(task);
   }
 }

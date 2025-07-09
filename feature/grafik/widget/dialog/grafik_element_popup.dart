@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import 'package:kabast/data/repositories/grafik_element_repository.dart';
+import 'package:kabast/domain/services/i_grafik_element_service.dart';
 import 'package:kabast/data/repositories/app_user_repository.dart';
 import 'package:kabast/domain/models/grafik/grafik_element.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
@@ -49,7 +49,7 @@ class _GrafikElementPopupState extends State<GrafikElementPopup> {
   GrafikStatus? _status;
   GrafikElement get _element => widget.element;
 
-  final _repo = getIt<GrafikElementRepository>();
+  final _repo = getIt<IGrafikElementService>();
   final _userRepo = getIt<AppUserRepository>();
   String? _userFullName;
 
@@ -156,7 +156,7 @@ class _GrafikElementPopupState extends State<GrafikElementPopup> {
               permission: 'canEditGrafik',
               child: TextButton(
                 onPressed: () {
-                  getIt<GrafikElementRepository>().deleteGrafikElement(_element.id);
+                  getIt<IGrafikElementService>().deleteGrafikElement(_element.id);
                   Navigator.of(context).pop();
                 },
                 child: const Text('Usuń'),

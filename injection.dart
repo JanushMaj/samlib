@@ -79,9 +79,9 @@ Future<void> setupLocator() async {
 
   getIt.registerFactory<GrafikCubit>(
     () => GrafikCubit(
-      getIt<GrafikElementRepository>(),
+      getIt<IGrafikElementService>(),
       getIt<VehicleWatcher>(),
-      getIt<EmployeeRepository>(),
+      getIt<IEmployeeService>(),
       getIt<DateCubit>(),
     ),
   );

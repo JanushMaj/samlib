@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kabast/theme/app_tokens.dart';
 
-import '../../../data/repositories/employee_repository.dart';
+import '../../../domain/services/i_employee_service.dart';
 import '../../../domain/models/grafik/enums.dart';
 import '../../../domain/models/grafik/impl/task_planning_element.dart';
 import '../../../shared/form/bool_picker/bool_toggle_field.dart';
@@ -41,7 +41,7 @@ class GrafikPlanningFields extends StatelessWidget {
         const SizedBox(height: AppSpacing.sm * 2),
 
         EmployeePicker(
-          employeeStream: GetIt.I<EmployeeRepository>().getEmployees(),
+          employeeStream: GetIt.I<IEmployeeService>().getEmployeesStream(),
           initialSelectedIds: element.workerIds,
           onSelectionChanged: (selectedEmployees) {
             final ids = selectedEmployees.map((e) => e.uid).toList();

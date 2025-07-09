@@ -1,4 +1,4 @@
-import '../../../../data/repositories/grafik_element_repository.dart';
+import '../../../../domain/services/i_grafik_element_service.dart';
 import '../../../../domain/models/grafik/grafik_element.dart';
 import '../../../../domain/models/grafik/impl/task_template.dart';
 
@@ -19,7 +19,7 @@ abstract class GrafikElementFormStrategy {
   }
 
   Future<void> save(
-    GrafikElementRepository repo,
+    IGrafikElementService service,
     GrafikElement element,
   );
 }

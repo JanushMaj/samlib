@@ -1,7 +1,7 @@
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../data/repositories/grafik_element_repository.dart';
+import '../../../../domain/services/i_grafik_element_service.dart';
 import '../../../../domain/models/grafik/grafik_element.dart';
 import '../../form/grafik_element_registry.dart';
 import '../../../../domain/models/grafik/impl/task_template.dart';
@@ -10,7 +10,7 @@ import 'grafik_element_form_state.dart';
 
 // ───────── CUBIT ─────────
 class GrafikElementFormCubit extends Cubit<GrafikElementFormState> {
-  final GrafikElementRepository grafikService;
+  final IGrafikElementService grafikService;
   late GrafikElementFormStrategy _strategy;
 
   GrafikElementFormCubit({

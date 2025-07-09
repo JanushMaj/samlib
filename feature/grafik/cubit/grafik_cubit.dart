@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
-import '../../../data/repositories/employee_repository.dart';
-import '../../../data/repositories/grafik_element_repository.dart';
+import '../../../domain/services/i_employee_service.dart';
+import '../../../domain/services/i_grafik_element_service.dart';
 import '../../../data/services/vehicle_watcher.dart';
 import '../../date/date_cubit.dart';
 import '../../../domain/models/employee.dart';
@@ -22,9 +22,9 @@ extension DateOnlyCompare on DateTime {
 }
 
 class GrafikCubit extends Cubit<GrafikState> {
-  final GrafikElementRepository _grafikRepo;
+  final IGrafikElementService _grafikService;
   final VehicleWatcher _vehicleWatcher;
-  final EmployeeRepository _employeeRepo;
+  final IEmployeeService _employeeService;
   final DateCubit _dateCubit;
 
   late StreamSubscription<Map<String, dynamic>> _mappingSub;
@@ -33,9 +33,9 @@ class GrafikCubit extends Cubit<GrafikState> {
   late final StreamSubscription<DateState> _dateSub;
 
   GrafikCubit(
-      this._grafikRepo,
+      this._grafikService,
       this._vehicleWatcher,
-      this._employeeRepo,
+      this._employeeService,
       this._dateCubit,
       ) : super(GrafikState.initial()) {
     _subscribeVehicles();
@@ -72,12 +72,12 @@ class GrafikCubit extends Cubit<GrafikState> {
     final end = DateTime(day.year, day.month, day.day, 23, 59, 59, 999);
 
     _mappingSub = Rx.combineLatest2<List<GrafikElement>, List<Employee>, Map<String, dynamic>>(
-      _grafikRepo.getElementsWithinRange(
+      _grafikService.getGrafikElementsWithinRangeIncludingPending(
         start: start,
         end: end,
         types: ['TaskElement', 'TimeIssueElement'],
       ),
-      _employeeRepo.getEmployees(),
+      _employeeService.getEmployeesStream(),
           (elements, employees) {
         final tasks = elements.whereType<TaskElement>().toList();
         final issues = elements.whereType<TimeIssueElement>().toList();
@@ -117,7 +117,7 @@ class GrafikCubit extends Cubit<GrafikState> {
   void _loadWeek(DateTime monday) {
     final friday = monday.add(const Duration(days: 4, hours: 23, minutes: 59, seconds: 59, milliseconds: 999));
 
-    final grafikStream = _grafikRepo.getElementsWithinRange(
+    final grafikStream = _grafikService.getGrafikElementsWithinRangeIncludingPending(
       start: monday,
       end: friday,
       types: [
@@ -128,7 +128,7 @@ class GrafikCubit extends Cubit<GrafikState> {
       ],
     );
 
-    final employeeStream = _employeeRepo.getEmployees();
+    final employeeStream = _employeeService.getEmployeesStream();
 
     _weekDataSub = Rx.combineLatest2<List<GrafikElement>, List<Employee>, Map<String, dynamic>>(
       grafikStream,

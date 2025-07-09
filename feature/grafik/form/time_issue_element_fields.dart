@@ -8,7 +8,7 @@ import '../../../domain/models/grafik/impl/time_issue_element.dart';
 import '../../../shared/form/enum_picker/enum_picker.dart';
 import '../../employee/employee_picker.dart';
 import '../cubit/form/grafik_element_form_cubit.dart';
-import '../../../../data/repositories/employee_repository.dart';
+import '../../../domain/services/i_employee_service.dart';
 
 class TimeIssueFields extends StatelessWidget {
   final TimeIssueElement element;
@@ -32,7 +32,7 @@ class TimeIssueFields extends StatelessWidget {
 
         EmployeePicker(
           singleSelection: true,
-          employeeStream: GetIt.I<EmployeeRepository>().getEmployees(),
+          employeeStream: GetIt.I<IEmployeeService>().getEmployeesStream(),
           initialSelectedIds: [element.workerId],
           onSelectionChanged: (selectedEmployees) {
             if (selectedEmployees.isNotEmpty) {
