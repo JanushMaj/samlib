@@ -23,6 +23,9 @@ import 'package:kabast/feature/date/date_cubit.dart';
 import 'package:kabast/data/repositories/grafik_element_repository.dart';
 import 'package:kabast/data/services/grafik_element_firebase_service.dart';
 import 'package:kabast/domain/services/i_grafik_element_service.dart';
+import 'package:kabast/data/services/task_assignment_firebase_service.dart';
+import 'package:kabast/data/repositories/task_assignment_repository.dart';
+import 'package:kabast/domain/services/i_task_assignment_service.dart';
 final getIt = GetIt.instance;
 
 Future<void> setupLocator() async {
@@ -46,6 +49,9 @@ Future<void> setupLocator() async {
   getIt.registerLazySingleton<IGrafikElementService>(
     () => GrafikElementFirebaseService(getIt<FirebaseFirestore>()),
   );
+  getIt.registerLazySingleton<ITaskAssignmentService>(
+    () => TaskAssignmentFirebaseService(getIt<FirebaseFirestore>()),
+  );
 
   // Repozytoria
   getIt.registerLazySingleton<AppUserRepository>(
@@ -62,6 +68,9 @@ Future<void> setupLocator() async {
   );
   getIt.registerLazySingleton<GrafikElementRepository>(
     () => GrafikElementRepository(getIt<IGrafikElementService>()),
+  );
+  getIt.registerLazySingleton<TaskAssignmentRepository>(
+    () => TaskAssignmentRepository(getIt<ITaskAssignmentService>()),
   );
   getIt.registerLazySingleton<IGrafikResolver>(
     () => GrafikResolver(getIt<GrafikElementRepository>()),
