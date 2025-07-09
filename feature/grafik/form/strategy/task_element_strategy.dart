@@ -4,7 +4,6 @@ import '../../../../injection.dart';
 import '../../../../domain/models/grafik/enums.dart';
 import '../../../../domain/models/grafik/grafik_element.dart';
 import '../../../../domain/models/grafik/impl/task_element.dart';
-import '../../../../domain/models/grafik/impl/task_template.dart';
 import 'grafik_element_form_strategy.dart';
 
 class TaskElementStrategy implements GrafikElementFormStrategy {
@@ -38,23 +37,14 @@ class TaskElementStrategy implements GrafikElementFormStrategy {
   }
 
   @override
-  GrafikElement applyTemplate(GrafikElement element, TaskTemplate tpl) {
+  GrafikElement applyTemplate(GrafikElement element, GrafikElement template) {
+    if (template is! TaskElement) return element;
     TaskElement task = element is TaskElement
         ? element
         : createDefault() as TaskElement;
-    final day = task.startDateTime;
-    final newStart = DateTime(day.year, day.month, day.day, tpl.startHour);
-    final newEnd = DateTime(day.year, day.month, day.day, tpl.endHour);
-    return task.copyWith(
-      startDateTime: newStart,
-      endDateTime: newEnd,
-      taskType: tpl.taskType,
-      status: tpl.status,
-      orderId: tpl.orderId,
-      workerIds: tpl.workerIds,
-      carIds: tpl.carIds,
-      additionalInfo: tpl.additionalInfo,
-    );
+    final overrides = getIt<GrafikElementRepository>().toJson(template)
+      ..remove('id');
+    return _adapter.copyWithOverrides(task, overrides);
   }
 
   @override

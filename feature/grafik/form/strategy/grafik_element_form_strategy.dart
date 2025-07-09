@@ -1,6 +1,5 @@
 import '../../../../data/repositories/grafik_element_repository.dart';
 import '../../../../domain/models/grafik/grafik_element.dart';
-import '../../../../domain/models/grafik/impl/task_template.dart';
 
 abstract class GrafikElementFormStrategy {
   GrafikElement createDefault();
@@ -13,10 +12,8 @@ abstract class GrafikElementFormStrategy {
 
   GrafikElement applyTemplate(
     GrafikElement element,
-    TaskTemplate template,
-  ) {
-    return element;
-  }
+    GrafikElement template,
+  );
 
   Future<void> save(
     GrafikElementRepository repo,
