@@ -20,6 +20,19 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await setupLocator();
+  // Example usage of the work time report
+  final exampleCubit = GetIt.instance<GrafikCubit>();
+  final now = DateTime.now();
+  exampleCubit
+      .getTotalWorkTimeForEmployee(
+        workerId: 'demo-worker',
+        start: now.subtract(const Duration(days: 7)),
+        end: now,
+      )
+      .then((duration) {
+        print('Demo worker time last week: ${duration.inHours}h');
+        exampleCubit.close();
+      });
   runApp(const MyApp());
 }
 

@@ -4,6 +4,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
 import '../../../data/repositories/employee_repository.dart';
 import '../../../data/repositories/grafik_element_repository.dart';
+import '../../../data/repositories/assignment_repository.dart';
 import '../../../domain/services/i_vehicle_watcher_service.dart';
 import '../../date/date_cubit.dart';
 import '../../../domain/models/employee.dart';
@@ -25,6 +26,7 @@ class GrafikCubit extends Cubit<GrafikState> {
   final GrafikElementRepository _grafikRepo;
   final IVehicleWatcherService _vehicleWatcher;
   final EmployeeRepository _employeeRepo;
+  final AssignmentRepository _assignmentRepo;
   final DateCubit _dateCubit;
 
   late StreamSubscription<Map<String, dynamic>> _mappingSub;
@@ -36,6 +38,7 @@ class GrafikCubit extends Cubit<GrafikState> {
       this._grafikRepo,
       this._vehicleWatcher,
       this._employeeRepo,
+      this._assignmentRepo,
       this._dateCubit,
       ) : super(GrafikState.initial()) {
     _subscribeVehicles();
@@ -162,6 +165,18 @@ class GrafikCubit extends Cubit<GrafikState> {
     }, onError: (e) {
       emit(state.copyWith(error: e.toString()));
     });
+  }
+
+  Future<Duration> getTotalWorkTimeForEmployee({
+    required String workerId,
+    required DateTime start,
+    required DateTime end,
+  }) {
+    return _assignmentRepo.getTotalWorkTime(
+      workerId: workerId,
+      start: start,
+      end: end,
+    );
   }
 
   @override
