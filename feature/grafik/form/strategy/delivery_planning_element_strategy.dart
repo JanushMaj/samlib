@@ -34,6 +34,17 @@ class DeliveryPlanningElementStrategy implements GrafikElementFormStrategy {
   }
 
   @override
+  GrafikElement applyTemplate(GrafikElement element, GrafikElement template) {
+    if (template is! DeliveryPlanningElement) return element;
+    final overrides = getIt<GrafikElementRepository>().toJson(template)
+      ..remove('id');
+    return _adapter.copyWithOverrides(
+      element.type == template.type ? element : _adapter.changeType(element, template.type),
+      overrides,
+    );
+  }
+
+  @override
   Future<void> save(GrafikElementRepository repo, GrafikElement element) async {
     await repo.saveGrafikElement(element);
   }
