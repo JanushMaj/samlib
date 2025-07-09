@@ -24,41 +24,53 @@ class LoginScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(AppSpacing.sm * 4),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                AppAssets.logoGradient,
-                height: 100,
-                semanticLabel: AppStrings.logoAlt,
-              ),
-              const SizedBox(height: AppSpacing.sm * 3),
-              TextField(
-                key: const ValueKey('login-email'),
-                onChanged: authCubit.updateLoginEmail,
-                decoration: const InputDecoration(labelText: AppStrings.email),
-              ),
-              const SizedBox(height: AppSpacing.sm * 3),
-              TextField(
-                key: const ValueKey('login-password'),
-                onChanged: authCubit.updateLoginPassword,
-                obscureText: true,
-                decoration: const InputDecoration(labelText: AppStrings.password),
-              ),
-              const SizedBox(height: AppSpacing.sm * 6),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  TextButton(
-                    onPressed: authCubit.signIn,
-                    child: const Text(AppStrings.login),
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              padding: const EdgeInsets.all(AppSpacing.sm * 4),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
+                  maxWidth: 400,
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        AppAssets.logoGradient,
+                        height: 100,
+                        semanticLabel: AppStrings.logoAlt,
+                      ),
+                      const SizedBox(height: AppSpacing.sm * 3),
+                      TextField(
+                        key: const ValueKey('login-email'),
+                        onChanged: authCubit.updateLoginEmail,
+                        decoration: const InputDecoration(labelText: AppStrings.email),
+                      ),
+                      const SizedBox(height: AppSpacing.sm * 3),
+                      TextField(
+                        key: const ValueKey('login-password'),
+                        onChanged: authCubit.updateLoginPassword,
+                        obscureText: true,
+                        decoration: const InputDecoration(labelText: AppStrings.password),
+                      ),
+                      const SizedBox(height: AppSpacing.sm * 6),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          TextButton(
+                            onPressed: authCubit.signIn,
+                            child: const Text(AppStrings.login),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

@@ -24,30 +24,42 @@ class RegisterUserWidget extends StatelessWidget {
         }
       },
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(AppSpacing.sm * 4),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextField(
-                key: const ValueKey('register-email'),
-                onChanged: authCubit.updateLoginEmail,
-                decoration: const InputDecoration(labelText: AppStrings.email),
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              padding: const EdgeInsets.all(AppSpacing.sm * 4),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
+                  maxWidth: 400,
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextField(
+                        key: const ValueKey('register-email'),
+                        onChanged: authCubit.updateLoginEmail,
+                        decoration: const InputDecoration(labelText: AppStrings.email),
+                      ),
+                      const SizedBox(height: AppSpacing.sm * 3),
+                      TextField(
+                        key: const ValueKey('register-password'),
+                        onChanged: authCubit.updateLoginPassword,
+                        obscureText: true,
+                        decoration: const InputDecoration(labelText: AppStrings.password),
+                      ),
+                      const SizedBox(height: AppSpacing.sm * 6),
+                      ElevatedButton(
+                        onPressed: authCubit.signUp,
+                        child: const Text(AppStrings.registerUser),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              const SizedBox(height: AppSpacing.sm * 3),
-              TextField(
-                key: const ValueKey('register-password'),
-                onChanged: authCubit.updateLoginPassword,
-                obscureText: true,
-                decoration: const InputDecoration(labelText: AppStrings.password),
-              ),
-              const SizedBox(height: AppSpacing.sm * 6),
-              ElevatedButton(
-                onPressed: authCubit.signUp,
-                child: const Text(AppStrings.registerUser),
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

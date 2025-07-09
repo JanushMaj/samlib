@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
 import 'package:kabast/feature/grafik/cubit/grafik_state.dart';
+import 'package:kabast/theme/size_variants.dart';
 
 import 'week/tiles/task_planning_week_tile.dart';
 
@@ -39,11 +40,10 @@ class PendingTasksColumn extends StatelessWidget {
           itemCount: pending.length,
           separatorBuilder: (_, __) => const SizedBox(height: 8),
           itemBuilder: (context, index) => SizedBox(
-            height: 192, // 🔥 sztywna wysokość kafelka
+            height: SizeVariant.big.height * 4,
             child: TaskPlanningWeekTile(taskPlanning: pending[index]),
           ),
         );
       },
     );
-  }
-}
+  }}

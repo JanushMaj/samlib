@@ -3,6 +3,10 @@ import 'app_tokens.dart';
 
 class AppTheme {
   static ThemeData buildTheme() {
+    final view = WidgetsBinding.instance.platformDispatcher.views.first;
+    final width = view.physicalSize.width / view.devicePixelRatio;
+    final scale = (width / 400).clamp(0.8, 1.2);
+
     return ThemeData(
       useMaterial3: false,
       colorScheme: ColorScheme.fromSeed(
@@ -13,10 +17,10 @@ class AppTheme {
 
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.white,
-        titleTextStyle: const TextStyle(
-          fontSize: 16,
+        titleTextStyle: TextStyle(
+          fontSize: 16 * scale,
           fontWeight: FontWeight.w600,
-          color: Color(0xFF1565C0),
+          color: const Color(0xFF1565C0),
         ),
         iconTheme: const IconThemeData(color: Color(0xFF1565C0)),
         actionsIconTheme: const IconThemeData(color: Color(0xFF1565C0)),
@@ -26,16 +30,16 @@ class AppTheme {
         ),
       ),
 
-      textTheme: const TextTheme(
-        bodyLarge: TextStyle(fontSize: 22),
-        bodyMedium: TextStyle(fontSize: 20),
-        bodySmall: TextStyle(fontSize: 18),
-        titleLarge: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        labelLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      textTheme: TextTheme(
+        bodyLarge: TextStyle(fontSize: 22 * scale),
+        bodyMedium: TextStyle(fontSize: 20 * scale),
+        bodySmall: TextStyle(fontSize: 18 * scale),
+        titleLarge: TextStyle(fontSize: 22 * scale, fontWeight: FontWeight.bold),
+        labelLarge: TextStyle(fontSize: 18 * scale, fontWeight: FontWeight.bold),
         //Wykorzystywane turbo_grid
-        displaySmall: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-        displayMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        displayLarge: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        displaySmall: TextStyle(fontSize: 14 * scale, fontWeight: FontWeight.bold),
+        displayMedium: TextStyle(fontSize: 18 * scale, fontWeight: FontWeight.bold),
+        displayLarge: TextStyle(fontSize: 22 * scale, fontWeight: FontWeight.bold),
       ),
 
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -89,9 +93,9 @@ class AppTheme {
         ),
         selectedColor: const Color(0xFF64B5F6),
         backgroundColor: Colors.grey.shade200,
-        labelStyle: const TextStyle(
-          fontSize: 16,
-          color: Color(0xFF1565C0),
+        labelStyle: TextStyle(
+          fontSize: 16 * scale,
+          color: const Color(0xFF1565C0),
         ),
       ),
 

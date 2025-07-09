@@ -9,14 +9,21 @@ class ExtraOptionsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Dodatkowe opcje'),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            'Dwa tygodnei zdalnego i mogą być tu cuda',
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-        ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Center(
+                child: Text(
+                  'Dwa tygodnei zdalnego i mogą być tu cuda',
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

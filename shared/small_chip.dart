@@ -50,7 +50,9 @@ class SmallChip extends StatelessWidget {
       onTap: onTap,
       child: Container(
         // Ograniczamy maksymalną szerokość chipu, aby nie powodował overflow
-        constraints: const BoxConstraints(maxWidth: 120),
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * 0.3,
+        ),
         margin: const EdgeInsets.all(AppSpacing.xxs), // 1.0
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.xs, // 2.0
