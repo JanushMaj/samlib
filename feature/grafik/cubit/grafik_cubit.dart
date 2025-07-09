@@ -178,6 +178,18 @@ class GrafikCubit extends Cubit<GrafikState> {
     });
   }
 
+  Future<Duration> getTotalWorkTimeForEmployee({
+    required String workerId,
+    required DateTime start,
+    required DateTime end,
+  }) {
+    return _assignmentRepo.getTotalWorkTime(
+      workerId: workerId,
+      start: start,
+      end: end,
+    );
+  }
+
   @override
   Future<void> close() {
     _mappingSub.cancel();

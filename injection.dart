@@ -23,22 +23,27 @@ import 'package:kabast/feature/date/date_cubit.dart';
 import 'package:kabast/data/repositories/grafik_element_repository.dart';
 import 'package:kabast/data/services/grafik_element_firebase_service.dart';
 import 'package:kabast/domain/services/i_grafik_element_service.dart';
-import 'package:kabast/data/repositories/assignment_repository.dart';
+
 import 'package:kabast/data/services/assignment_firebase_service.dart';
+import 'package:kabast/data/repositories/assignment_repository.dart';
 import 'package:kabast/domain/services/i_assignment_service.dart';
+
+import 'package:kabast/data/services/task_assignment_firebase_service.dart';
+import 'package:kabast/data/repositories/task_assignment_repository.dart';
+import 'package:kabast/domain/services/i_task_assignment_service.dart';
+
 final getIt = GetIt.instance;
 
 Future<void> setupLocator() async {
-
   // Firebase
   getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
   getIt.registerLazySingleton<FirebaseFirestore>(
     () => FirebaseFirestore.instance,
   );
 
-// FIREBASE SERVICE
+  // FIREBASE SERVICES
   getIt.registerLazySingleton<IAppUserService>(
-        () => AppUserFirebaseService(getIt<FirebaseFirestore>()),
+    () => AppUserFirebaseService(getIt<FirebaseFirestore>()),
   );
   getIt.registerLazySingleton<IEmployeeService>(
     () => EmployeeFirebaseService(getIt<FirebaseFirestore>()),
@@ -49,8 +54,14 @@ Future<void> setupLocator() async {
   getIt.registerLazySingleton<IGrafikElementService>(
     () => GrafikElementFirebaseService(getIt<FirebaseFirestore>()),
   );
+  getIt.registerLazySingleton<IAssignmentService>(
+    () => AssignmentFirebaseService(getIt<FirebaseFirestore>()),
+  );
+  getIt.registerLazySingleton<ITaskAssignmentService>(
+    () => TaskAssignmentFirebaseService(getIt<FirebaseFirestore>()),
+  );
 
-  // Repozytoria
+  // REPOSITORIES
   getIt.registerLazySingleton<AppUserRepository>(
     () => AppUserRepository(getIt<IAppUserService>()),
   );
@@ -66,11 +77,11 @@ Future<void> setupLocator() async {
   getIt.registerLazySingleton<GrafikElementRepository>(
     () => GrafikElementRepository(getIt<IGrafikElementService>()),
   );
-  getIt.registerLazySingleton<IAssignmentService>(
-    () => AssignmentFirebaseService(getIt<FirebaseFirestore>()),
-  );
   getIt.registerLazySingleton<AssignmentRepository>(
     () => AssignmentRepository(getIt<IAssignmentService>()),
+  );
+  getIt.registerLazySingleton<TaskAssignmentRepository>(
+    () => TaskAssignmentRepository(getIt<ITaskAssignmentService>()),
   );
   getIt.registerLazySingleton<IGrafikResolver>(
     () => GrafikResolver(getIt<GrafikElementRepository>()),
@@ -83,7 +94,7 @@ Future<void> setupLocator() async {
     ),
   );
 
-  //CUBIT
+  // CUBITS
   getIt.registerFactory<AuthCubit>(
     () => AuthCubit(getIt<IAuthService>()),
   );
