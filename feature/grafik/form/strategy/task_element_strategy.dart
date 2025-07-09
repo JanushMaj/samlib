@@ -1,4 +1,4 @@
-import '../adapter/grafik_element_form_adapter.dart';
+import '../../../data/adapters/grafik_element_form_adapter.dart';
 import '../../../../data/repositories/grafik_element_repository.dart';
 import '../../../../domain/models/grafik/enums.dart';
 import '../../../../domain/models/grafik/grafik_element.dart';
