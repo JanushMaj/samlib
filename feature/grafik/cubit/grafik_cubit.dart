@@ -13,6 +13,7 @@ import '../../../domain/models/grafik/impl/delivery_planning_element.dart';
 import '../../../domain/models/grafik/impl/task_element.dart';
 import '../../../domain/models/grafik/impl/task_planning_element.dart';
 import '../../../domain/models/vehicle.dart';
+import '../../../domain/models/grafik/assignment.dart';
 import 'grafik_mapping_utils.dart';
 import 'grafik_state.dart';
 
@@ -74,14 +75,19 @@ class GrafikCubit extends Cubit<GrafikState> {
     final start = DateTime(day.year, day.month, day.day);
     final end = DateTime(day.year, day.month, day.day, 23, 59, 59, 999);
 
-    _mappingSub = Rx.combineLatest2<List<GrafikElement>, List<Employee>, Map<String, dynamic>>(
+    _mappingSub = Rx.combineLatest3<
+        List<GrafikElement>,
+        List<Employee>,
+        List<Assignment>,
+        Map<String, dynamic>>( 
       _grafikRepo.getElementsWithinRange(
         start: start,
         end: end,
         types: ['TaskElement', 'TimeIssueElement'],
       ),
       _employeeRepo.getEmployees(),
-          (elements, employees) {
+      _assignmentRepo.getAssignments(start: start, end: end),
+          (elements, employees, assignments) {
         final tasks = elements.whereType<TaskElement>().toList();
         final issues = elements.whereType<TimeIssueElement>().toList();
 
@@ -94,12 +100,14 @@ class GrafikCubit extends Cubit<GrafikState> {
         final transferMapping = calculateTaskTransferDisplayMapping(
           tasks: tasks,
           employees: employees,
+          assignments: assignments,
         );
 
         return {
           'tasks': tasks,
           'issues': issues,
           'employees': employees,
+          'assignments': assignments,
           'mapping': mapping,
           'transferMapping': transferMapping,
         };
@@ -110,8 +118,11 @@ class GrafikCubit extends Cubit<GrafikState> {
           tasks: combinedData['tasks'] as List<TaskElement>,
           issues: combinedData['issues'] as List<TimeIssueElement>,
           employees: combinedData['employees'] as List<Employee>,
-          taskTimeIssueDisplayMapping: combinedData['mapping'] as Map<String, List<String>>,
-          taskTransferDisplayMapping: combinedData['transferMapping'] as Map<String, List<String>>,
+          taskTimeIssueDisplayMapping:
+              combinedData['mapping'] as Map<String, List<String>>,
+          taskTransferDisplayMapping:
+              combinedData['transferMapping'] as Map<String, List<String>>,
+          assignments: combinedData['assignments'] as List<Assignment>,
         ));
       }
     });

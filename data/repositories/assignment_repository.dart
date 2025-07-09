@@ -1,16 +1,27 @@
 import 'dart:async';
 
+import '../../domain/models/grafik/assignment.dart';
 import '../../domain/models/grafik/impl/task_element.dart';
+import '../../domain/services/i_assignment_service.dart';
 import 'grafik_element_repository.dart';
 
 class AssignmentRepository {
+  final IAssignmentService _assignmentService;
   final GrafikElementRepository _grafikRepo;
 
-  AssignmentRepository(this._grafikRepo);
+  AssignmentRepository(
+    this._assignmentService, // zarejestrowane w GetIt
+  ) : _grafikRepo = GrafikElementRepository(_assignmentService); // lub osobny konstruktor, jeśli chcesz
 
-  /// Returns the total work time of [workerId] within the given period.
-  /// The result is the sum of task durations (in minutes) where
-  /// the employee is assigned.
+  /// Stream zwracający przypisania pracowników z zakresu dat.
+  Stream<List<Assignment>> getAssignments({
+    required DateTime start,
+    required DateTime end,
+  }) {
+    return _assignmentService.getAssignmentsWithinRange(start: start, end: end);
+  }
+
+  /// Oblicza łączny czas pracy danego pracownika na podstawie zadań (TaskElement).
   Future<Duration> getTotalWorkTime({
     required String workerId,
     required DateTime start,
