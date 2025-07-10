@@ -25,4 +25,19 @@ class TaskAssignmentFirebaseService implements ITaskAssignmentService {
     final dto = TaskAssignmentDto.fromDomain(assignment);
     await _firestore.collection('task_assignments').add(dto.toJson());
   }
+
+  @override
+  Stream<List<TaskAssignment>> getAssignmentsWithinRange({
+    required DateTime start,
+    required DateTime end,
+  }) {
+    return _firestore
+        .collection('task_assignments')
+        .where('startDateTime', isLessThanOrEqualTo: Timestamp.fromDate(end))
+        .where('endDateTime', isGreaterThanOrEqualTo: Timestamp.fromDate(start))
+        .snapshots()
+        .map((query) => query.docs
+            .map((doc) => TaskAssignmentDto.fromFirestore(doc).toDomain())
+            .toList());
+  }
 }

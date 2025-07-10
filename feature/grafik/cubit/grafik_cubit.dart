@@ -86,7 +86,7 @@ class GrafikCubit extends Cubit<GrafikState> {
         types: ['TaskElement', 'TimeIssueElement'],
       ),
       _employeeRepo.getEmployees(),
-      _assignmentRepo.getAssignments(start: start, end: end),
+      _assignmentRepo.getAssignmentsWithinRange(start: start, end: end),
           (elements, employees, assignments) {
         final tasks = elements.whereType<TaskElement>().toList();
         final issues = elements.whereType<TimeIssueElement>().toList();
