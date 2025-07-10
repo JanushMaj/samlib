@@ -71,6 +71,55 @@ class _AssignmentEditorState extends State<AssignmentEditor> {
     cubit.updateAssignments(updated);
   }
 
+  Future<void> _editAssignment(TaskAssignment a) async {
+    DateTimeRange range =
+        DateTimeRange(start: a.startDateTime, end: a.endDateTime);
+
+    final picked = await showDialog<DateTimeRange>(
+      context: context,
+      builder: (context) {
+        DateTimeRange temp = range;
+        return AlertDialog(
+          title: const Text('Edytuj przydział'),
+          content: StatefulBuilder(
+            builder: (context, setState) {
+              return DateTimePickerField(
+                initialDate: temp.start,
+                initialStartHour: temp.start.hour.toDouble(),
+                initialEndHour: temp.end.hour.toDouble(),
+                onChanged: (r) => setState(() => temp = r),
+              );
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Anuluj'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(temp),
+              child: const Text('Edytuj przydział'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (picked != null) {
+      final cubit = context.read<GrafikElementFormCubit>();
+      final state = cubit.state as GrafikElementFormEditing;
+      final updated = List<TaskAssignment>.from(state.assignments);
+      final idx = updated.indexOf(a);
+      if (idx != -1) {
+        updated[idx] = a.copyWith(
+          startDateTime: picked.start,
+          endDateTime: picked.end,
+        );
+        cubit.updateAssignments(updated);
+      }
+    }
+  }
+
   String _fmt(DateTime dt) =>
       '${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
 
@@ -113,9 +162,18 @@ class _AssignmentEditorState extends State<AssignmentEditor> {
                   dense: true,
                   contentPadding: EdgeInsets.zero,
                   title: Text('$name $time'),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () => _removeAssignment(a),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () => _editAssignment(a),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () => _removeAssignment(a),
+                      ),
+                    ],
                   ),
                 );
               }).toList(),
