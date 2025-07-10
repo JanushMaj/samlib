@@ -24,6 +24,7 @@ class AssignmentList extends StatelessWidget {
           state.employees.firstWhereOrNull((e) => e.uid == entry.key);
       final name = emp?.formattedNameWithSecondInitial ?? 'Nieznany pracownik';
       final times = entry.value
+          .sorted((a, b) => a.startDateTime.compareTo(b.startDateTime))
           .map((a) => '${_fmt(a.startDateTime)}-${_fmt(a.endDateTime)}')
           .join(', ');
       lines.add('$name $times');

@@ -42,6 +42,7 @@ class TaskHeader extends StatelessWidget {
               state.employees.firstWhereOrNull((el) => el.uid == e.key);
           final name = emp?.formattedNameWithSecondInitial ?? 'Nieznany pracownik';
           final times = e.value
+              .sorted((a, b) => a.startDateTime.compareTo(b.startDateTime))
               .map((a) => '${fmt(a.startDateTime)}-${fmt(a.endDateTime)}')
               .join(', ');
           return Text('$name $times',
