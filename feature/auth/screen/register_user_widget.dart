@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kabast/shared/responsive/responsive_layout.dart';
 import 'package:kabast/theme/app_tokens.dart';
+import 'package:kabast/shared/form/custom_button.dart';
+import 'package:kabast/shared/form/standard/standard_form_field.dart';
+import 'package:kabast/shared/form/standard/standard_form_section.dart';
 import '../auth_cubit.dart';
 import '../auth_state.dart';
 
@@ -37,30 +40,34 @@ class RegisterUserWidget extends StatelessWidget {
                     minHeight: constraints.maxHeight,
                     maxWidth: 400,
                   ),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextField(
-                        key: const ValueKey('register-email'),
-                        onChanged: authCubit.updateLoginEmail,
-                        decoration: const InputDecoration(labelText: AppStrings.email),
-                      ),
-                      const SizedBox(height: AppSpacing.sm * 3),
-                      TextField(
-                        key: const ValueKey('register-password'),
-                        onChanged: authCubit.updateLoginPassword,
-                        obscureText: true,
-                        decoration: const InputDecoration(labelText: AppStrings.password),
-                      ),
-                      const SizedBox(height: AppSpacing.sm * 6),
-                      ElevatedButton(
-                        onPressed: authCubit.signUp,
-                        child: const Text(AppStrings.registerUser),
-                      ),
-                    ],
+                  child: Center(
+                    child: StandardFormSection(
+                      fields: [
+                        StandardFormField(
+                          label: AppStrings.email,
+                          child: TextFormField(
+                            key: const ValueKey('register-email'),
+                            onChanged: authCubit.updateLoginEmail,
+                          ),
+                        ),
+                        StandardFormField(
+                          label: AppStrings.password,
+                          child: TextFormField(
+                            key: const ValueKey('register-password'),
+                            onChanged: authCubit.updateLoginPassword,
+                            obscureText: true,
+                          ),
+                        ),
+                        StandardFormField(
+                          label: '',
+                          child: CustomButton(
+                            text: AppStrings.registerUser,
+                            onPressed: authCubit.signUp,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
                 ),
               ),
             );
