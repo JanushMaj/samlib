@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../../domain/models/grafik/impl/task_assignment.dart';
+import '../../../domain/models/grafik/task_assignment.dart';
 
 class TaskAssignmentDto {
   final String taskId;
