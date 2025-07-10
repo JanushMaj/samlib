@@ -144,6 +144,9 @@ class GrafikCubit extends Cubit<GrafikState> {
     );
 
     final employeeStream = _employeeRepo.getEmployees();
+    try {
+      _weekDataSub.cancel();
+    } catch (_) {}
 
     _weekDataSub = Rx.combineLatest2<List<GrafikElement>, List<Employee>, Map<String, dynamic>>(
       grafikStream,
