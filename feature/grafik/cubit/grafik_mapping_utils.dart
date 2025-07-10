@@ -14,7 +14,6 @@ Map<String, List<String>> calculateTaskTimeIssueDisplayMapping({
   for (var task in tasks) {
     final displayStrings = <String>[];
 
-    // Zostawiamy tylko kwestie czasowe które potencjalnie mają coś wspólnego z taskiem
     for (var issue in issues) {
       final overlapStart = max(
         task.startDateTime.millisecondsSinceEpoch,
@@ -53,9 +52,7 @@ Map<String, List<String>> calculateTaskTimeIssueDisplayMapping({
   return mapping;
 }
 
-
 /// Generuje komunikaty transferów na podstawie przypisań pracowników.
-/// Każdy transfer opisuje moment przejścia pracownika z jednego zadania do kolejnego.
 Map<String, List<String>> calculateTaskTransferDisplayMapping({
   required List<TaskElement> tasks,
   required List<Employee> employees,
@@ -93,4 +90,5 @@ Map<String, List<String>> calculateTaskTransferDisplayMapping({
     }
   });
 
-  return mapping;}
+  return mapping;
+}
