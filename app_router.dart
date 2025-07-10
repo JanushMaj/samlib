@@ -7,6 +7,7 @@ import 'feature/grafik/grafik_wrapper.dart';
 import 'feature/grafik/widget/week/week_grafik_view.dart';
 import 'feature/auth/screen/no_access_screen.dart';
 import 'feature/my_tasks/my_tasks_screen.dart';
+import 'feature/supplies/supply_list_screen.dart';
 import 'feature/assign_employee/assign_employee_screen.dart';
 
 class AppRouter {
@@ -30,6 +31,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const NoAccessScreen());
       case '/extras':
         return MaterialPageRoute(builder: (_) => const ExtraOptionsScreen());
+      case '/supplies':
+        return MaterialPageRoute(builder: (_) => const SupplyListScreen());
       case '/addGrafik':
         final existingElement = settings.arguments as GrafikElement?;
         return MaterialPageRoute(
