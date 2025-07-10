@@ -44,6 +44,7 @@ class TaskWeekTile extends StatelessWidget {
         ? _formatEmployeeName(emp.fullName)
         : 'Nieznany pracownik';
     final times = e.value
+        .sorted((a, b) => a.startDateTime.compareTo(b.startDateTime))
         .map((a) =>
             '${a.startDateTime.hour.toString().padLeft(2, '0')}-${a.endDateTime.hour.toString().padLeft(2, '0')}')
         .join(', ');
