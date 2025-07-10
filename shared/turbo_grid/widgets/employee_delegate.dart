@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../theme/size_variants.dart';
+import '../../responsive/responsive_layout.dart';
 import '../turbo_tile_delegate.dart';
 import '../turbo_tile_variant.dart';
 
@@ -10,11 +11,14 @@ class EmployeeDelegate extends TurboTileDelegate {
   EmployeeDelegate({required this.fullName, this.role});
 
   @override
-  List<TurboTileVariant> createVariants() => [
-    _variant(SizeVariant.big,   140),
-    _variant(SizeVariant.medium,140),
-    _variant(SizeVariant.small, 140),
-  ];
+  List<TurboTileVariant> createVariants() {
+    final width = _responsiveWidth(140);
+    return [
+      _variant(SizeVariant.big, width),
+      _variant(SizeVariant.medium, width),
+      _variant(SizeVariant.small, width),
+    ];
+  }
 
   TurboTileVariant _variant(SizeVariant v, double width) => TurboTileVariant(
     size: Size(width, v.height),
@@ -42,5 +46,25 @@ class EmployeeDelegate extends TurboTileDelegate {
   String _shortName(String name) {
     final p = name.trim().split(' ');
     return (p.length >= 2) ? '${p[0]} ${p[1][0]}.' : name;
+  }
+
+  double _responsiveWidth(double base) {
+    final bp = _currentBreakpoint();
+    switch (bp) {
+      case Breakpoint.small:
+        return base * 0.8;
+      case Breakpoint.medium:
+        return base;
+      case Breakpoint.large:
+        return base * 1.2;
+    }
+  }
+
+  Breakpoint _currentBreakpoint() {
+    final view = WidgetsBinding.instance.platformDispatcher.views.first;
+    final width = view.physicalSize.width / view.devicePixelRatio;
+    if (width < 600) return Breakpoint.small;
+    if (width < 1000) return Breakpoint.medium;
+    return Breakpoint.large;
   }
 }
