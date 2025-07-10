@@ -97,12 +97,15 @@ class MyTasksScreen extends StatelessWidget {
       body: StreamBuilder<List<Map<String, dynamic>>>(
         stream: combined$,
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.hasError) {
+            return Center(child: Text('Błąd ładowania danych\n${snapshot.error}'));
+          }
+          if (!snapshot.hasData && !snapshot.hasError) {
             return const Center(child: CircularProgressIndicator());
           }
           final items = snapshot.data!;
           if (items.isEmpty) {
-            return const Center(child: Text('Brak zadań na wybrany dzień'));
+            return const Center(child: Text('Brak przypisanych zadań'));
           }
           return ListView.builder(
             itemCount: items.length,
