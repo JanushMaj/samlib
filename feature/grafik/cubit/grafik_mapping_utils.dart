@@ -28,7 +28,7 @@ Map<String, List<String>> calculateTaskTimeIssueDisplayMapping({
       if (overlapDuration.inMinutes <= 0) continue;
 
       final workerId = issue.workerId;
-      if (!task.workerIds.contains(workerId)) continue;
+      if (!task.assignments.any((a) => a.workerId == workerId)) continue;
 
       try {
         final employee = employees.firstWhere((e) => e.uid == workerId);
