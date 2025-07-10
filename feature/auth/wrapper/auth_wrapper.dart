@@ -50,7 +50,7 @@ class AuthWrapper extends StatelessWidget {
       return '/weekGrafik';
     }
 
-    if (perms['canEditGrafik'] == true || perms['canChangeDate'] == true) {
+    if (perms['canEditGrafik'] == true || perms['canSeeAllGrafik'] == true) {
       return '/grafik';
     }
 
