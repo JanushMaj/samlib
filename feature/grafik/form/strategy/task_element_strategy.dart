@@ -6,6 +6,8 @@ import '../../../../domain/models/grafik/grafik_element.dart';
 import '../../../../domain/models/grafik/impl/task_element.dart';
 import '../../../../domain/models/grafik/impl/task_template.dart';
 import 'grafik_element_form_strategy.dart';
+import '../../../../data/repositories/task_assignment_repository.dart';
+import '../../../../domain/models/grafik/task_assignment.dart';
 
 class TaskElementStrategy implements GrafikElementFormStrategy {
   final GrafikElementFormAdapter _adapter =
@@ -43,13 +45,26 @@ class TaskElementStrategy implements GrafikElementFormStrategy {
   }
 
   @override
-  Future<void> save(GrafikElementRepository repo, GrafikElement element) async {
+  Future<void> save(
+    GrafikElementRepository repo,
+    GrafikElement element, {
+    TaskAssignmentRepository? assignmentRepository,
+    List<TaskAssignment> assignments = const [],
+  }) async {
     if (element is! TaskElement) return;
     var task = element;
+    var localAssignments = List<TaskAssignment>.from(assignments);
     if (task.id.isEmpty) {
       final newId = repo.generateNewTaskId();
       task = task.copyWithId(newId);
+      localAssignments =
+          localAssignments.map((a) => a.copyWith(taskId: newId)).toList();
     }
     await repo.saveGrafikElement(task);
+    if (assignmentRepository != null) {
+      for (final a in localAssignments) {
+        await assignmentRepository.saveTaskAssignment(a);
+      }
+    }
   }
 }

@@ -11,6 +11,7 @@ import '../../../shared/form/enum_picker/enum_picker.dart';
 import '../../vehicle/widget/vehicle_picker.dart';
 import '../cubit/form/grafik_element_form_cubit.dart';
 import '../../../../data/repositories/vehicle_repository.dart';
+import 'components/assignment_editor.dart';
 
 class TaskFields extends StatelessWidget {
   final TaskElement element;
@@ -63,6 +64,17 @@ class TaskFields extends StatelessWidget {
           onSelectionChanged: (selectedVehicles) {
             final ids = selectedVehicles.map((v) => v.id).toList();
             context.read<GrafikElementFormCubit>().updateField('carIds', ids);
+          },
+        ),
+        const SizedBox(height: AppSpacing.sm * 2),
+        BlocBuilder<GrafikElementFormCubit, GrafikElementFormState>(
+          builder: (context, state) {
+            if (state is! GrafikElementFormEditing) return const SizedBox.shrink();
+            return AssignmentEditor(
+              taskStart: state.element.startDateTime,
+              taskEnd: state.element.endDateTime,
+              assignments: state.assignments,
+            );
           },
         ),
       ],

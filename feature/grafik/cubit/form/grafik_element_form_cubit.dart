@@ -5,30 +5,44 @@ import '../../../../data/repositories/grafik_element_repository.dart';
 import '../../../../domain/models/grafik/grafik_element.dart';
 import '../../form/grafik_element_registry.dart';
 import '../../../../domain/models/grafik/impl/task_template.dart';
+import '../../../../domain/models/grafik/impl/task_element.dart';
 import '../../form/strategy/grafik_element_form_strategy.dart';
 import 'grafik_element_form_state.dart';
+import '../../../../data/repositories/task_assignment_repository.dart';
+import '../../../../domain/models/grafik/task_assignment.dart';
 
 // ───────── CUBIT ─────────
 class GrafikElementFormCubit extends Cubit<GrafikElementFormState> {
   final GrafikElementRepository grafikService;
+  final TaskAssignmentRepository assignmentRepository;
   late GrafikElementFormStrategy _strategy;
 
   GrafikElementFormCubit({
     required this.grafikService,
+    required this.assignmentRepository,
   }) : super(GrafikElementFormInitial());
 
   // ────────────────────────────────────────────────────────────
   //  Inicjalizacja
   // ────────────────────────────────────────────────────────────
-  void initialize(GrafikElement? existingElement) {
+  Future<void> initialize(GrafikElement? existingElement) async {
     if (existingElement != null) {
       _strategy =
           GrafikElementRegistry.getStrategyForType(existingElement.type);
-      emit(GrafikElementFormEditing(element: existingElement));
+      List<TaskAssignment> assignments = [];
+      if (existingElement is TaskElement) {
+        assignments = await assignmentRepository
+            .getAssignmentsForTask(existingElement.id)
+            .first;
+      }
+      emit(GrafikElementFormEditing(
+        element: existingElement,
+        assignments: assignments,
+      ));
     } else {
       _strategy = GrafikElementRegistry.getStrategyForType('TaskElement');
       final defaultElement = _strategy.createDefault();
-      emit(GrafikElementFormEditing(element: defaultElement));
+      emit(GrafikElementFormEditing(element: defaultElement, assignments: []));
     }
   }
 
@@ -46,7 +60,7 @@ class GrafikElementFormCubit extends Cubit<GrafikElementFormState> {
       final newType = value as String;
       _strategy = GrafikElementRegistry.getStrategyForType(newType);
       final updatedElement = _strategy.createDefault();
-      emit(currentState.copyWith(element: updatedElement));
+      emit(currentState.copyWith(element: updatedElement, assignments: []));
       return;
     }
 
@@ -64,6 +78,12 @@ class GrafikElementFormCubit extends Cubit<GrafikElementFormState> {
     emit(s.copyWith(element: updated));
   }
 
+  void updateAssignments(List<TaskAssignment> assignments) {
+    if (state is! GrafikElementFormEditing) return;
+    final s = state as GrafikElementFormEditing;
+    emit(s.copyWith(assignments: assignments));
+  }
+
   // ────────────────────────────────────────────────────────────
   //  Zapis elementu
   // ────────────────────────────────────────────────────────────
@@ -74,7 +94,12 @@ class GrafikElementFormCubit extends Cubit<GrafikElementFormState> {
     emit(currentState.copyWith(isSubmitting: true));
 
     try {
-      await _strategy.save(grafikService, currentState.element);
+      await _strategy.save(
+        grafikService,
+        currentState.element,
+        assignmentRepository: assignmentRepository,
+        assignments: currentState.assignments,
+      );
       emit(currentState.copyWith(isSubmitting: false, isSuccess: true));
     } catch (_) {
       emit(currentState.copyWith(isSubmitting: false, isFailure: true));

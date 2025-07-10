@@ -11,6 +11,7 @@ import '../../../shared/form/minutes_picker/minutes_picker_field.dart';
 import '../../../shared/form/small_number_picker/small_number_picker.dart';
 import '../../../domain/constants/pending_placeholder_date.dart';
 import '../cubit/form/grafik_element_form_cubit.dart';
+import 'components/assignment_editor.dart';
 
 class GrafikPlanningFields extends StatelessWidget {
   final TaskPlanningElement element;
@@ -97,6 +98,17 @@ class GrafikPlanningFields extends StatelessWidget {
           value: element.highPriority,
           onChanged: (val) =>
               context.read<GrafikElementFormCubit>().updateField('highPriority', val),
+        ),
+        const SizedBox(height: AppSpacing.sm * 2),
+        BlocBuilder<GrafikElementFormCubit, GrafikElementFormState>(
+          builder: (context, state) {
+            if (state is! GrafikElementFormEditing) return const SizedBox.shrink();
+            return AssignmentEditor(
+              taskStart: state.element.startDateTime,
+              taskEnd: state.element.endDateTime,
+              assignments: state.assignments,
+            );
+          },
         ),
       ],
     );
