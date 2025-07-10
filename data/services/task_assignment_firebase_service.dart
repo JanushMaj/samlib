@@ -27,6 +27,17 @@ class TaskAssignmentFirebaseService implements ITaskAssignmentService {
   }
 
   @override
+  Future<void> deleteAssignmentsForTask(String taskId) async {
+    final query = await _firestore
+        .collection('task_assignments')
+        .where('taskId', isEqualTo: taskId)
+        .get();
+    for (final doc in query.docs) {
+      await doc.reference.delete();
+    }
+  }
+
+  @override
   Stream<List<TaskAssignment>> getAssignmentsWithinRange({
     required DateTime start,
     required DateTime end,

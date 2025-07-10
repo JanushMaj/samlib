@@ -14,6 +14,10 @@ class TaskAssignmentRepository {
     return _service.addTaskAssignment(assignment);
   }
 
+  Future<void> deleteAssignmentsForTask(String taskId) {
+    return _service.deleteAssignmentsForTask(taskId);
+  }
+
   Stream<List<TaskAssignment>> getAssignmentsWithinRange({
     required DateTime start,
     required DateTime end,
