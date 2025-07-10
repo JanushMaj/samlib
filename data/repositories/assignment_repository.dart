@@ -33,12 +33,14 @@ class AssignmentRepository {
 
     Duration total = Duration.zero;
     for (final e in elements.whereType<TaskElement>()) {
-      if (!e.workerIds.contains(workerId)) continue;
-      final s = e.startDateTime.isBefore(start) ? start : e.startDateTime;
-      final f = e.endDateTime.isAfter(end) ? end : e.endDateTime;
-      final diff = f.difference(s);
-      if (diff.isNegative) continue;
-      total += diff;
+      final matches = e.assignments.where((a) => a.workerId == workerId);
+      for (final a in matches) {
+        final s = a.startDateTime.isBefore(start) ? start : a.startDateTime;
+        final f = a.endDateTime.isAfter(end) ? end : a.endDateTime;
+        final diff = f.difference(s);
+        if (diff.isNegative) continue;
+        total += diff;
+      }
     }
     return total;
   }

@@ -5,7 +5,6 @@ import 'task_assignment.dart';
 /// Element zadania, np. przypisanie pracowników do konkretnego zadania.
 class TaskElement extends GrafikElement {
   // ───────── PERSISTOWANE ─────────
-  final List<String> workerIds;
   final String orderId;
   final GrafikStatus status;
   final GrafikTaskType taskType;
@@ -24,7 +23,6 @@ class TaskElement extends GrafikElement {
     required DateTime startDateTime,
     required DateTime endDateTime,
     required String additionalInfo,
-    required this.workerIds,
     required this.orderId,
     required this.status,
     required this.taskType,
@@ -58,7 +56,6 @@ class TaskElement extends GrafikElement {
     DateTime? startDateTime,
     DateTime? endDateTime,
     String? additionalInfo,
-    List<String>? workerIds,
     List<TaskAssignment>? assignments,
     String? orderId,
     GrafikStatus? status,
@@ -75,7 +72,6 @@ class TaskElement extends GrafikElement {
       startDateTime: startDateTime ?? this.startDateTime,
       endDateTime: endDateTime ?? this.endDateTime,
       additionalInfo: additionalInfo ?? this.additionalInfo,
-      workerIds: workerIds ?? List<String>.from(this.workerIds),
       orderId: orderId ?? this.orderId,
       status: status ?? this.status,
       taskType: taskType ?? this.taskType,
@@ -97,7 +93,6 @@ class TaskElement extends GrafikElement {
     startDateTime: startDateTime,
     endDateTime: endDateTime,
     additionalInfo: additionalInfo,
-    workerIds: List<String>.from(workerIds),
     orderId: orderId,
     status: status,
     taskType: taskType,
