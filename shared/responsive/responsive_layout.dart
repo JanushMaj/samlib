@@ -1,6 +1,13 @@
 import "package:flutter/material.dart";
 enum Breakpoint { small, medium, large }
 
+/// Returns the [Breakpoint] for a given screen width.
+Breakpoint breakpointFromWidth(double width) {
+  if (width < 600) return Breakpoint.small;
+  if (width < 1000) return Breakpoint.medium;
+  return Breakpoint.large;
+}
+
 class BreakpointProvider extends InheritedWidget {
   final Breakpoint breakpoint;
   const BreakpointProvider({
@@ -36,11 +43,7 @@ class ResponsiveScaffold extends StatelessWidget {
     this.bottomNavigationBar,
   });
 
-  Breakpoint _fromWidth(double width) {
-    if (width < 600) return Breakpoint.small;
-    if (width < 1000) return Breakpoint.medium;
-    return Breakpoint.large;
-  }
+  Breakpoint _fromWidth(double width) => breakpointFromWidth(width);
 
   @override
   Widget build(BuildContext context) {

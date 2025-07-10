@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kabast/shared/responsive/responsive_layout.dart';
 import 'package:kabast/theme/app_tokens.dart';
+import 'package:kabast/theme/theme.dart';
 import 'package:kabast/feature/grafik/widget/task/task_list.dart';
 import 'package:kabast/feature/date/date_cubit.dart';
 
@@ -17,59 +18,74 @@ class SingleDayGrafikView extends StatelessWidget {
   Widget build(BuildContext context) {
     final selectedDay = context.watch<DateCubit>().state.selectedDay;
 
-    return ResponsiveScaffold(
-      appBar: GrafikAppBar(
-        title: Text('${AppStrings.grafik}: ${_formatDate(selectedDay)}'),
-        actions: [
-          // canChangeDate
-          PermissionWidget(
-            permission: 'canChangeDate',
-            child: IconButton(
-              icon: const Icon(Icons.calendar_today),
-              onPressed: () async {
-                final now = DateTime.now();
-                final picked = await showDatePicker(
-                  context: context,
-                  initialDate: selectedDay,
-                  firstDate: DateTime(now.year - 2),
-                  lastDate: DateTime(now.year + 2),
-                );
-                if (picked != null) {
-                  context.read<DateCubit>().changeSelectedDay(picked);
-                }
-              },
-            ),
-          ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.maxWidth == double.infinity
+            ? MediaQuery.of(context).size.width
+            : constraints.maxWidth;
+        final bp = breakpointFromWidth(width);
 
-          // canSeeWeeklySummary
-          PermissionWidget(
-            permission: 'canSeeWeeklySummary',
-            child: IconButton(
-              icon: const Icon(Icons.view_week),
-              tooltip: AppStrings.weekView,
+        return ResponsiveScaffold(
+          appBar: GrafikAppBar(
+            title: Text(
+              '${AppStrings.grafik}: ${_formatDate(selectedDay)}',
+              style: AppTheme.textStyleFor(
+                bp,
+                Theme.of(context).textTheme.titleLarge!,
+              ),
+            ),
+            actions: [
+              Wrap(
+                spacing: AppSpacing.sm,
+                children: [
+                  PermissionWidget(
+                    permission: 'canChangeDate',
+                    child: IconButton(
+                      icon: const Icon(Icons.calendar_today),
+                      onPressed: () async {
+                        final now = DateTime.now();
+                        final picked = await showDatePicker(
+                          context: context,
+                          initialDate: selectedDay,
+                          firstDate: DateTime(now.year - 2),
+                          lastDate: DateTime(now.year + 2),
+                        );
+                        if (picked != null) {
+                          context.read<DateCubit>().changeSelectedDay(picked);
+                        }
+                      },
+                    ),
+                  ),
+                  PermissionWidget(
+                    permission: 'canSeeWeeklySummary',
+                    child: IconButton(
+                      icon: const Icon(Icons.view_week),
+                      tooltip: AppStrings.weekView,
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/weekGrafik');
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          body: ResponsivePadding(
+            small: const EdgeInsets.all(AppSpacing.sm),
+            medium: const EdgeInsets.all(AppSpacing.sm * 2),
+            large: const EdgeInsets.all(AppSpacing.sm * 3),
+            child: TaskList(date: selectedDay, breakpoint: bp),
+          ),
+          floatingActionButton: PermissionWidget(
+            permission: 'canAddGrafik',
+            child: CustomFAB(
               onPressed: () {
-                Navigator.pushNamed(context, '/weekGrafik');
+                Navigator.pushNamed(context, '/addGrafik');
               },
             ),
           ),
-        ],
-      ),
-
-      body: ResponsivePadding(
-        small: const EdgeInsets.all(AppSpacing.sm),
-        medium: const EdgeInsets.all(AppSpacing.sm * 2),
-        large: const EdgeInsets.all(AppSpacing.sm * 3),
-        child: TaskList(date: selectedDay),
-      ), // 🔁 ważne: użyj wybranego dnia z Cubita
-
-      floatingActionButton: PermissionWidget(
-        permission: 'canAddGrafik',
-        child: CustomFAB(
-          onPressed: () {
-            Navigator.pushNamed(context, '/addGrafik');
-          },
-        ),
-      ),
+        );
+      },
     );
   }
 

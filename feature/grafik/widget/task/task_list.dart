@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kabast/feature/grafik/form/time_issue_row.dart';
 import 'package:kabast/feature/permission/permission_widget.dart';
 import 'package:kabast/theme/app_tokens.dart';
+import 'package:kabast/theme/theme.dart';
+import 'package:kabast/shared/responsive/responsive_layout.dart';
 import '../../../../domain/models/grafik/enums.dart';
 import '../../cubit/grafik_cubit.dart';
 import '../../cubit/grafik_state.dart';
@@ -13,8 +15,10 @@ import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 
 class TaskList extends StatelessWidget {
   final DateTime date;
+  final Breakpoint breakpoint;
 
-  const TaskList({Key? key, required this.date}) : super(key: key);
+  const TaskList({Key? key, required this.date, required this.breakpoint})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +35,12 @@ class TaskList extends StatelessWidget {
               child: Text(
                 AppStrings.noTasksToday,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
+                style: AppTheme.textStyleFor(
+                  breakpoint,
+                  Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(color: Theme.of(context).colorScheme.primary),
                 ),
               ),
             ),
@@ -40,75 +48,71 @@ class TaskList extends StatelessWidget {
         }
 
         final standardTasks =
-        tasks.where((task) => task.orderId == "0001").toList();
+            tasks.where((task) => task.orderId == "0001").toList();
         final nonStandardTasks =
-        tasks.where((task) => task.orderId != "0001").toList();
+            tasks.where((task) => task.orderId != "0001").toList();
 
-        return LayoutBuilder(
-          builder: (context, constraints) {
-            final List<Widget> children = [
-              Column(
+        final List<Widget> children = [
+          Column(
+            children: [
+              PermissionWidget(
+                permission: "canEditGrafik",
+                child: EmployeeDailySummary(
+                  tasks: tasks,
+                  employees: employees,
+                  timeIssues: issues,
+                  assignments: context.read<GrafikCubit>().state.assignments,
+                ),
+              ),
+              TimeIssueRow(timeIssues: issues),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.sm * 2),
+        ];
+
+        if (standardTasks.isNotEmpty) {
+          children.add(
+            StandardTaskRow(standardTasks: standardTasks),
+          );
+        }
+
+        if (nonStandardTasks.isNotEmpty) {
+          final isWide = breakpoint != Breakpoint.small;
+          final columns = isWide
+              ? _splitTasksEvenly(nonStandardTasks)
+              : {
+                  'left': _sortTasksForSingleColumn(nonStandardTasks),
+                  'right': <TaskElement>[]
+                };
+
+          children.add(
+            Expanded(
+              child: Row(
                 children: [
-                  PermissionWidget(
-                    permission: "canEditGrafik",
-                    child: EmployeeDailySummary(
-                      tasks: tasks,
-                      employees: employees,
-                      timeIssues: issues,
-                      assignments: context.read<GrafikCubit>().state.assignments,
+                  Expanded(
+                    child: Column(
+                      children: columns['left']!
+                          .map((task) => Flexible(child: TaskTile(task: task)))
+                          .toList(),
                     ),
                   ),
-                  TimeIssueRow(timeIssues: issues),
+                  if (isWide) ...[
+                    const SizedBox(width: AppSpacing.sm),
+                    Expanded(
+                      child: Column(
+                        children: columns['right']!
+                            .map((task) => Flexible(child: TaskTile(task: task)))
+                            .toList(),
+                      ),
+                    ),
+                  ],
                 ],
               ),
-              const SizedBox(height: AppSpacing.sm * 2),
-            ];
+            ),
+          );
+        }
 
-            if (standardTasks.isNotEmpty) {
-              children.add(
-                StandardTaskRow(standardTasks: standardTasks),
-              );
-            }
-
-            if (nonStandardTasks.isNotEmpty) {
-              final isWide = constraints.maxWidth > 600;
-              final columns = isWide
-                  ? _splitTasksEvenly(nonStandardTasks)
-                  : {
-                'left': _sortTasksForSingleColumn(nonStandardTasks),
-                'right': <TaskElement>[]
-              };
-
-              children.add(
-                Expanded(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          children: columns['left']!
-                              .map((task) => Flexible(child: TaskTile(task: task)))
-                              .toList(),
-                        ),
-                      ),
-                      if (isWide) ...[
-                        const SizedBox(width: AppSpacing.sm),
-                        Expanded(
-                          child: Column(
-                            children: columns['right']!
-                                .map((task) => Flexible(child: TaskTile(task: task)))
-                                .toList(),
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-              );
-            }
-
-            return Column(children: children);
-          },
-        );
+        return Column(children: children);
       },
     );
   }
