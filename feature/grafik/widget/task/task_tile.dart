@@ -64,6 +64,14 @@ class TaskTile extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
                 child: AssignmentList(assignments: task.assignments),
+              )
+            else
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+                child: Text(
+                  'Brak przypisanych pracowników',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
               ),
             EmployeeChipList(employees: employees),
             if (vehicles.isNotEmpty)

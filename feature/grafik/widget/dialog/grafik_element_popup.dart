@@ -15,7 +15,7 @@ import 'package:kabast/feature/permission/permission_widget.dart';
 import 'package:kabast/injection.dart';
 
 import '../../cubit/grafik_cubit.dart';
-import '../task/employee_list.dart';
+import '../task/assignment_list.dart';
 import '../task/vehicle_list.dart';
 
 Future<void> showGrafikElementPopup(
@@ -183,8 +183,10 @@ class _GrafikElementPopupState extends State<GrafikElementPopup> {
 
   List<Widget> _buildTaskElementDetails(TaskElement task) => [
     const Text('Pracownicy:'),
-    EmployeeList(
-        employeeIds: task.assignments.map((a) => a.workerId).toList()),
+    if (task.assignments.isNotEmpty)
+      AssignmentList(assignments: task.assignments)
+    else
+      const Text('Brak przypisanych pracowników'),
     const SizedBox(height: 8),
     Text('Order ID: ${task.orderId}'),
     Text('Status: ${task.status.name}'),

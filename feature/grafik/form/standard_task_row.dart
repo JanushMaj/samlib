@@ -17,7 +17,7 @@ class StandardTaskRow extends StatelessWidget {
     final employees = context.watch<GrafikCubit>().state.employees;
 
     final List<Widget> taskWidgets = standardTasks.map((task) {
-      final assignedIds = task.assignments.map((a) => a.workerId).toList();
+      final assignedIds = task.assignments.map((a) => a.workerId).toSet();
       List<String> workerSurnames;
       if (assignedIds.isEmpty) {
         workerSurnames = ["Brak przypisanych pracowników"];

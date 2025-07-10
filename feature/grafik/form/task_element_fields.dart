@@ -21,8 +21,9 @@ class TaskFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final assignedIds = element.assignments.map((a) => a.workerId).toList();
-    final missing = (element.expectedWorkerCount ?? 0) - assignedIds.length;
+    final assignedCount =
+        element.assignments.map((a) => a.workerId).toSet().length;
+    final missing = (element.expectedWorkerCount ?? 0) - assignedCount;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -66,18 +67,19 @@ class TaskFields extends StatelessWidget {
 
         EmployeePicker(
           employeeStream: GetIt.I<EmployeeRepository>().getEmployees(),
-          initialSelectedIds: assignedIds,
+          initialSelectedIds:
+              element.assignments.map((a) => a.workerId).toList(),
           onSelectionChanged: (selectedEmployees) {
-            final ids = selectedEmployees.map((e) => e.uid).toList();
-            final assigns = ids
-                .map((id) => TaskAssignment(
-                      workerId: id,
+            final assignments = selectedEmployees
+                .map((e) => TaskAssignment(
+                      workerId: e.uid,
                       startDateTime: element.startDateTime,
                       endDateTime: element.endDateTime,
                     ))
                 .toList();
-            context.read<GrafikElementFormCubit>()
-                .updateField('assignments', assigns);
+            context
+                .read<GrafikElementFormCubit>()
+                .updateField('assignments', assignments);
           },
         ),
         const SizedBox(height: AppSpacing.sm * 2),
