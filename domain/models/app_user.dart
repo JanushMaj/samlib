@@ -22,6 +22,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canEditSettings': true,
         'canLogout': true,
         'canChangeDate': true,
+        'canSeeAllGrafik': true,
         'canUseApp': true,
       };
     case UserRole.czlowiekZarzadu:
@@ -35,6 +36,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canEditSettings': true,
         'canLogout': true,
         'canChangeDate': true,
+        'canSeeAllGrafik': true,
         'canUseApp': true,
       };
     case UserRole.kierownik:
@@ -47,6 +49,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canEditSettings': false,
         'canLogout': true,
         'canChangeDate': true,
+        'canSeeAllGrafik': true,
         'canUseApp': true,
       };
     case UserRole.monter:
@@ -59,6 +62,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canEditSettings': false,
         'canLogout': true,
         'canChangeDate': false,
+        'canSeeAllGrafik': false,
         'canUseApp': true,
       };
     case UserRole.hala:
@@ -70,7 +74,8 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canViewServiceTasks': true,
         'canEditSettings': false,
         'canLogout': false,
-        'canChangeDate': false,
+        'canChangeDate': true,
+        'canSeeAllGrafik': false,
         'canUseApp': true,
       };
     case UserRole.kierownikProdukcji:
@@ -83,6 +88,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canEditSettings': false,
         'canLogout': true,
         'canChangeDate': true,
+        'canSeeAllGrafik': true,
         'canUseApp': true,
       };
     default:
@@ -95,6 +101,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canEditSettings': false,
         'canLogout': true,
         'canChangeDate': false,
+        'canSeeAllGrafik': false,
         'canUseApp': false, // tylko user nie może
       };
   }
