@@ -9,6 +9,7 @@ import '../dialog/grafik_element_popup.dart';
 import 'transfer_list.dart';
 import 'task_header.dart';
 import 'employee_chip_list.dart';
+import 'assignment_list.dart';
 import 'vehicle_list.dart';
 
 class TaskTile extends StatelessWidget {
@@ -33,7 +34,11 @@ class TaskTile extends StatelessWidget {
   Widget build(BuildContext context) {
     // Pobierz dane
     final state      = context.watch<GrafikCubit>().state;
-    final employees  = state.employees.where((e) => task.workerIds.contains(e.uid));
+    final assignedIds = task.assignments.isNotEmpty
+        ? task.assignments.map((a) => a.workerId).toSet()
+        : task.workerIds.toSet();
+    final employees =
+        state.employees.where((e) => assignedIds.contains(e.uid));
     final vehicles   = state.vehicles .where((v) => task.carIds.contains(v.id));
     final transfers  = state.taskTransferDisplayMapping[task.id];
 
@@ -57,6 +62,11 @@ class TaskTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TaskHeader(task: task, typeIcon: typeIcon, statusIcon: statusIcon),
+            if (task.assignments.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+                child: AssignmentList(assignments: task.assignments),
+              ),
             EmployeeChipList(employees: employees),
             if (vehicles.isNotEmpty)
               Padding(

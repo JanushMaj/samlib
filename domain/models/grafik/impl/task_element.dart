@@ -1,5 +1,6 @@
 import '../enums.dart';
 import '../grafik_element.dart';
+import 'task_assignment.dart';
 
 /// Element zadania, np. przypisanie pracowników do konkretnego zadania.
 class TaskElement extends GrafikElement {
@@ -9,6 +10,7 @@ class TaskElement extends GrafikElement {
   final GrafikStatus status;
   final GrafikTaskType taskType;
   final List<String> carIds;
+  final List<TaskAssignment> assignments;
 
   // ───────── TYLKO DO WIDOKU ─────────
   /// Ilu pracowników pierwotnie planowano (przy konwersji z TaskPlanningElement).
@@ -27,6 +29,7 @@ class TaskElement extends GrafikElement {
     required this.status,
     required this.taskType,
     required this.carIds,
+    this.assignments = const [],
     required String addedByUserId,
     required DateTime addedTimestamp,
     required bool closed,
@@ -56,6 +59,7 @@ class TaskElement extends GrafikElement {
     DateTime? endDateTime,
     String? additionalInfo,
     List<String>? workerIds,
+    List<TaskAssignment>? assignments,
     String? orderId,
     GrafikStatus? status,
     GrafikTaskType? taskType,
@@ -76,6 +80,7 @@ class TaskElement extends GrafikElement {
       status: status ?? this.status,
       taskType: taskType ?? this.taskType,
       carIds: carIds ?? List<String>.from(this.carIds),
+      assignments: assignments ?? List<TaskAssignment>.from(this.assignments),
       addedByUserId: addedByUserId ?? this.addedByUserId,
       addedTimestamp: addedTimestamp ?? this.addedTimestamp,
       closed: closed ?? this.closed,
@@ -97,6 +102,7 @@ class TaskElement extends GrafikElement {
     status: status,
     taskType: taskType,
     carIds: List<String>.from(carIds),
+    assignments: List<TaskAssignment>.from(assignments),
     addedByUserId: addedByUserId,
     addedTimestamp: addedTimestamp,
     closed: closed,
