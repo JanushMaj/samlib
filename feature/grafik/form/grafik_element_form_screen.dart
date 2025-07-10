@@ -8,6 +8,8 @@ import 'components/date_input_selector.dart';
 import 'components/type_dropdown.dart';
 import '../../../shared/form/custom_button.dart';
 import '../../../shared/form/custom_textfield.dart';
+import '../../../shared/form/standard/standard_form_field.dart';
+import '../../../shared/form/standard/standard_form_section.dart';
 import '../cubit/form/grafik_element_form_cubit.dart';
 import '../../../data/repositories/grafik_element_repository.dart';
 import '../../../data/repositories/task_assignment_repository.dart';
@@ -51,24 +53,32 @@ class GrafikElementFormScreen extends StatelessWidget {
               ),
               body: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    dateInput,
-                    const SizedBox(height: 16),
-                    CustomTextField(
-                      label: 'Opis',
-                      initialValue: element.additionalInfo,
-                      onChanged: (val) =>
-                          context.read<GrafikElementFormCubit>().updateField('additionalInfo', val),
+                child: StandardFormSection(
+                  fields: [
+                    StandardFormField(
+                      label: 'Termin',
+                      child: dateInput,
                     ),
-                    const SizedBox(height: 16),
-                    GrafikElementRegistry.buildFormFields(element),
-                    const SizedBox(height: 16),
-                    CustomButton(
-                      text: 'Zapisz',
-                      onPressed: state.isSubmitting
-                          ? null
-                          : () => context.read<GrafikElementFormCubit>().saveElement(),
+                    StandardFormField(
+                      label: 'Opis',
+                      child: TextFormField(
+                        initialValue: element.additionalInfo,
+                        onChanged: (val) =>
+                            context.read<GrafikElementFormCubit>().updateField('additionalInfo', val),
+                      ),
+                    ),
+                    StandardFormField(
+                      label: '',
+                      child: GrafikElementRegistry.buildFormFields(element),
+                    ),
+                    StandardFormField(
+                      label: '',
+                      child: CustomButton(
+                        text: 'Zapisz',
+                        onPressed: state.isSubmitting
+                            ? null
+                            : () => context.read<GrafikElementFormCubit>().saveElement(),
+                      ),
                     ),
                   ],
                 ),
