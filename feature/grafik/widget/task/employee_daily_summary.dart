@@ -43,8 +43,8 @@ class EmployeeDailySummary extends StatelessWidget {
         ),
       );
       employeeEntries.putIfAbsent(a.workerId, () => []).add({
-        'start': a.startDateTime,
-        'end': a.endDateTime,
+        'start': task.startDateTime,
+        'end': task.endDateTime,
         'orderId': task.orderId,
       });
     }
