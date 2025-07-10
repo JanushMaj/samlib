@@ -20,10 +20,24 @@ class EmployeeDailySummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, List<TaskElement>> employeeTasks = {};
+    final Map<String, List<Map<String, dynamic>>> employeeEntries = {};
     for (final task in tasks) {
-      for (final workerId in task.workerIds) {
-        employeeTasks.putIfAbsent(workerId, () => []).add(task);
+      if (task.assignments.isNotEmpty) {
+        for (final a in task.assignments) {
+          employeeEntries.putIfAbsent(a.workerId, () => []).add({
+            'start': a.startDateTime,
+            'end': a.endDateTime,
+            'orderId': task.orderId,
+          });
+        }
+      } else {
+        for (final workerId in task.workerIds) {
+          employeeEntries.putIfAbsent(workerId, () => []).add({
+            'start': task.startDateTime,
+            'end': task.endDateTime,
+            'orderId': task.orderId,
+          });
+        }
       }
     }
 
@@ -38,22 +52,21 @@ class EmployeeDailySummary extends StatelessWidget {
     for (final employee in employees) {
       final uid = employee.uid;
       final surname = employee.fullName.split(' ').first;
-      final userTasks = employeeTasks[uid] ?? [];
+      final userEntries = employeeEntries[uid] ?? [];
       final userIssues = employeeIssues[uid] ?? [];
-
-      userTasks.sort((a, b) => a.startDateTime.compareTo(b.startDateTime));
+      userEntries.sort((a, b) =>
+          (a['start'] as DateTime).compareTo(b['start'] as DateTime));
       final List<String> ranges = [];
       DateTime? lastEnd;
       bool hasConflict = false;
 
-      for (final task in userTasks) {
-        final start = task.startDateTime;
-        final end = task.endDateTime;
+      for (final entry in userEntries) {
+        final start = entry['start'] as DateTime;
+        final end = entry['end'] as DateTime;
         if (lastEnd != null && lastEnd.isAfter(start)) {
           hasConflict = true;
         }
         lastEnd = end;
-
         if (start.hour < 15 && end.hour > 7) {
           final from = max(7, start.hour);
           final to = min(15, end.hour);
@@ -85,7 +98,10 @@ class EmployeeDailySummary extends StatelessWidget {
       }
 
       if (hasConflict) {
-        final orderIds = userTasks.map((e) => e.orderId).toSet().join(", ");
+        final orderIds = userEntries
+            .map((e) => e['orderId'] as String)
+            .toSet()
+            .join(", ");
         conflicts.add("$surname: $orderIds");
       }
 
