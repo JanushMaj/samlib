@@ -1,11 +1,25 @@
 
 import 'package:flutter/material.dart';
+import 'package:kabast/shared/responsive/responsive_layout.dart';
 
 /// Stałe odstępów, marginesów, paddingów
 class AppSpacing {
   static const double xxs = 1.0;
   static const double xs = 2.0;
   static const double sm = 4.0;
+
+  static double _scale(Breakpoint bp) {
+    switch (bp) {
+      case Breakpoint.small:
+        return 1.0;
+      case Breakpoint.medium:
+        return 1.5;
+      case Breakpoint.large:
+        return 2.0;
+    }
+  }
+
+  static double scaled(double base, Breakpoint bp) => base * _scale(bp);
 
   /// Szerokość obramowania
   static const double borderThin = 1.0;

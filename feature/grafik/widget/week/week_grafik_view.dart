@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:kabast/feature/grafik/widget/week/grafik_planning_stack.dart';
+import 'package:kabast/shared/responsive/responsive_layout.dart';
 import 'package:kabast/theme/app_tokens.dart';
 import '../pending_task_column.dart';
 import '../../../../shared/appbar/grafik_appbar.dart';
@@ -14,7 +15,7 @@ class WeekGrafikView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ResponsiveScaffold(
       appBar: GrafikAppBar(
         title: BlocBuilder<DateCubit, DateState>(
           builder: (context, dateState) {
@@ -58,8 +59,12 @@ class WeekGrafikView extends StatelessWidget {
       // ────────────────────────────────────────────────────────────
       //  Główne body  →  grafiki + (opcjonalnie) boczna kolumna
       // ────────────────────────────────────────────────────────────
-      body: LayoutBuilder(
-        builder: (context, constraints) {
+      body: ResponsivePadding(
+        small: const EdgeInsets.all(AppSpacing.sm),
+        medium: const EdgeInsets.all(AppSpacing.sm * 2),
+        large: const EdgeInsets.all(AppSpacing.sm * 3),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
           if (constraints.maxWidth > 1000) {
             return Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,6 +86,7 @@ class WeekGrafikView extends StatelessWidget {
           // Wąskie ekrany → tylko grafik
           return const GrafikPlanningStack();
         },
+        ),
       ),
 
       floatingActionButton: PermissionWidget(

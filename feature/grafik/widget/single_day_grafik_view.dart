@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kabast/shared/responsive/responsive_layout.dart';
 import 'package:kabast/theme/app_tokens.dart';
 import 'package:kabast/feature/grafik/widget/task/task_list.dart';
 import 'package:kabast/feature/date/date_cubit.dart';
@@ -16,7 +17,7 @@ class SingleDayGrafikView extends StatelessWidget {
   Widget build(BuildContext context) {
     final selectedDay = context.watch<DateCubit>().state.selectedDay;
 
-    return Scaffold(
+    return ResponsiveScaffold(
       appBar: GrafikAppBar(
         title: Text('${AppStrings.grafik}: ${_formatDate(selectedDay)}'),
         actions: [
@@ -54,7 +55,12 @@ class SingleDayGrafikView extends StatelessWidget {
         ],
       ),
 
-      body: TaskList(date: selectedDay), // 🔁 ważne: użyj wybranego dnia z Cubita
+      body: ResponsivePadding(
+        small: const EdgeInsets.all(AppSpacing.sm),
+        medium: const EdgeInsets.all(AppSpacing.sm * 2),
+        large: const EdgeInsets.all(AppSpacing.sm * 3),
+        child: TaskList(date: selectedDay),
+      ), // 🔁 ważne: użyj wybranego dnia z Cubita
 
       floatingActionButton: PermissionWidget(
         permission: 'canAddGrafik',

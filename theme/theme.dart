@@ -1,7 +1,25 @@
 import 'package:flutter/material.dart';
 import 'app_tokens.dart';
+import 'package:kabast/shared/responsive/responsive_layout.dart';
 
 class AppTheme {
+  static double _scaleFor(Breakpoint bp) {
+    switch (bp) {
+      case Breakpoint.small:
+        return 0.8;
+      case Breakpoint.medium:
+        return 1.0;
+      case Breakpoint.large:
+        return 1.2;
+    }
+  }
+
+  static TextStyle textStyleFor(Breakpoint bp, TextStyle style) {
+    final scale = _scaleFor(bp);
+    return style.copyWith(
+      fontSize: style.fontSize != null ? style.fontSize! * scale : null,
+    );
+  }
   static ThemeData buildTheme() {
     final view = WidgetsBinding.instance.platformDispatcher.views.first;
     final width = view.physicalSize.width / view.devicePixelRatio;
