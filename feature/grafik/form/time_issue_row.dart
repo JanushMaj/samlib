@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
 import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
 import 'package:kabast/theme/app_tokens.dart';
+import 'package:kabast/theme/theme.dart';
+import 'package:kabast/shared/responsive/responsive_layout.dart';
 
 class TimeIssueRow extends StatelessWidget {
   final List<TimeIssueElement> timeIssues;
@@ -42,17 +44,25 @@ class TimeIssueRow extends StatelessWidget {
       final displayText = "$formattedName, $truncatedInfo";
 
       return Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: AppSpacing.sm,
-          horizontal: AppSpacing.sm,
+        padding: EdgeInsets.symmetric(
+          vertical: AppSpacing.scaled(AppSpacing.sm, context.breakpoint),
+          horizontal: AppSpacing.scaled(AppSpacing.sm, context.breakpoint),
         ),
         child: Row(
           children: [
-            const Icon(Icons.warning_amber, size: 22),
-            const SizedBox(width: 6),
+            Icon(
+              Icons.warning_amber,
+              size: AppTheme.sizeFor(context.breakpoint, 22),
+            ),
+            SizedBox(
+              width: AppTheme.sizeFor(context.breakpoint, 6),
+            ),
             Text(
               displayText,
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 22),
+              style: AppTheme.textStyleFor(
+                context.breakpoint,
+                Theme.of(context).textTheme.bodyLarge!,
+              ),
             ),
           ],
         ),
@@ -62,7 +72,9 @@ class TimeIssueRow extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(AppSpacing.sm),
+      padding: EdgeInsets.all(
+        AppSpacing.scaled(AppSpacing.sm, context.breakpoint),
+      ),
       color: Colors.red.shade100,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,

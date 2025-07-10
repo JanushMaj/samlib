@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/theme/app_tokens.dart';
+import 'package:kabast/theme/theme.dart';
+import 'package:kabast/shared/responsive/responsive_layout.dart';
 
 import '../widget/dialog/grafik_element_popup.dart';
 
@@ -55,10 +57,16 @@ class StandardTaskRow extends StatelessWidget {
           showGrafikElementPopup(context, task);
         },
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm, horizontal: AppSpacing.sm),
+          padding: EdgeInsets.symmetric(
+            vertical: AppSpacing.scaled(AppSpacing.sm, context.breakpoint),
+            horizontal: AppSpacing.scaled(AppSpacing.sm, context.breakpoint),
+          ),
           child: Text(
             displayText,
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 22),
+            style: AppTheme.textStyleFor(
+              context.breakpoint,
+              Theme.of(context).textTheme.bodyLarge!,
+            ),
           ),
         ),
       );
@@ -66,7 +74,9 @@ class StandardTaskRow extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(AppSpacing.sm),
+      padding: EdgeInsets.all(
+        AppSpacing.scaled(AppSpacing.sm, context.breakpoint),
+      ),
       color: Colors.grey.shade300, // Kolor tła, by wyróżnić ten obszar.
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

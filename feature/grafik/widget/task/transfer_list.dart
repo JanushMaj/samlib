@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kabast/shared/responsive/responsive_single_line_text.dart';
+import 'package:kabast/theme/theme.dart';
+import 'package:kabast/shared/responsive/responsive_layout.dart';
 
 class TransferList extends StatelessWidget {
   final List<String> transferInfo;
@@ -15,11 +17,13 @@ class TransferList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: transferInfo.map((info) {
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2.0),
+          padding: EdgeInsets.symmetric(
+            vertical: AppTheme.sizeFor(context.breakpoint, 2.0),
+          ),
           child: ResponsiveSingleLineText(
             text: info,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              fontSize: 12,
+              fontSize: AppTheme.sizeFor(context.breakpoint, 12),
               fontStyle: FontStyle.italic,
               color: Colors.purple,
             ),
