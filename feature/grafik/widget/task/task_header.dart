@@ -6,6 +6,8 @@ import 'package:collection/collection.dart';
 import 'package:kabast/domain/models/employee.dart';
 import '../../cubit/grafik_cubit.dart';
 import 'package:kabast/domain/models/grafik/task_assignment.dart';
+import 'package:kabast/shared/responsive/responsive_layout.dart';
+import 'package:kabast/theme/theme.dart';
 
 class TaskHeader extends StatelessWidget {
   final TaskElement task;
@@ -32,7 +34,10 @@ class TaskHeader extends StatelessWidget {
       if (byWorker.isEmpty) {
         return Text(
           'Brak przypisanych pracowników',
-          style: Theme.of(context).textTheme.bodyMedium,
+          style: AppTheme.textStyleFor(
+            context.breakpoint,
+            Theme.of(context).textTheme.bodyMedium!,
+          ),
         );
       }
       return Column(
@@ -45,8 +50,13 @@ class TaskHeader extends StatelessWidget {
               .sorted((a, b) => a.startDateTime.compareTo(b.startDateTime))
               .map((a) => '${fmt(a.startDateTime)}-${fmt(a.endDateTime)}')
               .join(', ');
-          return Text('$name $times',
-              style: Theme.of(context).textTheme.bodyMedium);
+          return Text(
+            '$name $times',
+            style: AppTheme.textStyleFor(
+              context.breakpoint,
+              Theme.of(context).textTheme.bodyMedium!,
+            ),
+          );
         }).toList(),
       );
     }
@@ -56,7 +66,7 @@ class TaskHeader extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(typeIcon, size: 28),
+          Icon(typeIcon, size: AppTheme.sizeFor(context.breakpoint, 28)),
           const SizedBox(width: 8),
           Expanded(
             child: Column(
@@ -64,17 +74,23 @@ class TaskHeader extends StatelessWidget {
               children: [
                 Text(
                   task.additionalInfo,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge
-                      ?.copyWith(fontWeight: FontWeight.bold),
+                  style: AppTheme.textStyleFor(
+                    context.breakpoint,
+                    Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 4),
                 Text(
                   task.orderId,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: AppTheme.textStyleFor(
+                    context.breakpoint,
+                    Theme.of(context).textTheme.bodyMedium!,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -84,7 +100,7 @@ class TaskHeader extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          Icon(statusIcon, size: 28),
+          Icon(statusIcon, size: AppTheme.sizeFor(context.breakpoint, 28)),
         ],
       ),
     );
