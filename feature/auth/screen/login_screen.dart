@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kabast/shared/responsive/responsive_layout.dart';
 import 'package:kabast/theme/app_tokens.dart';
 import '../auth_cubit.dart';
 import '../auth_state.dart';
@@ -23,16 +24,19 @@ class LoginScreen extends StatelessWidget {
           );
         }
       },
-      child: Scaffold(
+      child: ResponsiveScaffold(
         body: LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(
-              padding: const EdgeInsets.all(AppSpacing.sm * 4),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight,
-                  maxWidth: 400,
-                ),
+              child: ResponsivePadding(
+                small: EdgeInsets.all(AppSpacing.sm * 4),
+                medium: EdgeInsets.all(AppSpacing.sm * 6),
+                large: EdgeInsets.all(AppSpacing.sm * 8),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight,
+                    maxWidth: 400,
+                  ),
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

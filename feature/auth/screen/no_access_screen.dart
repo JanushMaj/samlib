@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kabast/shared/appbar/grafik_appbar.dart';
+import 'package:kabast/shared/responsive/responsive_layout.dart';
 import 'package:kabast/theme/app_tokens.dart';
 
 class NoAccessScreen extends StatelessWidget {
@@ -9,11 +10,13 @@ class NoAccessScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
 
-    return Scaffold(
+    return ResponsiveScaffold(
       appBar: GrafikAppBar(title: Text(AppStrings.noAccessTitle, style: theme.titleLarge)),
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.sm * 4),
+        child: ResponsivePadding(
+          small: EdgeInsets.all(AppSpacing.sm * 4),
+          medium: EdgeInsets.all(AppSpacing.sm * 6),
+          large: EdgeInsets.all(AppSpacing.sm * 8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

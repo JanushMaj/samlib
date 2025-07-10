@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kabast/theme/app_tokens.dart';
+import "package:kabast/theme/theme.dart";
+import 'package:kabast/shared/responsive/responsive_layout.dart';
 
 class SmallChip extends StatelessWidget {
   final String label;
@@ -22,9 +24,13 @@ class SmallChip extends StatelessWidget {
       children: [
         if (icon != null)
           Padding(
-            padding: const EdgeInsets.only(right: AppSpacing.xs), // 2.0
+          padding: EdgeInsets.only(
+            right: AppSpacing.scaled(AppSpacing.xs, context.breakpoint),
+          ),
             child: Container(
-              padding: const EdgeInsets.all(AppSpacing.xxs), // 1.0
+              padding: EdgeInsets.all(
+                AppSpacing.scaled(AppSpacing.xxs, context.breakpoint),
+              ), // 1.0
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.white,
@@ -38,7 +44,10 @@ class SmallChip extends StatelessWidget {
         Flexible(
           child: Text(
             label,
-            style: Theme.of(context).textTheme.bodySmall,
+            style: AppTheme.textStyleFor(
+              context.breakpoint,
+              Theme.of(context).textTheme.bodySmall!,
+            ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -53,10 +62,12 @@ class SmallChip extends StatelessWidget {
         constraints: BoxConstraints(
           maxWidth: MediaQuery.of(context).size.width * 0.3,
         ),
-        margin: const EdgeInsets.all(AppSpacing.xxs), // 1.0
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.xs, // 2.0
-          vertical: AppSpacing.xxs,  // 1.0
+        margin: EdgeInsets.all(
+          AppSpacing.scaled(AppSpacing.xxs, context.breakpoint),
+        ), // 1.0
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSpacing.scaled(AppSpacing.xs, context.breakpoint),
+          vertical: AppSpacing.scaled(AppSpacing.xxs, context.breakpoint),
         ),
         decoration: BoxDecoration(
           color: backgroundColor ?? Theme.of(context).chipTheme.backgroundColor,
