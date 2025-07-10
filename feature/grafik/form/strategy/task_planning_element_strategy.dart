@@ -6,6 +6,8 @@ import '../../../../domain/models/grafik/grafik_element.dart';
 import '../../../../domain/models/grafik/impl/task_planning_element.dart';
 import '../../../../domain/models/grafik/impl/task_template.dart';
 import 'grafik_element_form_strategy.dart';
+import '../../../../data/repositories/task_assignment_repository.dart';
+import '../../../../domain/models/grafik/task_assignment.dart';
 
 class TaskPlanningElementStrategy implements GrafikElementFormStrategy {
   final GrafikElementFormAdapter _adapter =
@@ -45,7 +47,12 @@ class TaskPlanningElementStrategy implements GrafikElementFormStrategy {
   }
 
   @override
-  Future<void> save(GrafikElementRepository repo, GrafikElement element) async {
+  Future<void> save(
+    GrafikElementRepository repo,
+    GrafikElement element, {
+    TaskAssignmentRepository? assignmentRepository,
+    List<TaskAssignment> assignments = const [],
+  }) async {
     await repo.saveGrafikElement(element);
   }
 }

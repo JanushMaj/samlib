@@ -10,6 +10,7 @@ import '../../../shared/form/custom_button.dart';
 import '../../../shared/form/custom_textfield.dart';
 import '../cubit/form/grafik_element_form_cubit.dart';
 import '../../../data/repositories/grafik_element_repository.dart';
+import '../../../data/repositories/task_assignment_repository.dart';
 
 class GrafikElementFormScreen extends StatelessWidget {
   final GrafikElement? existingElement;
@@ -21,6 +22,7 @@ class GrafikElementFormScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => GrafikElementFormCubit(
         grafikService: getIt<GrafikElementRepository>(),
+        assignmentRepository: getIt<TaskAssignmentRepository>(),
       )..initialize(existingElement),
       child: BlocConsumer<GrafikElementFormCubit, GrafikElementFormState>(
         listener: (context, state) {
