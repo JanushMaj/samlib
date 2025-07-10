@@ -8,6 +8,7 @@ import 'feature/grafik/widget/week/week_grafik_view.dart';
 import 'feature/auth/screen/no_access_screen.dart';
 import 'feature/my_tasks/my_tasks_screen.dart';
 import 'feature/assign_employee/assign_employee_screen.dart';
+import 'feature/my_tasks/assign_employee_screen.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -26,6 +27,9 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const MyTasksScreen());
       case '/assignEmployee':
         return MaterialPageRoute(builder: (_) => const AssignEmployeeScreen());
+      case '/myTasksAssignEmployee':
+        return MaterialPageRoute(
+            builder: (_) => const MyTasksAssignEmployeeScreen());
       case '/noAccess':
         return MaterialPageRoute(builder: (_) => const NoAccessScreen());
       case '/extras':
