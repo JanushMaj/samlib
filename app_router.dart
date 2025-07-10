@@ -5,6 +5,8 @@ import 'feature/extra_options/extra_options_screen.dart';
 import 'feature/grafik/form/grafik_element_form_screen.dart';
 import 'feature/grafik/grafik_wrapper.dart';
 import 'feature/grafik/widget/week/week_grafik_view.dart';
+import 'feature/auth/screen/no_access_screen.dart';
+import 'feature/my_tasks/my_tasks_screen.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -19,6 +21,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const WeekGrafikView(),
         );
+      case '/myTasks':
+        return MaterialPageRoute(builder: (_) => const MyTasksScreen());
+      case '/noAccess':
+        return MaterialPageRoute(builder: (_) => const NoAccessScreen());
       case '/extras':
         return MaterialPageRoute(builder: (_) => const ExtraOptionsScreen());
       case '/addGrafik':
