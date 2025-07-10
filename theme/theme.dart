@@ -20,6 +20,11 @@ class AppTheme {
       fontSize: style.fontSize != null ? style.fontSize! * scale : null,
     );
   }
+
+  /// Scales arbitrary size values according to the current [Breakpoint].
+  static double sizeFor(Breakpoint bp, double size) {
+    return size * _scaleFor(bp);
+  }
   static ThemeData buildTheme() {
     final view = WidgetsBinding.instance.platformDispatcher.views.first;
     final width = view.physicalSize.width / view.devicePixelRatio;

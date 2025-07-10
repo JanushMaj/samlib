@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kabast/domain/models/employee.dart';
 import 'package:kabast/theme/app_tokens.dart';
+import 'package:kabast/theme/theme.dart';
+import 'package:kabast/shared/responsive/responsive_layout.dart';
 
 class EmployeeChipList extends StatelessWidget {
   final Iterable<Employee> employees;
@@ -12,16 +14,18 @@ class EmployeeChipList extends StatelessWidget {
     if (employees.isEmpty) return const SizedBox.shrink();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSpacing.scaled(AppSpacing.sm, context.breakpoint),
+      ),
       child: Wrap(
-        spacing: 4,
-        runSpacing: 4,
-        children: employees.map(_buildChip).toList(),
+        spacing: AppTheme.sizeFor(context.breakpoint, 4),
+        runSpacing: AppTheme.sizeFor(context.breakpoint, 4),
+        children: employees.map((e) => _buildChip(context, e)).toList(),
       ),
     );
   }
 
-  Widget _buildChip(Employee e) {
+  Widget _buildChip(BuildContext context, Employee e) {
     final name = e.formattedNameWithSecondInitial;
     final parts = name.split(' ');
     final surname = parts.first;
@@ -35,25 +39,32 @@ class EmployeeChipList extends StatelessWidget {
             children: [
               TextSpan(
                 text: surname.substring(0, 1),
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
-                  color: Colors.black,
+                style: AppTheme.textStyleFor(
+                  context.breakpoint,
+                  Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
                 ),
               ),
               TextSpan(
                 text: surname.substring(1) + rest,
-                style: const TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 22,
-                  color: Colors.black,
+                style: AppTheme.textStyleFor(
+                  context.breakpoint,
+                  Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                      ),
                 ),
               ),
             ],
           ),
         ),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppTheme.sizeFor(context.breakpoint, 2),
+        vertical: AppTheme.sizeFor(context.breakpoint, 1),
+      ),
       labelPadding: EdgeInsets.zero,
       visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
