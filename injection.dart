@@ -22,6 +22,7 @@ import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
 import 'package:kabast/feature/date/date_cubit.dart';
 import 'package:kabast/data/repositories/grafik_element_repository.dart';
 import 'package:kabast/data/services/grafik_element_firebase_service.dart';
+import 'package:kabast/data/services/grafik_element_firebase_service_v2.dart';
 import 'package:kabast/domain/services/i_grafik_element_service.dart';
 
 import 'package:kabast/data/services/assignment_firebase_service.dart';
@@ -53,6 +54,11 @@ Future<void> setupLocator() async {
   );
   getIt.registerLazySingleton<IGrafikElementService>(
     () => GrafikElementFirebaseService(getIt<FirebaseFirestore>()),
+  );
+  // New Firestore service for task_elements_v2
+  getIt.registerLazySingleton<IGrafikElementService>(
+    () => GrafikElementFirebaseServiceV2(getIt<FirebaseFirestore>()),
+    instanceName: 'v2',
   );
   getIt.registerLazySingleton<IAssignmentService>(
     () => AssignmentFirebaseService(getIt<FirebaseFirestore>()),
