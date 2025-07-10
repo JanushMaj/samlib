@@ -127,4 +127,6 @@ class AppStrings {
   static const assignEmployeeTitle = 'Przypisz pracownika';
   static const noEmployeeAssigned = 'Nie przypisano konta do pracownika';
   static const assignMe = 'Przypisz mnie';
+  static const employeeAlreadyAssigned =
+      'Wybrany pracownik jest już przypisany do innego konta';
 }

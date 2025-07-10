@@ -39,7 +39,7 @@ class MyTasksScreen extends StatelessWidget {
               const SizedBox(height: AppSpacing.sm * 3),
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/assignEmployee');
+                  Navigator.of(context).pushNamed('/myTasksAssignEmployee');
                 },
                 child: const Text(AppStrings.assignMe),
               ),
