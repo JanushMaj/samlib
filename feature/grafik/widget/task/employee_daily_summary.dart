@@ -5,14 +5,14 @@ import '../../../../domain/models/employee.dart';
 import '../../../../domain/models/grafik/impl/task_element.dart';
 import '../../../../domain/models/grafik/impl/time_issue_element.dart';
 import '../../../../theme/app_tokens.dart';
-import '../../../../domain/models/grafik/assignment.dart';
+import '../../../../domain/models/grafik/task_assignment.dart';
 import '../../../../domain/models/grafik/enums.dart';
 
 class EmployeeDailySummary extends StatelessWidget {
   final List<TaskElement> tasks;
   final List<Employee> employees;
   final List<TimeIssueElement> timeIssues;
-  final List<Assignment> assignments;
+  final List<TaskAssignment> assignments;
 
   const EmployeeDailySummary({
     super.key,

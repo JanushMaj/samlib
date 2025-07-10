@@ -17,7 +17,7 @@ import 'package:kabast/injection.dart';
 import '../../cubit/grafik_cubit.dart';
 import '../task/assignment_list.dart';
 import '../task/vehicle_list.dart';
-import 'package:kabast/domain/models/grafik/assignment.dart';
+import 'package:kabast/domain/models/grafik/task_assignment.dart';
 import 'package:kabast/domain/models/grafik/impl/task_assignment.dart' as impl;
 
 Future<void> showGrafikElementPopup(

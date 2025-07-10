@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
-import 'package:kabast/domain/models/grafik/assignment.dart';
+import 'package:kabast/domain/models/grafik/task_assignment.dart';
 import 'package:kabast/shared/turbo_grid/turbo_tile.dart';
 import 'package:kabast/shared/turbo_grid/turbo_grid.dart';
 
@@ -26,7 +26,7 @@ class TaskWeekTile extends StatelessWidget {
   String _buildEmployeeNames(BuildContext context) {
   final state = context.read<GrafikCubit>().state;
 
-  final byWorker = <String, List<Assignment>>{};
+  final byWorker = <String, List<TaskAssignment>>{};
   for (final a in state.assignments.where((a) => a.taskId == task.id)) {
     byWorker.putIfAbsent(a.workerId, () => []).add(a);
   }

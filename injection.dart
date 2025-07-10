@@ -80,11 +80,6 @@ Future<void> setupLocator() async {
   getIt.registerLazySingleton<TaskAssignmentRepository>(
     () => TaskAssignmentRepository(getIt<ITaskAssignmentService>()),
   );
-  getIt.registerLazySingleton<AssignmentRepository>(
-    () => AssignmentRepository(
-      getIt<TaskAssignmentRepository>(),
-    ),
-  );
   getIt.registerLazySingleton<IGrafikResolver>(
     () => GrafikResolver(getIt<GrafikElementRepository>()),
   );
@@ -110,7 +105,7 @@ Future<void> setupLocator() async {
       getIt<GrafikElementRepository>(),
       getIt<IVehicleWatcherService>(),
       getIt<EmployeeRepository>(),
-      getIt<AssignmentRepository>(),
+      getIt<TaskAssignmentRepository>(),
       getIt<DateCubit>(),
     ),
   );

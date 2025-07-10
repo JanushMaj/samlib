@@ -2,13 +2,13 @@ import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
 import 'package:kabast/domain/models/vehicle.dart';
 import 'package:kabast/domain/models/employee.dart';
-import 'package:kabast/domain/models/grafik/assignment.dart';
+import 'package:kabast/domain/models/grafik/task_assignment.dart';
 import 'states/week_grafik_data.dart';
 
 class GrafikState {
   final List<TaskElement> tasks;
   final List<TimeIssueElement> issues;
-  final List<Assignment> assignments;
+  final List<TaskAssignment> assignments;
   final Map<String, List<String>> taskTimeIssueDisplayMapping;
   final Map<String, List<String>> taskTransferDisplayMapping;
   final List<Vehicle> vehicles;
@@ -48,7 +48,7 @@ class GrafikState {
     List<TimeIssueElement>? issues,
     Map<String, List<String>>? taskTimeIssueDisplayMapping,
     Map<String, List<String>>? taskTransferDisplayMapping,
-    List<Assignment>? assignments,
+    List<TaskAssignment>? assignments,
     List<Vehicle>? vehicles,
     List<Employee>? employees,
     String? error,

@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:kabast/domain/models/employee.dart';
-import 'package:kabast/domain/models/grafik/assignment.dart';
+import 'package:kabast/domain/models/grafik/task_assignment.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
 
@@ -8,7 +8,7 @@ Map<String, List<String>> calculateTaskTimeIssueDisplayMapping({
   required List<TaskElement> tasks,
   required List<TimeIssueElement> issues,
   required List<Employee> employees,
-  required List<Assignment> assignments,
+  required List<TaskAssignment> assignments,
 }) {
   final mapping = <String, List<String>>{};
 
@@ -60,12 +60,12 @@ Map<String, List<String>> calculateTaskTimeIssueDisplayMapping({
 Map<String, List<String>> calculateTaskTransferDisplayMapping({
   required List<TaskElement> tasks,
   required List<Employee> employees,
-  required List<Assignment> assignments,
+  required List<TaskAssignment> assignments,
 }) {
   final mapping = <String, List<String>>{};
   final tasksById = {for (final t in tasks) t.id: t};
 
-  final assignmentsByWorker = <String, List<Assignment>>{};
+  final assignmentsByWorker = <String, List<TaskAssignment>>{};
   for (final a in assignments) {
     assignmentsByWorker.putIfAbsent(a.workerId, () => []).add(a);
   }
