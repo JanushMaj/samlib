@@ -39,6 +39,8 @@ class AuthWrapper extends StatelessWidget {
     );
   }
 
+  // Determines the home screen after login based on permissions.
+  // The mapping is documented in docs/roles.md for maintainability.
   String _resolveHomeRoute(AppUser user) {
     final perms = user.effectivePermissions;
 
