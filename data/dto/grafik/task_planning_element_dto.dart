@@ -11,7 +11,6 @@ class TaskPlanningElementDto extends GrafikElementDto {
   final GrafikTaskType taskType;
   final int minutes;
   final bool highPriority;
-  final List<String> workerIds;
   final bool isPending;
 
   TaskPlanningElementDto({
@@ -29,7 +28,6 @@ class TaskPlanningElementDto extends GrafikElementDto {
     required this.taskType,
     required this.minutes,
     required this.highPriority,
-    required this.workerIds,
     this.isPending = false,
   });
 
@@ -65,7 +63,6 @@ class TaskPlanningElementDto extends GrafikElementDto {
       ),
       minutes: json['minutes'] as int? ?? 60,
       highPriority: json['highPriority'] as bool? ?? false,
-      workerIds: (json['workerIds'] as List?)?.cast<String>() ?? <String>[],
       isPending: json['isPending'] as bool? ?? false,
     );
   }
@@ -78,7 +75,6 @@ class TaskPlanningElementDto extends GrafikElementDto {
         'taskType': taskType.toString(),
         'minutes': minutes,
         'highPriority': highPriority,
-        'workerIds': workerIds,
         'isPending': isPending,
       };
 
@@ -93,7 +89,6 @@ class TaskPlanningElementDto extends GrafikElementDto {
         taskType: taskType,
         minutes: minutes,
         highPriority: highPriority,
-        workerIds: workerIds,
         addedByUserId: addedByUserId,
         addedTimestamp: addedTimestamp,
         closed: closed,
@@ -116,7 +111,6 @@ class TaskPlanningElementDto extends GrafikElementDto {
         taskType: element.taskType,
         minutes: element.minutes,
         highPriority: element.highPriority,
-        workerIds: List<String>.from(element.workerIds),
         isPending: element.isPending,
       );
 }

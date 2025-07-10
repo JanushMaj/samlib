@@ -27,7 +27,6 @@ class TaskPlanningElementStrategy implements GrafikElementFormStrategy {
       taskType: GrafikTaskType.Inne,
       minutes: 60,
       highPriority: false,
-      workerIds: const [],
       addedByUserId: '',
       addedTimestamp: DateTime.now(),
       closed: false,

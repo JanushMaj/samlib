@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:kabast/theme/app_tokens.dart';
 
-import '../../../data/repositories/employee_repository.dart';
 import '../../../domain/models/grafik/enums.dart';
 import '../../../domain/models/grafik/impl/task_planning_element.dart';
 import '../../../shared/form/bool_picker/bool_toggle_field.dart';
@@ -12,7 +10,6 @@ import '../../../shared/form/enum_picker/enum_picker.dart';
 import '../../../shared/form/minutes_picker/minutes_picker_field.dart';
 import '../../../shared/form/small_number_picker/small_number_picker.dart';
 import '../../../domain/constants/pending_placeholder_date.dart';
-import '../../employee/employee_picker.dart';
 import '../cubit/form/grafik_element_form_cubit.dart';
 
 class GrafikPlanningFields extends StatelessWidget {
@@ -40,15 +37,6 @@ class GrafikPlanningFields extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.sm * 2),
 
-        EmployeePicker(
-          employeeStream: GetIt.I<EmployeeRepository>().getEmployees(),
-          initialSelectedIds: element.workerIds,
-          onSelectionChanged: (selectedEmployees) {
-            final ids = selectedEmployees.map((e) => e.uid).toList();
-            context.read<GrafikElementFormCubit>().updateField('workerIds', ids);
-          },
-        ),
-        const SizedBox(height: AppSpacing.sm * 2),
 
         EnumPicker<GrafikProbability>(
           label: 'Prawdopodobieństwo',
