@@ -24,9 +24,6 @@ import 'package:kabast/data/repositories/grafik_element_repository.dart';
 import 'package:kabast/data/services/grafik_element_firebase_service_v2.dart';
 import 'package:kabast/domain/services/i_grafik_element_service.dart';
 
-import 'package:kabast/data/services/assignment_firebase_service.dart';
-import 'package:kabast/data/repositories/assignment_repository.dart';
-import 'package:kabast/domain/services/i_assignment_service.dart';
 
 import 'package:kabast/data/services/task_assignment_firebase_service.dart';
 import 'package:kabast/data/repositories/task_assignment_repository.dart';
@@ -60,9 +57,6 @@ Future<void> setupLocator() async {
     () => GrafikElementFirebaseServiceV2(getIt<FirebaseFirestore>()),
     instanceName: 'v2',
   );
-  getIt.registerLazySingleton<IAssignmentService>(
-    () => AssignmentFirebaseService(getIt<FirebaseFirestore>()),
-  );
   getIt.registerLazySingleton<ITaskAssignmentService>(
     () => TaskAssignmentFirebaseService(getIt<FirebaseFirestore>()),
   );
@@ -88,8 +82,6 @@ Future<void> setupLocator() async {
   );
   getIt.registerLazySingleton<AssignmentRepository>(
     () => AssignmentRepository(
-      getIt<IAssignmentService>(),
-      getIt<GrafikElementRepository>(),
       getIt<TaskAssignmentRepository>(),
     ),
   );
