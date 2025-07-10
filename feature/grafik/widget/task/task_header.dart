@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/theme/app_tokens.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:collection/collection.dart';
+import 'package:kabast/domain/models/employee.dart';
 import '../../cubit/grafik_cubit.dart';
 import 'package:kabast/domain/models/grafik/task_assignment.dart';
 
@@ -36,11 +38,9 @@ class TaskHeader extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: byWorker.entries.map((e) {
-          final emp = state.employees.firstWhere(
-            (el) => el.uid == e.key,
-            orElse: () => null,
-          );
-          final name = emp?.formattedNameWithSecondInitial ?? e.key;
+          final Employee? emp =
+              state.employees.firstWhereOrNull((el) => el.uid == e.key);
+          final name = emp?.formattedNameWithSecondInitial ?? 'Nieznany pracownik';
           final times = e.value
               .map((a) => '${fmt(a.startDateTime)}-${fmt(a.endDateTime)}')
               .join(', ');
