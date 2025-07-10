@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:kabast/data/repositories/grafik_element_repository.dart';
 import 'package:kabast/data/repositories/app_user_repository.dart';
+import 'package:kabast/data/repositories/task_assignment_repository.dart';
 import 'package:kabast/domain/models/grafik/grafik_element.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/domain/models/grafik/impl/delivery_planning_element.dart';
@@ -53,6 +54,7 @@ class _GrafikElementPopupState extends State<GrafikElementPopup> {
 
   final _repo = getIt<GrafikElementRepository>();
   final _userRepo = getIt<AppUserRepository>();
+  final _assignmentRepo = getIt<TaskAssignmentRepository>();
   String? _userFullName;
 
   @override
@@ -157,8 +159,10 @@ class _GrafikElementPopupState extends State<GrafikElementPopup> {
             PermissionWidget(
               permission: 'canEditGrafik',
               child: TextButton(
-                onPressed: () {
-                  getIt<GrafikElementRepository>().deleteGrafikElement(_element.id);
+                onPressed: () async {
+                  await getIt<GrafikElementRepository>()
+                      .deleteGrafikElement(_element.id);
+                  await _assignmentRepo.deleteAssignmentsForTask(_element.id);
                   Navigator.of(context).pop();
                 },
                 child: const Text('Usuń'),
