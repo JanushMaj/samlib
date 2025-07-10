@@ -9,6 +9,8 @@ import 'injection.dart';
 import 'feature/auth/auth_cubit.dart';
 import 'feature/grafik/cubit/grafik_cubit.dart';
 import 'feature/date/date_cubit.dart';
+import 'data/repositories/grafik_element_repository.dart';
+import 'domain/services/i_grafik_element_service.dart';
 import 'app_router.dart';
 import 'theme/theme.dart';
 
@@ -32,6 +34,21 @@ Future<void> main() async {
       .then((duration) {
         print('Demo worker time last week: ${duration.inHours}h');
         exampleCubit.close();
+      });
+
+  // Demonstrate usage of the new V2 Firestore service
+  final v2Repo = GrafikElementRepository(
+    GetIt.instance<IGrafikElementService>(instanceName: 'v2'),
+  );
+  v2Repo
+      .getElementsWithinRange(
+        start: now.subtract(const Duration(days: 1)),
+        end: now,
+        types: ['TaskElement'],
+      )
+      .first
+      .then((elements) {
+        print('V2 elements count: ${elements.length}');
       });
   runApp(const MyApp());
 }
