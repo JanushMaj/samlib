@@ -6,7 +6,6 @@ import 'grafik_element_dto.dart';
 import 'task_assignment_dto.dart';
 
 class TaskElementDto extends GrafikElementDto {
-  final List<String> workerIds;
   final String orderId;
   final GrafikStatus status;
   final GrafikTaskType taskType;
@@ -22,7 +21,6 @@ class TaskElementDto extends GrafikElementDto {
     required super.addedByUserId,
     required super.addedTimestamp,
     required super.closed,
-    required this.workerIds,
     required this.orderId,
     required this.status,
     required this.taskType,
@@ -49,7 +47,6 @@ class TaskElementDto extends GrafikElementDto {
         DateTime(1960, 2, 9),
       ),
       closed: json['closed'] as bool? ?? false,
-      workerIds: (json['workerIds'] as List?)?.cast<String>() ?? <String>[],
       orderId: json['orderId'] as String? ?? '',
       status: GrafikStatus.values.firstWhere(
         (e) => e.toString() == (json['status'] ?? 'GrafikStatus.Realizacja'),
@@ -70,7 +67,6 @@ class TaskElementDto extends GrafikElementDto {
 
   Map<String, dynamic> toJson() => {
         ...baseToJson(),
-        'workerIds': workerIds,
         'orderId': orderId,
         'status': status.toString(),
         'taskType': taskType.toString(),
@@ -83,7 +79,6 @@ class TaskElementDto extends GrafikElementDto {
         startDateTime: startDateTime,
         endDateTime: endDateTime,
         additionalInfo: additionalInfo,
-        workerIds: workerIds,
         orderId: orderId,
         status: status,
         taskType: taskType,
@@ -103,7 +98,6 @@ class TaskElementDto extends GrafikElementDto {
         addedByUserId: element.addedByUserId,
         addedTimestamp: element.addedTimestamp,
         closed: element.closed,
-        workerIds: List<String>.from(element.workerIds),
         orderId: element.orderId,
         status: element.status,
         taskType: element.taskType,

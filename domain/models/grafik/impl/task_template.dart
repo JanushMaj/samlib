@@ -10,7 +10,6 @@ class TaskTemplate {
   final GrafikTaskType taskType;
   final GrafikStatus status;
   final String orderId;
-  final List<String> workerIds;
   final List<String> carIds;
   final int startHour;
   final int endHour;
@@ -21,7 +20,6 @@ class TaskTemplate {
     required this.taskType,
     required this.status,
     required this.orderId,
-    required this.workerIds,
     required this.carIds,
     required this.startHour,
     required this.endHour,
@@ -36,7 +34,6 @@ const kTaskTemplates = <TaskTemplate>[
     taskType: GrafikTaskType.Inne,
     status: GrafikStatus.Realizacja,
     orderId: '0001',
-    workerIds: ['6pwokcelgwbT7wAvEuo8'],
     carIds: [],
     startHour: 7,
     endHour: 15,
@@ -47,7 +44,6 @@ const kTaskTemplates = <TaskTemplate>[
     taskType: GrafikTaskType.Inne,
     status: GrafikStatus.Realizacja,
     orderId: '0001',
-    workerIds: ['FTuK6LFO6qt0apMTSGWi'],
     carIds: ['QqYtL81vjbmpi6859Q9Y'],
     startHour: 7,
     endHour: 15,

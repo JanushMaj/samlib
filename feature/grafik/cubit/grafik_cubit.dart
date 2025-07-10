@@ -183,6 +183,8 @@ class GrafikCubit extends Cubit<GrafikState> {
     required DateTime start,
     required DateTime end,
   }) {
+    // Delegates calculation to [AssignmentRepository] which now aggregates time
+    // based on entries from the `task_assignments` collection.
     return _assignmentRepo.getTotalWorkTime(
       workerId: workerId,
       start: start,
