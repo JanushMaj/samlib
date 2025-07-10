@@ -7,7 +7,6 @@ extension ToTaskElement on TaskPlanningElement {
   TaskElement toTaskElement({
     DateTime? start,
     int? durationMinutes,
-    List<String>? overrideWorkerIds,
   }) {
     final DateTime s = start ?? startDateTime;
     final DateTime e = s.add(
