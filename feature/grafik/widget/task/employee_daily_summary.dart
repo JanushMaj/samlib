@@ -22,22 +22,12 @@ class EmployeeDailySummary extends StatelessWidget {
   Widget build(BuildContext context) {
     final Map<String, List<Map<String, dynamic>>> employeeEntries = {};
     for (final task in tasks) {
-      if (task.assignments.isNotEmpty) {
-        for (final a in task.assignments) {
-          employeeEntries.putIfAbsent(a.workerId, () => []).add({
-            'start': a.startDateTime,
-            'end': a.endDateTime,
-            'orderId': task.orderId,
-          });
-        }
-      } else {
-        for (final workerId in task.workerIds) {
-          employeeEntries.putIfAbsent(workerId, () => []).add({
-            'start': task.startDateTime,
-            'end': task.endDateTime,
-            'orderId': task.orderId,
-          });
-        }
+      for (final a in task.assignments) {
+        employeeEntries.putIfAbsent(a.workerId, () => []).add({
+          'start': a.startDateTime,
+          'end': a.endDateTime,
+          'orderId': task.orderId,
+        });
       }
     }
 

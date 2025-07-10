@@ -22,31 +22,31 @@ class TaskHeader extends StatelessWidget {
     String fmt(DateTime dt) =>
         '${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
     Widget _timeWidget() {
-      if (task.assignments.isNotEmpty) {
-        final state = context.read<GrafikCubit>().state;
-        final byWorker = <String, List<TaskAssignment>>{};
-        for (final a in task.assignments) {
-          byWorker.putIfAbsent(a.workerId, () => []).add(a);
-        }
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: byWorker.entries.map((e) {
-            final emp = state.employees.firstWhere(
-              (el) => el.uid == e.key,
-              orElse: () => null,
-            );
-            final name = emp?.formattedNameWithSecondInitial ?? e.key;
-            final times = e.value
-                .map((a) => '${fmt(a.startDateTime)}-${fmt(a.endDateTime)}')
-                .join(', ');
-            return Text('$name $times',
-                style: Theme.of(context).textTheme.bodyMedium);
-          }).toList(),
+      final state = context.read<GrafikCubit>().state;
+      final byWorker = <String, List<TaskAssignment>>{};
+      for (final a in task.assignments) {
+        byWorker.putIfAbsent(a.workerId, () => []).add(a);
+      }
+      if (byWorker.isEmpty) {
+        return Text(
+          'Brak przypisanych pracowników',
+          style: Theme.of(context).textTheme.bodyMedium,
         );
       }
-      return Text(
-        '${fmt(task.startDateTime)}–${fmt(task.endDateTime)}',
-        style: Theme.of(context).textTheme.bodyMedium,
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: byWorker.entries.map((e) {
+          final emp = state.employees.firstWhere(
+            (el) => el.uid == e.key,
+            orElse: () => null,
+          );
+          final name = emp?.formattedNameWithSecondInitial ?? e.key;
+          final times = e.value
+              .map((a) => '${fmt(a.startDateTime)}-${fmt(a.endDateTime)}')
+              .join(', ');
+          return Text('$name $times',
+              style: Theme.of(context).textTheme.bodyMedium);
+        }).toList(),
       );
     }
 

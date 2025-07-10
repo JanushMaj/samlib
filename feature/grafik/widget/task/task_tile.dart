@@ -34,9 +34,7 @@ class TaskTile extends StatelessWidget {
   Widget build(BuildContext context) {
     // Pobierz dane
     final state      = context.watch<GrafikCubit>().state;
-    final assignedIds = task.assignments.isNotEmpty
-        ? task.assignments.map((a) => a.workerId).toSet()
-        : task.workerIds.toSet();
+    final assignedIds = task.assignments.map((a) => a.workerId).toSet();
     final employees =
         state.employees.where((e) => assignedIds.contains(e.uid));
     final vehicles   = state.vehicles .where((v) => task.carIds.contains(v.id));
@@ -66,6 +64,14 @@ class TaskTile extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
                 child: AssignmentList(assignments: task.assignments),
+              )
+            else
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+                child: Text(
+                  'Brak przypisanych pracowników',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
               ),
             EmployeeChipList(employees: employees),
             if (vehicles.isNotEmpty)
