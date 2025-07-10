@@ -19,7 +19,8 @@ import '../../cubit/grafik_cubit.dart';
 import '../task/assignment_list.dart';
 import '../task/vehicle_list.dart';
 import 'package:kabast/domain/models/grafik/task_assignment.dart';
-import 'package:kabast/domain/models/grafik/impl/task_assignment.dart' as impl;
+import 'package:kabast/domain/models/grafik/impl/display_task_assignment.dart'
+    as display;
 
 Future<void> showGrafikElementPopup(
     BuildContext parentContext,
@@ -190,7 +191,7 @@ class _GrafikElementPopupState extends State<GrafikElementPopup> {
   List<Widget> _buildTaskElementDetails(BuildContext context, TaskElement task) {
     final assignments = context.read<GrafikCubit>().state.assignments
         .where((a) => a.taskId == task.id)
-        .map((a) => impl.TaskAssignment(
+        .map((a) => display.DisplayTaskAssignment(
               workerId: a.workerId,
               startDateTime: a.startDateTime,
               endDateTime: a.endDateTime,

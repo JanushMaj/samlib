@@ -5,7 +5,8 @@ import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
 import 'package:kabast/domain/models/grafik/enums.dart';
 import 'package:kabast/domain/models/grafik/task_assignment.dart';
-import 'package:kabast/domain/models/grafik/impl/task_assignment.dart' as impl;
+import 'package:kabast/domain/models/grafik/impl/display_task_assignment.dart'
+    as display;
 import '../../constants/enums_ui.dart';
 import '../dialog/grafik_element_popup.dart';
 import 'transfer_list.dart';
@@ -71,7 +72,7 @@ class TaskTile extends StatelessWidget {
                 child: AssignmentList(
                   assignments: state.assignments
                       .where((a) => a.taskId == task.id)
-                      .map((a) => impl.TaskAssignment(
+                      .map((a) => display.DisplayTaskAssignment(
                             workerId: a.workerId,
                             startDateTime: a.startDateTime,
                             endDateTime: a.endDateTime,
