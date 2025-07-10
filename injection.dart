@@ -23,6 +23,8 @@ import 'package:kabast/feature/date/date_cubit.dart';
 import 'package:kabast/data/repositories/grafik_element_repository.dart';
 import 'package:kabast/data/services/grafik_element_firebase_service_v2.dart';
 import 'package:kabast/domain/services/i_grafik_element_service.dart';
+import 'package:kabast/data/repositories/supply_firebase_repository.dart';
+import 'package:kabast/domain/services/i_supply_repository.dart';
 
 
 import 'package:kabast/data/services/task_assignment_firebase_service.dart';
@@ -59,6 +61,9 @@ Future<void> setupLocator() async {
   );
   getIt.registerLazySingleton<ITaskAssignmentService>(
     () => TaskAssignmentFirebaseService(getIt<FirebaseFirestore>()),
+  );
+  getIt.registerLazySingleton<ISupplyRepository>(
+    () => SupplyFirebaseRepository(getIt<FirebaseFirestore>()),
   );
 
   // REPOSITORIES
