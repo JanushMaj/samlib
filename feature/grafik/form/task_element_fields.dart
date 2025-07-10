@@ -6,13 +6,10 @@ import 'package:kabast/theme/app_tokens.dart';
 
 import '../../../domain/models/grafik/enums.dart';
 import '../../../domain/models/grafik/impl/task_element.dart';
-import '../../../domain/models/grafik/impl/task_assignment.dart';
 import '../../../shared/form/custom_textfield.dart';
 import '../../../shared/form/enum_picker/enum_picker.dart';
-import '../../employee/employee_picker.dart';
 import '../../vehicle/widget/vehicle_picker.dart';
 import '../cubit/form/grafik_element_form_cubit.dart';
-import '../../../../data/repositories/employee_repository.dart';
 import '../../../../data/repositories/vehicle_repository.dart';
 
 class TaskFields extends StatelessWidget {
@@ -21,9 +18,6 @@ class TaskFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final assignedCount =
-        element.assignments.map((a) => a.workerId).toSet().length;
-    final missing = (element.expectedWorkerCount ?? 0) - assignedCount;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -31,8 +25,7 @@ class TaskFields extends StatelessWidget {
         // ───── info z planu ─────
         if (element.expectedWorkerCount != null) ...[
           Text(
-            'Planowano: ${element.expectedWorkerCount} pracowników '
-                '(${missing > 0 ? "brakuje $missing" : "obsada pełna"})',
+            'Planowano: ${element.expectedWorkerCount} pracowników',
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
@@ -62,25 +55,6 @@ class TaskFields extends StatelessWidget {
           initialValue: element.taskType,
           onChanged: (val) => context.read<GrafikElementFormCubit>()
               .updateField('taskType', val.toString()),
-        ),
-        const SizedBox(height: AppSpacing.sm * 2),
-
-        EmployeePicker(
-          employeeStream: GetIt.I<EmployeeRepository>().getEmployees(),
-          initialSelectedIds:
-              element.assignments.map((a) => a.workerId).toList(),
-          onSelectionChanged: (selectedEmployees) {
-            final assignments = selectedEmployees
-                .map((e) => TaskAssignment(
-                      workerId: e.uid,
-                      startDateTime: element.startDateTime,
-                      endDateTime: element.endDateTime,
-                    ))
-                .toList();
-            context
-                .read<GrafikElementFormCubit>()
-                .updateField('assignments', assignments);
-          },
         ),
         const SizedBox(height: AppSpacing.sm * 2),
         VehiclePicker(

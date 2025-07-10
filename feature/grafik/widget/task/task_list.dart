@@ -55,6 +55,7 @@ class TaskList extends StatelessWidget {
                       tasks: tasks,
                       employees: employees,
                       timeIssues: issues,
+                      assignments: context.read<GrafikCubit>().state.assignments,
                     ),
                   ),
                   TimeIssueRow(timeIssues: issues),

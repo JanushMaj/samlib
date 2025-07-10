@@ -5,30 +5,48 @@ import '../../../../domain/models/employee.dart';
 import '../../../../domain/models/grafik/impl/task_element.dart';
 import '../../../../domain/models/grafik/impl/time_issue_element.dart';
 import '../../../../theme/app_tokens.dart';
+import '../../../../domain/models/grafik/assignment.dart';
+import '../../../../domain/models/grafik/enums.dart';
 
 class EmployeeDailySummary extends StatelessWidget {
   final List<TaskElement> tasks;
   final List<Employee> employees;
   final List<TimeIssueElement> timeIssues;
+  final List<Assignment> assignments;
 
   const EmployeeDailySummary({
     super.key,
     required this.tasks,
     required this.employees,
     required this.timeIssues,
+    required this.assignments,
   });
 
   @override
   Widget build(BuildContext context) {
     final Map<String, List<Map<String, dynamic>>> employeeEntries = {};
-    for (final task in tasks) {
-      for (final a in task.assignments) {
-        employeeEntries.putIfAbsent(a.workerId, () => []).add({
-          'start': a.startDateTime,
-          'end': a.endDateTime,
-          'orderId': task.orderId,
-        });
-      }
+    for (final a in assignments) {
+      final task = tasks.firstWhere(
+        (t) => t.id == a.taskId,
+        orElse: () => TaskElement(
+          id: a.taskId,
+          startDateTime: a.startDateTime,
+          endDateTime: a.endDateTime,
+          additionalInfo: '',
+          orderId: '',
+          status: GrafikStatus.Realizacja,
+          taskType: GrafikTaskType.Inne,
+          carIds: const [],
+          addedByUserId: '',
+          addedTimestamp: DateTime.now(),
+          closed: false,
+        ),
+      );
+      employeeEntries.putIfAbsent(a.workerId, () => []).add({
+        'start': a.startDateTime,
+        'end': a.endDateTime,
+        'orderId': task.orderId,
+      });
     }
 
     final Map<String, List<TimeIssueElement>> employeeIssues = {};

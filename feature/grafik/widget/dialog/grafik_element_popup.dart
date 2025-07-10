@@ -17,6 +17,8 @@ import 'package:kabast/injection.dart';
 import '../../cubit/grafik_cubit.dart';
 import '../task/assignment_list.dart';
 import '../task/vehicle_list.dart';
+import 'package:kabast/domain/models/grafik/assignment.dart';
+import 'package:kabast/domain/models/grafik/impl/task_assignment.dart' as impl;
 
 Future<void> showGrafikElementPopup(
     BuildContext parentContext,
@@ -104,7 +106,7 @@ class _GrafikElementPopupState extends State<GrafikElementPopup> {
             ..._buildMeta(),
             const SizedBox(height: 8),
             if (_element is TaskElement)
-              ..._buildTaskElementDetails(_element as TaskElement),
+              ..._buildTaskElementDetails(context, _element as TaskElement),
             if (_element is DeliveryPlanningElement)
               ..._buildDeliveryPlanningDetails(_element as DeliveryPlanningElement),
             if (_element is TaskPlanningElement)
@@ -181,20 +183,31 @@ class _GrafikElementPopupState extends State<GrafikElementPopup> {
     );
   }
 
-  List<Widget> _buildTaskElementDetails(TaskElement task) => [
-    const Text('Pracownicy:'),
-    if (task.assignments.isNotEmpty)
-      AssignmentList(assignments: task.assignments)
-    else
-      const Text('Brak przypisanych pracowników'),
-    const SizedBox(height: 8),
-    Text('Order ID: ${task.orderId}'),
-    Text('Status: ${task.status.name}'),
-    Text('Task Type: ${task.taskType.name}'),
-    const SizedBox(height: 8),
-    const Text('Pojazdy:'),
-    VehicleList(vehicleIds: task.carIds),
-  ];
+  List<Widget> _buildTaskElementDetails(BuildContext context, TaskElement task) {
+    final assignments = context.read<GrafikCubit>().state.assignments
+        .where((a) => a.taskId == task.id)
+        .map((a) => impl.TaskAssignment(
+              workerId: a.workerId,
+              startDateTime: a.startDateTime,
+              endDateTime: a.endDateTime,
+            ))
+        .toList();
+
+    return [
+      const Text('Pracownicy:'),
+      if (assignments.isNotEmpty)
+        AssignmentList(assignments: assignments)
+      else
+        const Text('Brak przypisanych pracowników'),
+      const SizedBox(height: 8),
+      Text('Order ID: ${task.orderId}'),
+      Text('Status: ${task.status.name}'),
+      Text('Task Type: ${task.taskType.name}'),
+      const SizedBox(height: 8),
+      const Text('Pojazdy:'),
+      VehicleList(vehicleIds: task.carIds),
+    ];
+  }
 
   List<Widget> _buildDeliveryPlanningDetails(DeliveryPlanningElement delivery) =>
       [

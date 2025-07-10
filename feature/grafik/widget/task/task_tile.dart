@@ -4,6 +4,8 @@ import 'package:kabast/theme/app_tokens.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
 import 'package:kabast/domain/models/grafik/enums.dart';
+import 'package:kabast/domain/models/grafik/assignment.dart';
+import 'package:kabast/domain/models/grafik/impl/task_assignment.dart' as impl;
 import '../../constants/enums_ui.dart';
 import '../dialog/grafik_element_popup.dart';
 import 'transfer_list.dart';
@@ -34,7 +36,10 @@ class TaskTile extends StatelessWidget {
   Widget build(BuildContext context) {
     // Pobierz dane
     final state      = context.watch<GrafikCubit>().state;
-    final assignedIds = task.assignments.map((a) => a.workerId).toSet();
+    final assignedIds = state.assignments
+        .where((a) => a.taskId == task.id)
+        .map((a) => a.workerId)
+        .toSet();
     final employees =
         state.employees.where((e) => assignedIds.contains(e.uid));
     final vehicles   = state.vehicles .where((v) => task.carIds.contains(v.id));
@@ -60,10 +65,19 @@ class TaskTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TaskHeader(task: task, typeIcon: typeIcon, statusIcon: statusIcon),
-            if (task.assignments.isNotEmpty)
+            if (assignedIds.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
-                child: AssignmentList(assignments: task.assignments),
+                child: AssignmentList(
+                  assignments: state.assignments
+                      .where((a) => a.taskId == task.id)
+                      .map((a) => impl.TaskAssignment(
+                            workerId: a.workerId,
+                            startDateTime: a.startDateTime,
+                            endDateTime: a.endDateTime,
+                          ))
+                      .toList(),
+                ),
               )
             else
               Padding(
