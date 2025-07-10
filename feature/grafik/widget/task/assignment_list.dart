@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:collection/collection.dart';
 import 'package:kabast/domain/models/grafik/impl/task_assignment.dart';
+import 'package:kabast/domain/models/employee.dart';
 import '../../cubit/grafik_cubit.dart';
 
 class AssignmentList extends StatelessWidget {
@@ -18,11 +20,9 @@ class AssignmentList extends StatelessWidget {
       byWorker.putIfAbsent(a.workerId, () => []).add(a);
     }
     for (final entry in byWorker.entries) {
-      final emp = state.employees.firstWhere(
-        (e) => e.uid == entry.key,
-        orElse: () => null,
-      );
-      final name = emp?.formattedNameWithSecondInitial ?? entry.key;
+      final Employee? emp =
+          state.employees.firstWhereOrNull((e) => e.uid == entry.key);
+      final name = emp?.formattedNameWithSecondInitial ?? 'Nieznany pracownik';
       final times = entry.value
           .map((a) => '${_fmt(a.startDateTime)}-${_fmt(a.endDateTime)}')
           .join(', ');

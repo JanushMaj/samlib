@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:collection/collection.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
 import 'package:kabast/domain/models/grafik/task_assignment.dart';
+import 'package:kabast/domain/models/employee.dart';
 import 'package:kabast/shared/turbo_grid/turbo_tile.dart';
 import 'package:kabast/shared/turbo_grid/turbo_grid.dart';
 
@@ -36,13 +38,11 @@ class TaskWeekTile extends StatelessWidget {
   }
 
   return byWorker.entries.map((e) {
-    final emp = state.employees.firstWhere(
-      (em) => em.uid == e.key,
-      orElse: () => null,
-    );
+    final Employee? emp =
+        state.employees.firstWhereOrNull((em) => em.uid == e.key);
     final name = emp != null
         ? _formatEmployeeName(emp.fullName)
-        : e.key;
+        : 'Nieznany pracownik';
     final times = e.value
         .map((a) =>
             '${a.startDateTime.hour.toString().padLeft(2, '0')}-${a.endDateTime.hour.toString().padLeft(2, '0')}')
