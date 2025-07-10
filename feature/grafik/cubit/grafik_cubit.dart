@@ -95,6 +95,7 @@ class GrafikCubit extends Cubit<GrafikState> {
           tasks: tasks,
           issues: issues,
           employees: employees,
+          assignments: assignments,
         );
 
         final transferMapping = calculateTaskTransferDisplayMapping(

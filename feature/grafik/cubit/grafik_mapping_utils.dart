@@ -8,11 +8,15 @@ Map<String, List<String>> calculateTaskTimeIssueDisplayMapping({
   required List<TaskElement> tasks,
   required List<TimeIssueElement> issues,
   required List<Employee> employees,
+  required List<Assignment> assignments,
 }) {
   final mapping = <String, List<String>>{};
 
   for (var task in tasks) {
     final displayStrings = <String>[];
+
+    final taskAssignments =
+        assignments.where((a) => a.taskId == task.id).toList();
 
     for (var issue in issues) {
       final overlapStart = max(
@@ -27,7 +31,7 @@ Map<String, List<String>> calculateTaskTimeIssueDisplayMapping({
       if (overlapDuration.inMinutes <= 0) continue;
 
       final workerId = issue.workerId;
-      final assignedIds = task.assignments.map((a) => a.workerId).toSet();
+      final assignedIds = taskAssignments.map((a) => a.workerId).toSet();
       if (!assignedIds.contains(workerId)) continue;
 
       try {

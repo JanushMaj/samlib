@@ -3,7 +3,7 @@ import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/theme/app_tokens.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../cubit/grafik_cubit.dart';
-import 'package:kabast/domain/models/grafik/impl/task_assignment.dart';
+import 'package:kabast/domain/models/grafik/assignment.dart';
 
 class TaskHeader extends StatelessWidget {
   final TaskElement task;
@@ -23,8 +23,8 @@ class TaskHeader extends StatelessWidget {
         '${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
     Widget _timeWidget() {
       final state = context.read<GrafikCubit>().state;
-      final byWorker = <String, List<TaskAssignment>>{};
-      for (final a in task.assignments) {
+      final byWorker = <String, List<Assignment>>{};
+      for (final a in state.assignments.where((a) => a.taskId == task.id)) {
         byWorker.putIfAbsent(a.workerId, () => []).add(a);
       }
       if (byWorker.isEmpty) {

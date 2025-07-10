@@ -14,14 +14,6 @@ extension ToTaskElement on TaskPlanningElement {
       Duration(minutes: durationMinutes ?? minutes),
     );
 
-    final ids = overrideWorkerIds ?? workerIds;
-    final assigns = ids
-        .map((id) => TaskAssignment(
-              workerId: id,
-              startDateTime: s,
-              endDateTime: e,
-            ))
-        .toList();
 
     return TaskElement(
       id: '',
@@ -32,7 +24,6 @@ extension ToTaskElement on TaskPlanningElement {
       status: GrafikStatus.Realizacja,
       taskType: taskType,
       carIds: const [],
-      assignments: assigns,
       addedByUserId: addedByUserId,
       addedTimestamp: DateTime.now(),
       closed: false,

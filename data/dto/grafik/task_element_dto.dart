@@ -3,14 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../domain/models/grafik/impl/task_element.dart';
 import '../../../domain/models/grafik/enums.dart';
 import 'grafik_element_dto.dart';
-import 'task_assignment_dto.dart';
 
 class TaskElementDto extends GrafikElementDto {
   final String orderId;
   final GrafikStatus status;
   final GrafikTaskType taskType;
   final List<String> carIds;
-  final List<TaskAssignmentDto> assignments;
 
   TaskElementDto({
     required super.id,
@@ -25,7 +23,6 @@ class TaskElementDto extends GrafikElementDto {
     required this.status,
     required this.taskType,
     required this.carIds,
-    this.assignments = const [],
   });
 
   factory TaskElementDto.fromJson(Map<String, dynamic> json) {
@@ -57,11 +54,6 @@ class TaskElementDto extends GrafikElementDto {
         orElse: () => GrafikTaskType.Inne,
       ),
       carIds: (json['carIds'] as List?)?.cast<String>() ?? <String>[],
-      assignments: (json['assignments'] as List?)
-              ?.map((e) => TaskAssignmentDto.fromJson(
-                  Map<String, dynamic>.from(e as Map)))
-              .toList() ??
-          <TaskAssignmentDto>[],
     );
   }
 
@@ -71,7 +63,6 @@ class TaskElementDto extends GrafikElementDto {
         'status': status.toString(),
         'taskType': taskType.toString(),
         'carIds': carIds,
-        'assignments': assignments.map((a) => a.toJson()).toList(),
       };
 
   TaskElement toDomain() => TaskElement(
@@ -83,7 +74,6 @@ class TaskElementDto extends GrafikElementDto {
         status: status,
         taskType: taskType,
         carIds: carIds,
-        assignments: assignments.map((a) => a.toDomain()).toList(),
         addedByUserId: addedByUserId,
         addedTimestamp: addedTimestamp,
         closed: closed,
@@ -102,8 +92,5 @@ class TaskElementDto extends GrafikElementDto {
         status: element.status,
         taskType: element.taskType,
         carIds: List<String>.from(element.carIds),
-        assignments: element.assignments
-            .map((a) => TaskAssignmentDto.fromDomain(a))
-            .toList(),
       );
 }

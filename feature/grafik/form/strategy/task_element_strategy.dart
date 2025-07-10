@@ -25,7 +25,6 @@ class TaskElementStrategy implements GrafikElementFormStrategy {
       status: GrafikStatus.Realizacja,
       taskType: GrafikTaskType.Inne,
       carIds: const [],
-      assignments: const [],
       addedByUserId: '',
       addedTimestamp: DateTime.now(),
       closed: false,
