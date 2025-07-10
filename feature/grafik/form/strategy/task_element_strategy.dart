@@ -21,7 +21,6 @@ class TaskElementStrategy implements GrafikElementFormStrategy {
       startDateTime: start,
       endDateTime: end,
       additionalInfo: '',
-      workerIds: const [],
       orderId: '',
       status: GrafikStatus.Realizacja,
       taskType: GrafikTaskType.Inne,

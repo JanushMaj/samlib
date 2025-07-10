@@ -17,12 +17,12 @@ class StandardTaskRow extends StatelessWidget {
     final employees = context.watch<GrafikCubit>().state.employees;
 
     final List<Widget> taskWidgets = standardTasks.map((task) {
+      final assignedIds = task.assignments.map((a) => a.workerId).toList();
       List<String> workerSurnames;
-      if (task.workerIds.isEmpty) {
-        // Jeśli nie ma przypisanych workerIds, ustawiamy fallback.
+      if (assignedIds.isEmpty) {
         workerSurnames = ["Brak przypisanych pracowników"];
       } else {
-        workerSurnames = task.workerIds.map((workerId) {
+        workerSurnames = assignedIds.map((workerId) {
           try {
             final employee = employees.firstWhere((e) => e.uid == workerId);
             final surname = employee.fullName.split(' ').first;

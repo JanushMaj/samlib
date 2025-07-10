@@ -6,6 +6,7 @@ import 'package:kabast/theme/app_tokens.dart';
 
 import '../../../domain/models/grafik/enums.dart';
 import '../../../domain/models/grafik/impl/task_element.dart';
+import '../../../domain/models/grafik/impl/task_assignment.dart';
 import '../../../shared/form/custom_textfield.dart';
 import '../../../shared/form/enum_picker/enum_picker.dart';
 import '../../employee/employee_picker.dart';
@@ -20,7 +21,8 @@ class TaskFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final missing = (element.expectedWorkerCount ?? 0) - element.workerIds.length;
+    final assignedIds = element.assignments.map((a) => a.workerId).toList();
+    final missing = (element.expectedWorkerCount ?? 0) - assignedIds.length;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -64,10 +66,18 @@ class TaskFields extends StatelessWidget {
 
         EmployeePicker(
           employeeStream: GetIt.I<EmployeeRepository>().getEmployees(),
-          initialSelectedIds: element.workerIds,
+          initialSelectedIds: assignedIds,
           onSelectionChanged: (selectedEmployees) {
             final ids = selectedEmployees.map((e) => e.uid).toList();
-            context.read<GrafikElementFormCubit>().updateField('workerIds', ids);
+            final assigns = ids
+                .map((id) => TaskAssignment(
+                      workerId: id,
+                      startDateTime: element.startDateTime,
+                      endDateTime: element.endDateTime,
+                    ))
+                .toList();
+            context.read<GrafikElementFormCubit>()
+                .updateField('assignments', assigns);
           },
         ),
         const SizedBox(height: AppSpacing.sm * 2),

@@ -14,17 +14,25 @@ extension ToTaskElement on TaskPlanningElement {
       Duration(minutes: durationMinutes ?? minutes),
     );
 
+    final ids = overrideWorkerIds ?? workerIds;
+    final assigns = ids
+        .map((id) => TaskAssignment(
+              workerId: id,
+              startDateTime: s,
+              endDateTime: e,
+            ))
+        .toList();
+
     return TaskElement(
       id: '',
       startDateTime: s,
       endDateTime: e,
       additionalInfo: additionalInfo,
-      workerIds: overrideWorkerIds ?? workerIds,
       orderId: orderId,
       status: GrafikStatus.Realizacja,
       taskType: taskType,
       carIds: const [],
-      assignments: const [],
+      assignments: assigns,
       addedByUserId: addedByUserId,
       addedTimestamp: DateTime.now(),
       closed: false,
