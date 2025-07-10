@@ -36,9 +36,9 @@ Future<void> main() async {
         exampleCubit.close();
       });
 
-  // Demonstrate usage of the new V2 Firestore service
+  // Demonstrate usage of the Firestore service (now defaulting to V2)
   final v2Repo = GrafikElementRepository(
-    GetIt.instance<IGrafikElementService>(instanceName: 'v2'),
+    GetIt.instance<IGrafikElementService>(),
   );
   v2Repo
       .getElementsWithinRange(

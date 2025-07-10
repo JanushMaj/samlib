@@ -21,7 +21,6 @@ import 'package:kabast/feature/auth/auth_cubit.dart';
 import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
 import 'package:kabast/feature/date/date_cubit.dart';
 import 'package:kabast/data/repositories/grafik_element_repository.dart';
-import 'package:kabast/data/services/grafik_element_firebase_service.dart';
 import 'package:kabast/data/services/grafik_element_firebase_service_v2.dart';
 import 'package:kabast/domain/services/i_grafik_element_service.dart';
 
@@ -52,10 +51,11 @@ Future<void> setupLocator() async {
   getIt.registerLazySingleton<IVehicleService>(
     () => VehicleFirebaseService(getIt<FirebaseFirestore>()),
   );
+  // Use the V2 Firestore service by default
   getIt.registerLazySingleton<IGrafikElementService>(
-    () => GrafikElementFirebaseService(getIt<FirebaseFirestore>()),
+    () => GrafikElementFirebaseServiceV2(getIt<FirebaseFirestore>()),
   );
-  // New Firestore service for task_elements_v2
+  // Named instance kept for backward compatibility
   getIt.registerLazySingleton<IGrafikElementService>(
     () => GrafikElementFirebaseServiceV2(getIt<FirebaseFirestore>()),
     instanceName: 'v2',
