@@ -71,54 +71,57 @@ class _AssignmentEditorState extends State<AssignmentEditor> {
     cubit.updateAssignments(updated);
   }
 
-  Future<void> _editAssignment(TaskAssignment a) async {
-    DateTimeRange range =
-        DateTimeRange(start: a.startDateTime, end: a.endDateTime);
+Future<void> _editAssignment(TaskAssignment a) async {
+  DateTimeRange initialRange = DateTimeRange(
+    start: a.startDateTime,
+    end: a.endDateTime,
+  );
 
-    final picked = await showDialog<DateTimeRange>(
-      context: context,
-      builder: (context) {
-        DateTimeRange temp = range;
-        return AlertDialog(
-          title: const Text('Edytuj przydział'),
-          content: StatefulBuilder(
-            builder: (context, setState) {
-              return DateTimePickerField(
-                initialDate: temp.start,
-                initialStartHour: temp.start.hour.toDouble(),
-                initialEndHour: temp.end.hour.toDouble(),
-                onChanged: (r) => setState(() => temp = r),
-              );
-            },
+  final pickedRange = await showDialog<DateTimeRange>(
+    context: context,
+    builder: (context) {
+      DateTimeRange tempRange = initialRange;
+
+      return AlertDialog(
+        title: const Text('Edytuj przydział'),
+        content: StatefulBuilder(
+          builder: (context, setState) {
+            return DateTimePickerField(
+              initialDate: tempRange.start,
+              initialStartHour: tempRange.start.hour + tempRange.start.minute / 60.0,
+              initialEndHour: tempRange.end.hour + tempRange.end.minute / 60.0,
+              onChanged: (r) => setState(() => tempRange = r),
+            );
+          },
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Anuluj'),
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Anuluj'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(temp),
-              child: const Text('Edytuj przydział'),
-            ),
-          ],
-        );
-      },
-    );
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(tempRange),
+            child: const Text('Edytuj przydział'),
+          ),
+        ],
+      );
+    },
+  );
 
-    if (picked != null) {
-      final cubit = context.read<GrafikElementFormCubit>();
-      final state = cubit.state as GrafikElementFormEditing;
-      final updated = List<TaskAssignment>.from(state.assignments);
-      final idx = updated.indexOf(a);
-      if (idx != -1) {
-        updated[idx] = a.copyWith(
-          startDateTime: picked.start,
-          endDateTime: picked.end,
-        );
-        cubit.updateAssignments(updated);
-      }
+  if (pickedRange != null) {
+    final cubit = context.read<GrafikElementFormCubit>();
+    final state = cubit.state as GrafikElementFormEditing;
+    final updated = List<TaskAssignment>.from(state.assignments);
+    final index = updated.indexOf(a);
+    if (index != -1) {
+      updated[index] = a.copyWith(
+        startDateTime: pickedRange.start,
+        endDateTime: pickedRange.end,
+      );
+      cubit.updateAssignments(updated);
     }
   }
+}
 
   String _fmt(DateTime dt) =>
       '${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
