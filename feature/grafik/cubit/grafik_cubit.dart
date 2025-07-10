@@ -4,7 +4,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
 import '../../../data/repositories/employee_repository.dart';
 import '../../../data/repositories/grafik_element_repository.dart';
-import '../../../data/repositories/assignment_repository.dart';
+import '../../../data/repositories/task_assignment_repository.dart';
 import '../../../domain/services/i_vehicle_watcher_service.dart';
 import '../../date/date_cubit.dart';
 import '../../../domain/models/employee.dart';
@@ -13,7 +13,7 @@ import '../../../domain/models/grafik/impl/delivery_planning_element.dart';
 import '../../../domain/models/grafik/impl/task_element.dart';
 import '../../../domain/models/grafik/impl/task_planning_element.dart';
 import '../../../domain/models/vehicle.dart';
-import '../../../domain/models/grafik/assignment.dart';
+import '../../../domain/models/grafik/task_assignment.dart';
 import 'grafik_mapping_utils.dart';
 import 'grafik_state.dart';
 
@@ -27,7 +27,7 @@ class GrafikCubit extends Cubit<GrafikState> {
   final GrafikElementRepository _grafikRepo;
   final IVehicleWatcherService _vehicleWatcher;
   final EmployeeRepository _employeeRepo;
-  final AssignmentRepository _assignmentRepo;
+  final TaskAssignmentRepository _taskAssignmentRepo;
   final DateCubit _dateCubit;
 
   late StreamSubscription<Map<String, dynamic>> _mappingSub;
@@ -39,7 +39,7 @@ class GrafikCubit extends Cubit<GrafikState> {
       this._grafikRepo,
       this._vehicleWatcher,
       this._employeeRepo,
-      this._assignmentRepo,
+      this._taskAssignmentRepo,
       this._dateCubit,
       ) : super(GrafikState.initial()) {
     _subscribeVehicles();
@@ -78,15 +78,15 @@ class GrafikCubit extends Cubit<GrafikState> {
     _mappingSub = Rx.combineLatest3<
         List<GrafikElement>,
         List<Employee>,
-        List<Assignment>,
-        Map<String, dynamic>>( 
+        List<TaskAssignment>,
+        Map<String, dynamic>>(
       _grafikRepo.getElementsWithinRange(
         start: start,
         end: end,
         types: ['TaskElement', 'TimeIssueElement'],
       ),
       _employeeRepo.getEmployees(),
-      _assignmentRepo.getAssignmentsWithinRange(start: start, end: end),
+      _taskAssignmentRepo.getAssignmentsWithinRange(start: start, end: end),
           (elements, employees, assignments) {
         final tasks = elements.whereType<TaskElement>().toList();
         final issues = elements.whereType<TimeIssueElement>().toList();
@@ -123,7 +123,7 @@ class GrafikCubit extends Cubit<GrafikState> {
               combinedData['mapping'] as Map<String, List<String>>,
           taskTransferDisplayMapping:
               combinedData['transferMapping'] as Map<String, List<String>>,
-          assignments: combinedData['assignments'] as List<Assignment>,
+          assignments: combinedData['assignments'] as List<TaskAssignment>,
         ));
       }
     });
@@ -183,14 +183,20 @@ class GrafikCubit extends Cubit<GrafikState> {
     required String workerId,
     required DateTime start,
     required DateTime end,
-  }) {
-    // Delegates calculation to [AssignmentRepository] which now aggregates time
-    // based on entries from the `task_assignments` collection.
-    return _assignmentRepo.getTotalWorkTime(
-      workerId: workerId,
-      start: start,
-      end: end,
-    );
+  }) async {
+    final assignments = await _taskAssignmentRepo
+        .getAssignmentsWithinRange(start: start, end: end)
+        .first;
+
+    Duration total = Duration.zero;
+    for (final a in assignments.where((a) => a.workerId == workerId)) {
+      final s = a.startDateTime.isBefore(start) ? start : a.startDateTime;
+      final f = a.endDateTime.isAfter(end) ? end : a.endDateTime;
+      final diff = f.difference(s);
+      if (diff.isNegative) continue;
+      total += diff;
+    }
+    return total;
   }
 
   @override

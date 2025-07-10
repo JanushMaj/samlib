@@ -4,7 +4,7 @@ import 'package:kabast/theme/app_tokens.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
 import 'package:kabast/domain/models/grafik/enums.dart';
-import 'package:kabast/domain/models/grafik/assignment.dart';
+import 'package:kabast/domain/models/grafik/task_assignment.dart';
 import 'package:kabast/domain/models/grafik/impl/task_assignment.dart' as impl;
 import '../../constants/enums_ui.dart';
 import '../dialog/grafik_element_popup.dart';
