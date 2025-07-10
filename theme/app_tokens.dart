@@ -124,4 +124,7 @@ class AppStrings {
   static const registerUser = 'Utwórz użytkownika';
   static const logoAlt = 'Logo aplikacji';
   static const signInError = 'Ups! Coś poszło nie tak. Sprawdź dane logowania i połączenie z internetem.';
+  static const assignEmployeeTitle = 'Przypisz pracownika';
+  static const noEmployeeAssigned = 'Nie przypisano konta do pracownika';
+  static const assignMe = 'Przypisz mnie';
 }

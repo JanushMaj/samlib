@@ -12,6 +12,7 @@ import '../auth/auth_cubit.dart';
 import '../date/date_cubit.dart';
 import '../permission/permission_widget.dart';
 import '../../shared/responsive/responsive_layout.dart';
+import '../../theme/app_tokens.dart';
 
 class MyTasksScreen extends StatelessWidget {
   const MyTasksScreen({super.key});
@@ -24,6 +25,27 @@ class MyTasksScreen extends StatelessWidget {
     if (user == null) {
       return const Scaffold(
         body: Center(child: Text('Brak użytkownika')),
+      );
+    }
+
+    if (user.employeeId?.isEmpty ?? true) {
+      return ResponsiveScaffold(
+        appBar: AppBar(title: const Text('Moje zadania')),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(AppStrings.noEmployeeAssigned),
+              const SizedBox(height: AppSpacing.sm * 3),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/assignEmployee');
+                },
+                child: const Text(AppStrings.assignMe),
+              ),
+            ],
+          ),
+        ),
       );
     }
 
