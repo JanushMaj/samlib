@@ -8,7 +8,6 @@ class TaskPlanningElement extends GrafikElement {
   final GrafikTaskType taskType;
   final int minutes;
   final bool highPriority;
-  final List<String> workerIds;
 
   /// WisiIGrozi – zadanie bez terminu
   final bool isPending;
@@ -24,7 +23,6 @@ class TaskPlanningElement extends GrafikElement {
     required this.taskType,
     required this.minutes,
     required this.highPriority,
-    required this.workerIds,
     required String addedByUserId,
     required DateTime addedTimestamp,
     required bool closed,
