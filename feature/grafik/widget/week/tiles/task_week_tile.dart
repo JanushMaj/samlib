@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/shared/turbo_grid/turbo_tile.dart';
 import 'package:kabast/shared/turbo_grid/turbo_grid.dart';
+import 'package:kabast/shared/turbo_grid/turbo_tile_delegate.dart';
+import 'package:kabast/shared/turbo_grid/turbo_tile_variant.dart';
 import 'package:kabast/shared/task_card.dart';
 import '../../../../../theme/app_tokens.dart';
 import '../../../../../theme/size_variants.dart';
