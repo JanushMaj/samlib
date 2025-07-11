@@ -58,6 +58,14 @@ class AppDrawer extends StatelessWidget {
               context.go('/admin');
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.admin_panel_settings),
+            title: const Text('Panel administracyjny'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/admin');
+            },
+          ),
           const Divider(),
           ListTile(
             leading: Icon(Icons.logout, color: colorScheme.primary),
