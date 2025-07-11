@@ -8,6 +8,7 @@ class EmployeePicker extends StatefulWidget {
   final ValueChanged<List<Employee>> onSelectionChanged;
   final List<String>? initialSelectedIds;
   final bool singleSelection;
+  final Set<String>? disabledEmployeeIds;
 
   const EmployeePicker({
     Key? key,
@@ -15,6 +16,7 @@ class EmployeePicker extends StatefulWidget {
     required this.onSelectionChanged,
     this.initialSelectedIds,
     this.singleSelection = false,
+    this.disabledEmployeeIds,
   }) : super(key: key);
 
   @override
@@ -41,6 +43,9 @@ class _EmployeePickerState extends State<EmployeePicker> {
   }
 
   void _toggleSelection(Employee employee) {
+    if (widget.disabledEmployeeIds?.contains(employee.uid) ?? false) {
+      return;
+    }
 
     setState(() {
       if (widget.singleSelection) {
@@ -92,9 +97,12 @@ class _EmployeePickerState extends State<EmployeePicker> {
           runSpacing: AppSpacing.sm,
           children: _currentEmployees.map((employee) {
             final isSelected = _selectedEmployeeIds.contains(employee.uid);
+            final isDisabled =
+                widget.disabledEmployeeIds?.contains(employee.uid) ?? false;
             return EmployeeTile(
               employee: employee,
               isSelected: isSelected,
+              isDisabled: isDisabled,
               onTap: () => _toggleSelection(employee),
             );
           }).toList(),

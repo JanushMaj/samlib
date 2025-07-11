@@ -17,4 +17,8 @@ class AppUserRepository {
   Future<AppUser?> getUser(String uid) {
     return _service.getAppUser(uid);
   }
+
+  Future<AppUser?> getUserByEmployeeId(String employeeId) {
+    return _service.getUserByEmployeeId(employeeId);
+  }
 }
