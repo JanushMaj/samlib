@@ -1,51 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
-import 'package:kabast/shared/turbo_grid/turbo_tile.dart';
+import 'package:kabast/domain/models/grafik/grafik_element_data.dart';
+import 'package:kabast/shared/grafik_element_card.dart';
 import 'package:kabast/shared/turbo_grid/turbo_grid.dart';
+import 'package:kabast/shared/turbo_grid/turbo_tile.dart';
 import 'package:kabast/shared/turbo_grid/turbo_tile_delegate.dart';
 import 'package:kabast/shared/turbo_grid/turbo_tile_variant.dart';
-import 'package:kabast/shared/task_card.dart';
-import '../../../../../theme/app_tokens.dart';
 import '../../../../../theme/size_variants.dart';
-import '../../dialog/grafik_element_popup.dart';
-import '../../../constants/element_styles.dart';
 
 class TaskWeekTile extends StatelessWidget {
   final TaskElement task;
-  const TaskWeekTile({Key? key, required this.task}) : super(key: key);
+  final GrafikElementData data;
+
+  const TaskWeekTile({
+    Key? key,
+    required this.task,
+    required this.data,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final style = const GrafikElementStyleResolver().styleFor(task.type);
-    return GestureDetector(
-      onTap: () => showGrafikElementPopup(context, task),
-      child: Container(
-        decoration: BoxDecoration(
-          color: style.backgroundColor,
-          borderRadius: BorderRadius.circular(AppRadius.md),
+    return TurboGrid(
+      tiles: [
+        TurboTile(
+          priority: 1,
+          required: true,
+          delegate: _TaskCardDelegate(task, data),
         ),
-        padding: const EdgeInsets.all(AppSpacing.xs),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return TurboGrid(
-              tiles: [
-                TurboTile(
-                  priority: 1,
-                  required: true,
-                  delegate: _TaskCardDelegate(task),
-                ),
-              ],
-            );
-          },
-        ),
-      ),
+      ],
     );
   }
 }
 
 class _TaskCardDelegate extends TurboTileDelegate {
   final TaskElement task;
-  _TaskCardDelegate(this.task);
+  final GrafikElementData data;
+
+  _TaskCardDelegate(this.task, this.data);
 
   @override
   List<TurboTileVariant> createVariants() => [
@@ -66,8 +57,9 @@ class _TaskCardDelegate extends TurboTileDelegate {
       builder: (context) => SizedBox(
         width: width,
         height: height,
-        child: TaskCard(
-          task: task,
+        child: GrafikElementCard(
+          element: task,
+          data: data,
           variant: v,
         ),
       ),
