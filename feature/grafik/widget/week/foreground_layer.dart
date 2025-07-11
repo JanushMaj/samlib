@@ -5,6 +5,7 @@ import 'package:kabast/domain/models/grafik/impl/task_planning_element.dart';
 import 'package:kabast/domain/models/grafik/impl/delivery_planning_element.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
+import 'package:kabast/domain/models/grafik/grafik_element_data.dart';
 import 'package:kabast/feature/grafik/widget/week/tiles/default_week_tile.dart';
 import 'package:kabast/feature/grafik/widget/week/tiles/delivery_planning_week_tile.dart';
 import 'package:kabast/feature/grafik/widget/week/tiles/task_planning_week_tile.dart';
@@ -18,6 +19,21 @@ import 'grafik_grid.dart';
 
 class ForegroundLayer extends StatelessWidget {
   const ForegroundLayer({Key? key}) : super(key: key);
+
+  GrafikElementData _taskData(GrafikState state, TaskElement task) {
+    final assignments =
+        state.assignments.where((a) => a.taskId == task.id).toList();
+    final employees = state.employees
+        .where((e) => assignments.any((a) => a.workerId == e.uid))
+        .toList();
+    final vehicles =
+        state.vehicles.where((v) => task.carIds.contains(v.id)).toList();
+    return GrafikElementData(
+      assignedEmployees: employees,
+      assignedVehicles: vehicles,
+      assignments: assignments,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +60,10 @@ class ForegroundLayer extends StatelessWidget {
             } else if (elem is DeliveryPlanningElement) {
               return DeliveryPlanningWeekTile(deliveryPlanning: elem);
             } else if (elem is TaskElement) {
-              return TaskWeekTile(task: elem);
+              return TaskWeekTile(
+                task: elem,
+                data: _taskData(state, elem),
+              );
             } else if (elem is TimeIssueElement) {
               return TimeIssueWeekTile(timeIssue: elem);
             } else {
