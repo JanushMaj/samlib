@@ -24,6 +24,7 @@ class AppSpacing {
 
   /// Szerokość obramowania
   static const double borderThin = 1.0;
+  static const double borderMedium = 2.0;
 
   /// Odpowiednik .withOpacity(0.1) => alpha ~ 25
   static const int alphaLow = 25;
