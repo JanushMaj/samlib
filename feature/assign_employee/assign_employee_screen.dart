@@ -17,6 +17,38 @@ class AssignEmployeeScreen extends StatefulWidget {
 
 class _AssignEmployeeScreenState extends State<AssignEmployeeScreen> {
   String? _selectedId;
+  Set<String> _disabledIds = {};
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _loadDisabled());
+  }
+
+  Future<void> _loadDisabled() async {
+    final employees = await GetIt.I<EmployeeRepository>().getEmployees().first;
+    final repo = GetIt.I<AppUserRepository>();
+    final currentUid = context.read<AuthCubit>().currentUser?.id;
+    final results = await Future.wait(
+      employees.map((e) => repo.getUserByEmployeeId(e.uid)),
+    );
+    final used = <String>{};
+    for (var i = 0; i < employees.length; i++) {
+      final user = results[i];
+      if (user != null && user.id != currentUid) {
+        used.add(employees[i].uid);
+      }
+    }
+    if (!mounted) return;
+    setState(() {
+      _disabledIds = used;
+      _loading = false;
+      if (_selectedId != null && _disabledIds.contains(_selectedId)) {
+        _selectedId = null;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,36 +64,45 @@ class _AssignEmployeeScreenState extends State<AssignEmployeeScreen> {
               large: const EdgeInsets.all(32),
               child: ConstrainedBox(
                 constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    EmployeePicker(
-                      employeeStream: employeeStream,
-                      singleSelection: true,
-                      initialSelectedIds: _selectedId == null ? [] : [_selectedId!],
-                      onSelectionChanged: (employees) {
-                        setState(() {
-                          _selectedId = employees.isNotEmpty ? employees.first.uid : null;
-                        });
-                      },
-                    ),
-                    const SizedBox(height: AppSpacing.sm * 6),
-                    CustomButton(
-                      text: AppStrings.assignMe,
-                      onPressed: _selectedId == null
-                          ? null
-                          : () async {
-                              final user = context.read<AuthCubit>().currentUser;
-                              if (user != null) {
-                                final updated = user.copyWith(employeeId: _selectedId);
-                                await GetIt.I<AppUserRepository>().saveUser(updated);
-                              }
-                              if (mounted) Navigator.of(context).pop();
+                child: _loading
+                    ? const Center(child: CircularProgressIndicator())
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          EmployeePicker(
+                            employeeStream: employeeStream,
+                            singleSelection: true,
+                            disabledEmployeeIds: _disabledIds,
+                            initialSelectedIds:
+                                _selectedId == null ? [] : [_selectedId!],
+                            onSelectionChanged: (employees) {
+                              setState(() {
+                                _selectedId = employees.isNotEmpty
+                                    ? employees.first.uid
+                                    : null;
+                              });
                             },
-                    ),
-                  ],
-                ),
+                          ),
+                          const SizedBox(height: AppSpacing.sm * 6),
+                          CustomButton(
+                            text: AppStrings.assignMe,
+                            onPressed: _selectedId == null
+                                ? null
+                                : () async {
+                                    final user =
+                                        context.read<AuthCubit>().currentUser;
+                                    if (user != null) {
+                                      final updated =
+                                          user.copyWith(employeeId: _selectedId);
+                                      await GetIt.I<AppUserRepository>()
+                                          .saveUser(updated);
+                                    }
+                                    if (mounted) Navigator.of(context).pop();
+                                  },
+                          ),
+                        ],
+                      ),
               ),
             ),
           );

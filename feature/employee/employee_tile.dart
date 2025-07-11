@@ -9,13 +9,15 @@ import '../../domain/models/employee.dart';
 class EmployeeTile extends StatelessWidget {
   final Employee employee;
   final bool isSelected;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
+  final bool isDisabled;
 
   const EmployeeTile({
     Key? key,
     required this.employee,
     required this.isSelected,
     required this.onTap,
+    this.isDisabled = false,
   }) : super(key: key);
 
   @override
@@ -27,16 +29,20 @@ class EmployeeTile extends StatelessWidget {
     final displayText = initial.isNotEmpty ? '$initial $surname' : surname;
 
     // Tło i ramka zależne od isSelected
-    final bgColor = isSelected
-        ? Theme.of(context).colorScheme.primaryContainer
-        : Theme.of(context).cardColor;
+    final bgColor = isDisabled
+        ? Theme.of(context).disabledColor.withAlpha(AppSpacing.alphaLow)
+        : isSelected
+            ? Theme.of(context).colorScheme.primaryContainer
+            : Theme.of(context).cardColor;
 
-    final borderColor = isSelected
-        ? Theme.of(context).colorScheme.primary
-        : Colors.transparent;
+    final borderColor = isDisabled
+        ? Colors.transparent
+        : isSelected
+            ? Theme.of(context).colorScheme.primary
+            : Colors.transparent;
 
     return GestureDetector(
-      onTap: onTap,
+      onTap: isDisabled ? null : onTap,
       child: Container(
         padding: const EdgeInsets.all(AppSpacing.xs), // 2.0
         decoration: BoxDecoration(

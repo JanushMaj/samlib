@@ -29,4 +29,15 @@ class AppUserFirebaseService implements IAppUserService {
       return AppUserDto.fromFirestore(doc).toDomain();
     });
   }
+
+  @override
+  Future<AppUser?> getUserByEmployeeId(String employeeId) async {
+    final query = await _firestore
+        .collection('users')
+        .where('employeeId', isEqualTo: employeeId)
+        .limit(1)
+        .get();
+    if (query.docs.isEmpty) return null;
+    return AppUserDto.fromFirestore(query.docs.first).toDomain();
+  }
 }
