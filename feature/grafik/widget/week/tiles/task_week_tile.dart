@@ -68,8 +68,7 @@ class _TaskCardDelegate extends TurboTileDelegate {
         height: height,
         child: TaskCard(
           task: task,
-          showEmployees: v != SizeVariant.small,
-          showVehicles: v != SizeVariant.small,
+          variant: v,
         ),
       ),
     );
