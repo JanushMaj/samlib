@@ -46,13 +46,14 @@ class _AuthWrapperState extends State<AuthWrapper> {
 
   void _handleState(AuthState state) {
     final ctx = widget.navigatorKey.currentContext;
-    if (ctx == null) {
-      print('[AuthWrapper] Skipped navigation: context == null');
+    final navState = widget.navigatorKey.currentState;
+    if (ctx == null || navState == null) {
+      print('[AuthWrapper] Skipped navigation: navigator not ready');
+      WidgetsBinding.instance.addPostFrameCallback((_) => _handleState(state));
       return;
     }
 
     print('[AuthWrapper] state: $state');
-    final navigator = widget.navigatorKey.currentState;
     final currentRoute = ModalRoute.of(ctx)?.settings.name;
     final user = context.read<AuthCubit>().currentUser;
 
@@ -66,8 +67,13 @@ class _AuthWrapperState extends State<AuthWrapper> {
     if (targetRoute != null && currentRoute != targetRoute) {
       print('[AuthWrapper] navigating to: $targetRoute');
       WidgetsBinding.instance.addPostFrameCallback((_) {
+        final nav = widget.navigatorKey.currentState;
+        if (nav == null) {
+          print('[AuthWrapper] navigation skipped: navigator missing');
+          return;
+        }
         print('[AuthWrapper] executing navigation callback');
-        navigator?.pushNamedAndRemoveUntil(targetRoute!, (_) => false);
+        nav.pushNamedAndRemoveUntil(targetRoute!, (_) => false);
       });
     }
   }
