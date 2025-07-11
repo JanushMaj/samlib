@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../feature/auth/auth_cubit.dart';
 
@@ -8,42 +9,60 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(color: Colors.blueGrey),
-            child: Text('Menu'),
+          DrawerHeader(
+            decoration: BoxDecoration(color: colorScheme.primaryContainer),
+            child: Text(
+              'Menu',
+              style: TextStyle(color: colorScheme.onPrimaryContainer),
+            ),
           ),
           ListTile(
-            leading: const Icon(Icons.calendar_today),
-            title: const Text('Grafik dzienny'),
+            leading: Icon(Icons.calendar_today, color: colorScheme.primary),
+            title: Text('Grafik dzienny',
+                style: TextStyle(color: colorScheme.onSurface)),
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, '/grafik');
+              context.go('/grafik');
             },
           ),
           ListTile(
-            leading: const Icon(Icons.view_week),
-            title: const Text('Grafik tygodniowy'),
+            leading: Icon(Icons.view_week, color: colorScheme.primary),
+            title: Text('Grafik tygodniowy',
+                style: TextStyle(color: colorScheme.onSurface)),
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, '/weekGrafik');
+              context.go('/weekGrafik');
             },
           ),
           ListTile(
-            leading: const Icon(Icons.inventory),
-            title: const Text('Zaopatrzenie'),
+            leading: Icon(Icons.inventory, color: colorScheme.primary),
+            title: Text('Zaopatrzenie',
+                style: TextStyle(color: colorScheme.onSurface)),
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, '/supplies');
+              context.go('/supplies');
+            },
+          ),
+          ListTile(
+            leading:
+                Icon(Icons.admin_panel_settings, color: colorScheme.primary),
+            title: Text('Panel Administracyjny',
+                style: TextStyle(color: colorScheme.onSurface)),
+            onTap: () {
+              Navigator.pop(context);
+              context.go('/admin');
             },
           ),
           const Divider(),
           ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text('Wyloguj'),
+            leading: Icon(Icons.logout, color: colorScheme.primary),
+            title: Text('Wyloguj',
+                style: TextStyle(color: colorScheme.onSurface)),
             onTap: () {
               Navigator.pop(context);
               context.read<AuthCubit>().signOut();
