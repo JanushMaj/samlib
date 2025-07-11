@@ -67,6 +67,6 @@ class _AuthWrapperState extends State<AuthWrapper> {
       return '/noAccess';
     }
 
-    return '/mainMenu';
+    return '/grafik';
   }
 }
