@@ -6,3 +6,4 @@ export 'form/standard/standard_form_section.dart';
 export 'utils/date_formatting.dart';
 export 'app_drawer.dart';
 export 'task_card.dart';
+export 'grafik_element_card.dart';
