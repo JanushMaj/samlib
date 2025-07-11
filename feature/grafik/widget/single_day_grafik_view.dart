@@ -23,6 +23,9 @@ class SingleDayGrafikView extends StatefulWidget {
 class _SingleDayGrafikViewState extends State<SingleDayGrafikView> {
   bool _showAll = false;
 
+  bool _sameDate(DateTime a, DateTime b) =>
+      a.year == b.year && a.month == b.month && a.day == b.day;
+
   @override
   Widget build(BuildContext context) {
     final selectedDay = context.watch<DateCubit>().state.selectedDay;
@@ -38,12 +41,18 @@ class _SingleDayGrafikViewState extends State<SingleDayGrafikView> {
           drawer: const AppDrawer(),
           appBar: GrafikAppBar(
             title: Text(
-              '${AppStrings.grafik}: ${formattedDate(selectedDay)}',
+              grafikTitleDate(selectedDay),
               style: AppTheme.textStyleFor(
                 bp,
                 Theme.of(context).textTheme.titleLarge!,
               ),
             ),
+            backgroundColor: _sameDate(selectedDay, DateTime.now())
+                ? Theme.of(context).colorScheme.secondaryContainer
+                : null,
+            foregroundColor: _sameDate(selectedDay, DateTime.now())
+                ? Theme.of(context).colorScheme.onSecondaryContainer
+                : null,
             actions: [
               Wrap(
                 spacing: AppSpacing.sm,

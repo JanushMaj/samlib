@@ -7,11 +7,15 @@ import '../../feature/permission/permission_widget.dart';
 class GrafikAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget title;
   final List<Widget>? actions;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
 
   const GrafikAppBar({
     Key? key,
     required this.title,
     this.actions,
+    this.backgroundColor,
+    this.foregroundColor,
   }) : super(key: key);
 
   @override
@@ -21,6 +25,8 @@ class GrafikAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: title,
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
       actions: [
         // Jeśli mamy dodatkowe akcje, dołącz je:
         if (actions != null) ...actions!,
