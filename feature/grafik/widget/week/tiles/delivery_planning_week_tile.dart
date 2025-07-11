@@ -1,82 +1,67 @@
 import 'package:flutter/material.dart';
 import 'package:kabast/domain/models/grafik/impl/delivery_planning_element.dart';
-import 'package:kabast/shared/turbo_grid/turbo_tile.dart';
+import 'package:kabast/domain/models/grafik/grafik_element_data.dart';
+import 'package:kabast/shared/grafik_element_card.dart';
 import 'package:kabast/shared/turbo_grid/turbo_grid.dart';
-import 'package:kabast/theme/app_tokens.dart';
+import 'package:kabast/shared/turbo_grid/turbo_tile.dart';
+import 'package:kabast/shared/turbo_grid/turbo_tile_delegate.dart';
+import 'package:kabast/shared/turbo_grid/turbo_tile_variant.dart';
 
-import '../../../../../shared/turbo_grid/widgets/clock_view_delegate.dart';
-import '../../../../../shared/turbo_grid/widgets/simple_text_delegate.dart';
-import '../../dialog/grafik_element_popup.dart';
-import '../../../constants/element_styles.dart';
+import '../../../../../theme/size_variants.dart';
 
 class DeliveryPlanningWeekTile extends StatelessWidget {
   final DeliveryPlanningElement deliveryPlanning;
+  final GrafikElementData data;
 
-  const DeliveryPlanningWeekTile({Key? key, required this.deliveryPlanning})
-      : super(key: key);
+  const DeliveryPlanningWeekTile({
+    Key? key,
+    required this.deliveryPlanning,
+    required this.data,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final style = const GrafikElementStyleResolver().styleFor(deliveryPlanning.type);
-    return Padding(
-      padding: const EdgeInsets.all(AppSpacing.xs),
-      child: GestureDetector(
-        onTap: () => showGrafikElementPopup(context, deliveryPlanning),
-        child: Container(
-          decoration: BoxDecoration(
-            color: style.backgroundColor,
-            borderRadius: BorderRadius.circular(AppRadius.md),
-          ),
-          padding: const EdgeInsets.all(AppSpacing.xs),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return TurboGrid(
-                tiles: [
-                  // 1. Zegar: czas od..do
-                  TurboTile(
-                    priority: 1,
-                    required: true,
-                    delegate: ClockViewDelegate(
-                      start: deliveryPlanning.startDateTime,
-                      end: deliveryPlanning.endDateTime,
-                    ),
-                  ),
-                  // 2. Additional info
-                  TurboTile(
-                    priority: 1,
-                    required: true,
-                    delegate: SimpleTextDelegate(
-                      text: deliveryPlanning.additionalInfo,
-                    ),
-                  ),
-                  // 3. Numer zamówienia
-                  TurboTile(
-                    priority: 3,
-                    required: true,
-                    delegate: SimpleTextDelegate(
-                      text: deliveryPlanning.orderId,
-                    ),
-                  ),
-                  // 4. Kategoria
-                  TurboTile(
-                    priority: 4,
-                    required: true,
-                    delegate: SimpleTextDelegate(
-                      text: deliveryPlanning.category.name,
-                    ),
-                  ),
-                  // 5. Tekst stały (opcjonalny)
-                  TurboTile(
-                    priority: 5,
-                    required: false,
-                    delegate: SimpleTextDelegate(
-                      text: "DeliveryPlanningElement",
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
+    return TurboGrid(
+      tiles: [
+        TurboTile(
+          priority: 1,
+          required: true,
+          delegate: _DeliveryPlanningCardDelegate(deliveryPlanning, data),
+        ),
+      ],
+    );
+  }
+}
+
+class _DeliveryPlanningCardDelegate extends TurboTileDelegate {
+  final DeliveryPlanningElement deliveryPlanning;
+  final GrafikElementData data;
+
+  _DeliveryPlanningCardDelegate(this.deliveryPlanning, this.data);
+
+  @override
+  List<TurboTileVariant> createVariants() => [
+        _variant(SizeVariant.big),
+        _variant(SizeVariant.medium),
+        _variant(SizeVariant.small),
+      ];
+
+  TurboTileVariant _variant(SizeVariant v) {
+    final width = switch (v) {
+      SizeVariant.big => 320.0,
+      SizeVariant.medium => 280.0,
+      SizeVariant.small => 240.0,
+    };
+    final height = v.height * 3;
+    return TurboTileVariant(
+      size: Size(width, height),
+      builder: (context) => SizedBox(
+        width: width,
+        height: height,
+        child: GrafikElementCard(
+          element: deliveryPlanning,
+          data: data,
+          variant: v,
         ),
       ),
     );
