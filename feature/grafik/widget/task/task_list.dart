@@ -5,6 +5,7 @@ import 'package:kabast/feature/permission/permission_widget.dart';
 import 'package:kabast/theme/app_tokens.dart';
 import 'package:kabast/theme/theme.dart';
 import 'package:kabast/shared/responsive/responsive_layout.dart';
+import '../../../auth/auth_cubit.dart';
 import '../../../../domain/models/grafik/enums.dart';
 import '../../cubit/grafik_cubit.dart';
 import '../../cubit/grafik_state.dart';
@@ -16,15 +17,29 @@ import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 class TaskList extends StatelessWidget {
   final DateTime date;
   final Breakpoint breakpoint;
+  final bool showAll;
 
-  const TaskList({Key? key, required this.date, required this.breakpoint})
-      : super(key: key);
+  const TaskList({
+    Key? key,
+    required this.date,
+    required this.breakpoint,
+    required this.showAll,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GrafikCubit, GrafikState>(
       builder: (context, state) {
-        final tasks = state.tasks;
+        List<TaskElement> tasks = state.tasks;
+        if (!showAll) {
+          final currentUser = context.read<AuthCubit>().currentUser;
+          final userId = currentUser?.employeeId;
+          final assignedIds = state.assignments
+              .where((a) => a.workerId == userId)
+              .map((a) => a.taskId)
+              .toSet();
+          tasks = tasks.where((t) => assignedIds.contains(t.id)).toList();
+        }
         final employees = state.employees;
         final issues = state.issues;
 
