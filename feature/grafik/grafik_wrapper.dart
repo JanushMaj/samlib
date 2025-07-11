@@ -9,6 +9,7 @@ class GrafikWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('[GrafikWrapper] build');
     return BlocBuilder<DateCubit, DateState>(
       builder: (context, dateState) {
         return SingleDayGrafikView(date: dateState.selectedDay);

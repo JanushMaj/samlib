@@ -14,6 +14,7 @@ import 'feature/main_menu/main_menu_screen.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
+    print('[AppRouter] generateRoute: ${settings.name}');
     switch (settings.name) {
       case '/login':
         return MaterialPageRoute(builder: (_) => const LoginScreen());

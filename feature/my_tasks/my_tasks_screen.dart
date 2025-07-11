@@ -20,6 +20,7 @@ class MyTasksScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('[MyTasksScreen] build');
     final user = context.watch<AuthCubit>().currentUser;
     final day = context.watch<DateCubit>().state.selectedDay;
 

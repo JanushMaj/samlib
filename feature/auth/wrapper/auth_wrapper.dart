@@ -47,6 +47,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
   void _handleState(AuthState state) {
     final ctx = widget.navigatorKey.currentContext;
     final navState = widget.navigatorKey.currentState;
+    print('[AuthWrapper] ctx=$ctx navState=$navState');
     if (ctx == null || navState == null) {
       print('[AuthWrapper] Skipped navigation: navigator not ready');
       WidgetsBinding.instance.addPostFrameCallback((_) => _handleState(state));
@@ -60,8 +61,10 @@ class _AuthWrapperState extends State<AuthWrapper> {
     String? targetRoute;
     if (state is AuthAuthenticated && user != null) {
       targetRoute = _resolveHomeRoute(user);
+      print('[AuthWrapper] resolved route: $targetRoute');
     } else if (state is AuthUnauthenticated) {
       targetRoute = '/login';
+      print('[AuthWrapper] resolved route: $targetRoute');
     }
 
     if (targetRoute != null && currentRoute != targetRoute) {
@@ -74,6 +77,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
         }
         print('[AuthWrapper] executing navigation callback');
         nav.pushNamedAndRemoveUntil(targetRoute!, (_) => false);
+        print('[AuthWrapper] navigation finished');
       });
     }
   }
@@ -82,6 +86,8 @@ class _AuthWrapperState extends State<AuthWrapper> {
   // The mapping is documented in docs/roles.md for maintainability.
   String _resolveHomeRoute(AppUser user) {
     final perms = user.effectivePermissions;
+
+    print('[AuthWrapper] resolveHomeRoute for user ${user.id}');
 
     if (!(perms['canUseApp'] ?? false)) {
       return '/noAccess';
