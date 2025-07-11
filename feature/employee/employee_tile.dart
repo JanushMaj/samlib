@@ -50,7 +50,7 @@ class EmployeeTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppRadius.md), // 4.0
           border: Border.all(
             color: borderColor,
-            width: 2.0, // możesz dodać AppSpacing.borderMedium = 2.0 w app_tokens
+            width: AppSpacing.borderMedium,
           ),
         ),
         child: LayoutBuilder(
