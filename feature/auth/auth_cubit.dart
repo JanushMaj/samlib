@@ -23,16 +23,11 @@ class AuthCubit extends Cubit<AuthState> {
 
   AuthCubit(this._authService) : super(AuthInitial()) {
     _authSub = _authService.authStateChanges().listen((appUser) {
-      print('AuthCubit auth state change: user=$appUser');
       _currentUser = appUser;
       if (appUser != null) {
-        print('AuthCubit emitting AuthAuthenticated');
         emit(AuthAuthenticated());
-        print('AuthCubit emitted AuthAuthenticated');
       } else {
-        print('AuthCubit emitting AuthUnauthenticated');
         emit(AuthUnauthenticated());
-        print('AuthCubit emitted AuthUnauthenticated');
       }
     });
   }
@@ -48,57 +43,40 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> signUp() async {
     try {
-      print('AuthCubit signUp()');
       emit(AuthLoading());
-      print('AuthCubit emitted AuthLoading');
       await _authService.signUp(
         _loginEmail.trim(),
         _loginPassword.trim(),
       );
-      print('AuthCubit signUp completed');
     } catch (e) {
-      print('AuthCubit signUp error: $e');
       emit(AuthError(e.toString()));
-      print('AuthCubit emitted AuthError');
     }
   }
 
 
   Future<void> signIn() async {
     if (_currentUser != null) {
-      print('signIn skipped: user already authenticated');
       return;
     }
     try {
-      print('AuthCubit signIn()');
       emit(AuthLoading());
-      print('AuthCubit emitted AuthLoading');
       await _authService.signIn(
         _loginEmail.trim(),
         _loginPassword.trim(),
       );
-      print('AuthCubit signIn completed');
       _clearLoginFields();
     } catch (e) {
-      print('AuthCubit signIn error: $e');
       emit(AuthError(e.toString()));
-      print('AuthCubit emitted AuthError');
     }
   }
 
   Future<void> signOut() async {
     try {
-      print('AuthCubit signOut()');
       emit(AuthLoading());
-      print('AuthCubit emitted AuthLoading');
       await _authService.signOut();
-      print('AuthCubit signOut completed');
       emit(AuthUnauthenticated());
-      print('AuthCubit emitted AuthUnauthenticated');
     } catch (e) {
-      print('AuthCubit signOut error: $e');
       emit(AuthError(e.toString()));
-      print('AuthCubit emitted AuthError');
     }
   }
 

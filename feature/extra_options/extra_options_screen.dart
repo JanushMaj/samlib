@@ -6,7 +6,6 @@ class ExtraOptionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('[ExtraOptionsScreen] build');
     return ResponsiveScaffold(
       appBar: AppBar(
         title: const Text('Dodatkowe opcje'),

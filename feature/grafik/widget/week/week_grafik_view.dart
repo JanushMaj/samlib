@@ -16,7 +16,6 @@ class WeekGrafikView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('[WeekGrafikView] build');
     return ResponsiveScaffold(
       appBar: GrafikAppBar(
         title: BlocBuilder<DateCubit, DateState>(

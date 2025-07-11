@@ -8,7 +8,6 @@ class NoAccessScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('[NoAccessScreen] build');
     final theme = Theme.of(context).textTheme;
 
     return ResponsiveScaffold(
