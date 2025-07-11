@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../auth_cubit.dart';
 import '../auth_state.dart';
-import '../../domain/models/app_user.dart';
+import '../../../domain/models/app_user.dart';
 
 class AuthWrapper extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey;

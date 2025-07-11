@@ -12,6 +12,7 @@ import 'package:kabast/feature/grafik/widget/week/tiles/task_week_tile.dart';
 import 'package:kabast/feature/grafik/widget/week/tiles/time_issue_week_tile.dart';
 
 import '../../cubit/grafik_cubit.dart';
+import '../../cubit/grafik_state.dart';
 import '../../../date/date_cubit.dart';
 import 'grafik_grid.dart';
 
