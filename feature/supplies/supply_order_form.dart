@@ -21,6 +21,12 @@ class _SupplyOrderFormState extends State<SupplyOrderForm> {
   final _qtyController = TextEditingController(text: '1');
 
   @override
+  void dispose() {
+    _qtyController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
