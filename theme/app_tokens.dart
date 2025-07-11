@@ -99,6 +99,7 @@ class AppStrings {
   static const gotoWeekGrafik = 'Widok tygodniowy'; // jeśli potrzebne
   static const dateRangePicker = 'Wybierz zakres dat';
   static const pickDate = 'Wybierz datę';
+  static const showAllGrafik = 'Pokaż cały grafik';
 
   static const zero = 'Zeruj';
   static const save = 'Zapisz';

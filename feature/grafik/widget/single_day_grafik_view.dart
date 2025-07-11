@@ -11,9 +11,16 @@ import '../../../shared/custom_fab.dart';
 import '../../permission/permission_widget.dart'; // Dodaj ten import
 import '../../../shared/utils/date_formatting.dart';
 
-class SingleDayGrafikView extends StatelessWidget {
+class SingleDayGrafikView extends StatefulWidget {
   final DateTime date;
   const SingleDayGrafikView({Key? key, required this.date}) : super(key: key);
+
+  @override
+  State<SingleDayGrafikView> createState() => _SingleDayGrafikViewState();
+}
+
+class _SingleDayGrafikViewState extends State<SingleDayGrafikView> {
+  bool _showAll = false;
 
   @override
   Widget build(BuildContext context) {
@@ -57,26 +64,45 @@ class SingleDayGrafikView extends StatelessWidget {
                       },
                     ),
                   ),
-                  PermissionWidget(
-                    permission: 'canSeeWeeklySummary',
-                    child: IconButton(
-                      icon: const Icon(Icons.view_week),
-                      tooltip: AppStrings.weekView,
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/weekGrafik');
+              PermissionWidget(
+                permission: 'canSeeWeeklySummary',
+                child: IconButton(
+                  icon: const Icon(Icons.view_week),
+                  tooltip: AppStrings.weekView,
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/weekGrafik');
+                  },
+                ),
+              ),
+              PermissionWidget(
+                permission: 'canSeeAllGrafik',
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(AppStrings.showAllGrafik),
+                    Switch(
+                      value: _showAll,
+                      onChanged: (v) {
+                        setState(() => _showAll = v);
                       },
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
-          body: ResponsivePadding(
+        ],
+      ),
+      body: ResponsivePadding(
             small: const EdgeInsets.all(AppSpacing.sm),
             medium: const EdgeInsets.all(AppSpacing.sm * 2),
             large: const EdgeInsets.all(AppSpacing.sm * 3),
-            child: TaskList(date: selectedDay, breakpoint: bp),
+          child: TaskList(
+            date: selectedDay,
+            breakpoint: bp,
+            showAll: _showAll,
           ),
+      ),
           floatingActionButton: PermissionWidget(
             permission: 'canAddGrafik',
             child: CustomFAB(
