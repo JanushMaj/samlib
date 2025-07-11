@@ -9,6 +9,7 @@ import '../../../../shared/appbar/grafik_appbar.dart';
 import '../../../../shared/custom_fab.dart';
 import '../../../permission/permission_widget.dart';
 import '../../../date/date_cubit.dart';
+import '../../../date/date_state.dart';
 
 class WeekGrafikView extends StatelessWidget {
   const WeekGrafikView({super.key});

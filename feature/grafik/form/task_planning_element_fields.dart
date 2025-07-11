@@ -11,6 +11,7 @@ import '../../../shared/form/minutes_picker/minutes_picker_field.dart';
 import '../../../shared/form/small_number_picker/small_number_picker.dart';
 import '../../../domain/constants/pending_placeholder_date.dart';
 import '../cubit/form/grafik_element_form_cubit.dart';
+import '../cubit/form/grafik_element_form_state.dart';
 import 'components/assignment_editor.dart';
 
 class GrafikPlanningFields extends StatelessWidget {

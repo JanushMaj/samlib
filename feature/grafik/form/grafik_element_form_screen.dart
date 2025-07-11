@@ -11,6 +11,7 @@ import '../../../shared/form/custom_textfield.dart';
 import '../../../shared/form/standard/standard_form_field.dart';
 import '../../../shared/form/standard/standard_form_section.dart';
 import '../cubit/form/grafik_element_form_cubit.dart';
+import '../cubit/form/grafik_element_form_state.dart';
 import '../../../data/repositories/grafik_element_repository.dart';
 import '../../../data/repositories/task_assignment_repository.dart';
 

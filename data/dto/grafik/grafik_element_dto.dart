@@ -6,6 +6,10 @@ import '../../../domain/models/grafik/impl/time_issue_element.dart';
 import '../../../domain/models/grafik/impl/delivery_planning_element.dart';
 import '../../../domain/models/grafik/impl/task_planning_element.dart';
 import '../../../domain/models/grafik/enums.dart';
+import 'task_element_dto.dart';
+import 'time_issue_element_dto.dart';
+import 'delivery_planning_element_dto.dart';
+import 'task_planning_element_dto.dart';
 
 abstract class GrafikElementDto {
   static DateTime parseDateTime(dynamic value, DateTime fallback) {
