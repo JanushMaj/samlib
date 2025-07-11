@@ -13,6 +13,7 @@ import '../date/date_cubit.dart';
 import '../permission/permission_widget.dart';
 import '../../shared/responsive/responsive_layout.dart';
 import '../../theme/app_tokens.dart';
+import '../../shared/utils/date_formatting.dart';
 
 class MyTasksScreen extends StatelessWidget {
   const MyTasksScreen({super.key});
@@ -90,7 +91,7 @@ class MyTasksScreen extends StatelessWidget {
 
     return ResponsiveScaffold(
       appBar: AppBar(
-        title: Text('Moje zadania: ${_formatDate(day)}'),
+        title: Text('Moje zadania: ${formattedDate(day)}'),
         actions: [
           PermissionWidget(
             permission: 'canChangeDate',
@@ -150,37 +151,4 @@ class MyTasksScreen extends StatelessWidget {
   String _fmt(DateTime dt) =>
       '${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
 
-  bool _isSameDate(DateTime a, DateTime b) =>
-      a.year == b.year && a.month == b.month && a.day == b.day;
-
-  String _weekdayName(int weekday) {
-    const names = [
-      'Poniedziałek',
-      'Wtorek',
-      'Środa',
-      'Czwartek',
-      'Piątek',
-      'Sobota',
-      'Niedziela',
-    ];
-    return names[weekday - 1];
-  }
-
-  String _formatDate(DateTime date) {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final tomorrow = today.add(const Duration(days: 1));
-    final isToday = _isSameDate(date, today);
-    final isTomorrow = _isSameDate(date, tomorrow);
-    final day = date.day.toString().padLeft(2, '0');
-    final month = date.month.toString().padLeft(2, '0');
-    final weekdayName = _weekdayName(date.weekday);
-    String suffix = '';
-    if (isToday) {
-      suffix = 'DZISIAJ JEST DZISIAJ';
-    } else if (isTomorrow) {
-      suffix = 'JUTRO';
-    }
-    return '$day.$month - $weekdayName${suffix.isNotEmpty ? ' $suffix' : ''}';
-  }
 }
