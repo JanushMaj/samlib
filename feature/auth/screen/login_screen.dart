@@ -64,7 +64,7 @@ class LoginScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           TextButton(
-                            onPressed: authCubit.signIn,
+                            onPressed: () => authCubit.signIn(),
                             child: const Text(AppStrings.login),
                           ),
                         ],
