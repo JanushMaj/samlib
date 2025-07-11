@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 import '../feature/auth/auth_cubit.dart';
 
@@ -42,7 +41,7 @@ class AppDrawer extends StatelessWidget {
                   title: Text('Grafik dzienny', style: TextStyle(color: colorScheme.onSurface)),
                   onTap: () {
                     Navigator.pop(context);
-                    GoRouter.of(context).go('/grafik');
+                    Navigator.pushNamed(context, '/grafik');
                   },
                 ),
                 ListTile(
@@ -50,7 +49,7 @@ class AppDrawer extends StatelessWidget {
                   title: Text('Grafik tygodniowy', style: TextStyle(color: colorScheme.onSurface)),
                   onTap: () {
                     Navigator.pop(context);
-                    GoRouter.of(context).go('/weekGrafik');
+                    Navigator.pushNamed(context, '/weekGrafik');
                   },
                 ),
                 ListTile(
@@ -58,7 +57,7 @@ class AppDrawer extends StatelessWidget {
                   title: Text('Zaopatrzenie', style: TextStyle(color: colorScheme.onSurface)),
                   onTap: () {
                     Navigator.pop(context);
-                    GoRouter.of(context).go('/supplies');
+                    Navigator.pushNamed(context, '/supplies');
                   },
                 ),
                 ListTile(
@@ -66,7 +65,7 @@ class AppDrawer extends StatelessWidget {
                   title: Text('Panel administracyjny', style: TextStyle(color: colorScheme.onSurface)),
                   onTap: () {
                     Navigator.pop(context);
-                    GoRouter.of(context).go('/admin');
+                    Navigator.pushNamed(context, '/admin');
                   },
                 ),
               ],
