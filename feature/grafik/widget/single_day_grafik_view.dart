@@ -9,6 +9,7 @@ import 'package:kabast/feature/date/date_cubit.dart';
 import '../../../shared/appbar/grafik_appbar.dart';
 import '../../../shared/custom_fab.dart';
 import '../../permission/permission_widget.dart'; // Dodaj ten import
+import '../../../shared/utils/date_formatting.dart';
 
 class SingleDayGrafikView extends StatelessWidget {
   final DateTime date;
@@ -28,7 +29,7 @@ class SingleDayGrafikView extends StatelessWidget {
         return ResponsiveScaffold(
           appBar: GrafikAppBar(
             title: Text(
-              '${AppStrings.grafik}: ${_formatDate(selectedDay)}',
+              '${AppStrings.grafik}: ${formattedDate(selectedDay)}',
               style: AppTheme.textStyleFor(
                 bp,
                 Theme.of(context).textTheme.titleLarge!,
@@ -89,44 +90,5 @@ class SingleDayGrafikView extends StatelessWidget {
     );
   }
 
-  bool _isSameDate(DateTime a, DateTime b) {
-    return a.year == b.year && a.month == b.month && a.day == b.day;
-  }
 
-  String _weekdayName(int weekday) {
-    const weekdays = [
-      'Poniedziałek', // Monday = 1
-      'Wtorek',
-      'Środa',
-      'Czwartek',
-      'Piątek',
-      'Sobota',
-      'Niedziela',
-    ];
-    return weekdays[weekday - 1];
-  }
-
-
-  String _formatDate(DateTime date) {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final tomorrow = today.add(const Duration(days: 1));
-
-    final isToday = _isSameDate(date, today);
-    final isTomorrow = _isSameDate(date, tomorrow);
-
-    final day = date.day.toString().padLeft(2, '0');
-    final month = date.month.toString().padLeft(2, '0');
-
-    final weekdayName = _weekdayName(date.weekday);
-
-    String suffix = '';
-    if (isToday) {
-      suffix = 'DZISIAJ JEST DZISIAJ';
-    } else if (isTomorrow) {
-      suffix = 'JUTRO';
-    }
-
-    return '$day.$month - $weekdayName${suffix.isNotEmpty ? ' $suffix' : ''}';
-  }
 }
