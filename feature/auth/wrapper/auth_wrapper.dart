@@ -56,17 +56,19 @@ class _AuthWrapperState extends State<AuthWrapper> {
     final currentRoute = ModalRoute.of(ctx)?.settings.name;
     final user = context.read<AuthCubit>().currentUser;
 
+    String? targetRoute;
     if (state is AuthAuthenticated && user != null) {
-      final homeRoute = _resolveHomeRoute(user);
-      print('[AuthWrapper] navigating to: $homeRoute');
-      if (currentRoute != homeRoute) {
-        navigator?.pushNamedAndRemoveUntil(homeRoute, (_) => false);
-      }
+      targetRoute = _resolveHomeRoute(user);
     } else if (state is AuthUnauthenticated) {
-      print('[AuthWrapper] navigating to: /login');
-      if (currentRoute != '/login') {
-        navigator?.pushNamedAndRemoveUntil('/login', (_) => false);
-      }
+      targetRoute = '/login';
+    }
+
+    if (targetRoute != null && currentRoute != targetRoute) {
+      print('[AuthWrapper] navigating to: $targetRoute');
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        print('[AuthWrapper] executing navigation callback');
+        navigator?.pushNamedAndRemoveUntil(targetRoute!, (_) => false);
+      });
     }
   }
 
