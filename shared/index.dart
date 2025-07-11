@@ -4,3 +4,4 @@ export 'form/standard/standard_form_field.dart';
 export 'form/standard/standard_form_section.dart';
 export 'utils/date_formatting.dart';
 export 'app_drawer.dart';
+export 'task_card.dart';

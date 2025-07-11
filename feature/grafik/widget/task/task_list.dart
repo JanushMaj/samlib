@@ -11,7 +11,7 @@ import '../../cubit/grafik_cubit.dart';
 import '../../cubit/grafik_state.dart';
 import '../../form/standard_task_row.dart';
 import 'employee_daily_summary.dart';
-import 'task_tile.dart';
+import '../../../shared/task_card.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 
 class TaskList extends StatelessWidget {
@@ -92,36 +92,25 @@ class TaskList extends StatelessWidget {
         }
 
         if (nonStandardTasks.isNotEmpty) {
-          final isWide = breakpoint != Breakpoint.small;
-          final columns = isWide
-              ? _splitTasksEvenly(nonStandardTasks)
-              : {
-                  'left': _sortTasksForSingleColumn(nonStandardTasks),
-                  'right': <TaskElement>[]
-                };
+          final columns = switch (breakpoint) {
+            Breakpoint.small => 1,
+            Breakpoint.medium => 2,
+            Breakpoint.large => 3,
+          };
 
           children.add(
             Expanded(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      children: columns['left']!
-                          .map((task) => Flexible(child: TaskTile(task: task)))
-                          .toList(),
-                    ),
-                  ),
-                  if (isWide) ...[
-                    const SizedBox(width: AppSpacing.sm),
-                    Expanded(
-                      child: Column(
-                        children: columns['right']!
-                            .map((task) => Flexible(child: TaskTile(task: task)))
-                            .toList(),
-                      ),
-                    ),
-                  ],
-                ],
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: columns,
+                  crossAxisSpacing: AppSpacing.sm,
+                  mainAxisSpacing: AppSpacing.sm,
+                  childAspectRatio: 3,
+                ),
+                itemCount: nonStandardTasks.length,
+                itemBuilder: (context, index) => TaskCard(
+                  task: nonStandardTasks[index],
+                ),
               ),
             ),
           );
@@ -132,43 +121,5 @@ class TaskList extends StatelessWidget {
     );
   }
 
-  List<TaskElement> _sortTasksForSingleColumn(List<TaskElement> tasks) {
-    // Ustaw priorytet: Produkcja > Inne > Serwis > Budowa
-    final order = {
-      GrafikTaskType.Produkcja: 0,
-      GrafikTaskType.Inne:       1,
-      GrafikTaskType.Serwis:     2,
-      GrafikTaskType.Budowa:     3,
-    };
-
-    tasks.sort((a, b) {
-      final aOrder = order[a.taskType] ?? 999;
-      final bOrder = order[b.taskType] ?? 999;
-      return aOrder.compareTo(bOrder);
-    });
-
-    return tasks;
-  }
-
-  /// Rozdziela zadania na dwie kolumny, z priorytetem: Produkcja > Inne > Serwis > Budowa
-  /// Lewa kolumna może mieć jeden element więcej niż prawa.
-  Map<String, List<TaskElement>> _splitTasksEvenly(
-      List<TaskElement> tasks,
-      ) {
-    final order = {
-      GrafikTaskType.Produkcja: 0,
-      GrafikTaskType.Inne:       1,
-      GrafikTaskType.Serwis:     2,
-      GrafikTaskType.Budowa:     3,
-    };
-    final sorted = [...tasks]
-      ..sort((a, b) =>
-          (order[a.taskType] ?? 999).compareTo(order[b.taskType] ?? 999));
-
-    final mid = (sorted.length + 1) ~/ 2;
-    final left = sorted.sublist(0, mid);
-    final right = sorted.sublist(mid);
-
-    return {'left': left, 'right': right};
-  }
+  // Deprecated layout helpers removed
 }

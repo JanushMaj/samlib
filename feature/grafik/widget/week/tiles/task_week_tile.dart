@@ -1,71 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:collection/collection.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
-import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
-import 'package:kabast/domain/models/grafik/task_assignment.dart';
-import 'package:kabast/domain/models/employee.dart';
 import 'package:kabast/shared/turbo_grid/turbo_tile.dart';
 import 'package:kabast/shared/turbo_grid/turbo_grid.dart';
-
-import '../../../../../shared/turbo_grid/widgets/clock_view_delegate.dart';
-import '../../../../../shared/turbo_grid/widgets/simple_text_delegate.dart';
+import 'package:kabast/shared/task_card.dart';
 import '../../../../../theme/app_tokens.dart';
+import '../../../../../theme/size_variants.dart';
 import '../../dialog/grafik_element_popup.dart';
 
 class TaskWeekTile extends StatelessWidget {
   final TaskElement task;
   const TaskWeekTile({Key? key, required this.task}) : super(key: key);
 
-  String _formatEmployeeName(String fullName) {
-    final parts = fullName.split(' ');
-    if (parts.length >= 2) {
-      return '${parts[0]} ${parts[1][0]}.';
-    }
-    return fullName;
-  }
-
-  String _buildEmployeeNames(BuildContext context) {
-  final state = context.read<GrafikCubit>().state;
-
-  final byWorker = <String, List<TaskAssignment>>{};
-  for (final a in state.assignments.where((a) => a.taskId == task.id)) {
-    byWorker.putIfAbsent(a.workerId, () => []).add(a);
-  }
-
-  if (byWorker.isEmpty) {
-    return "Brak przypisanych pracowników";
-  }
-
-  return byWorker.entries.map((e) {
-    final Employee? emp =
-        state.employees.firstWhereOrNull((em) => em.uid == e.key);
-    final name = emp != null
-        ? _formatEmployeeName(emp.fullName)
-        : 'Nieznany pracownik';
-    final times = e.value
-        .sorted((a, b) => a.startDateTime.compareTo(b.startDateTime))
-        .map((a) =>
-            '${a.startDateTime.hour.toString().padLeft(2, '0')}-${a.endDateTime.hour.toString().padLeft(2, '0')}')
-        .join(', ');
-    return '$name $times';
-  }).join(", ");
-}
-
-  String _buildCarDescriptions(BuildContext context, List<String> carIds) {
-    final state = context.read<GrafikCubit>().state;
-    final filteredVehicles = state.vehicles
-        .where((vehicle) => carIds.contains(vehicle.id))
-        .toList();
-
-    return filteredVehicles
-        .map((v) => '${v.brand} ${v.color}')
-        .join(", ");
-  }
-
-  Color _backgroundColor(BuildContext context) {
-    return Colors.lightBlue.shade100;
-  }
+  Color _backgroundColor(BuildContext context) => Colors.lightBlue.shade100;
 
   @override
   Widget build(BuildContext context) {
@@ -81,56 +27,47 @@ class TaskWeekTile extends StatelessWidget {
           builder: (context, constraints) {
             return TurboGrid(
               tiles: [
-                // 1. Kafelek – przedział czasu
                 TurboTile(
                   priority: 1,
                   required: true,
-                  delegate: ClockViewDelegate(
-                    start: task.startDateTime,
-                    end: task.endDateTime,
-                  ),
-                ),
-                // 2. additionalInfo
-                TurboTile(
-                  priority: 1,
-                  required: true,
-                  delegate: SimpleTextDelegate(text: task.additionalInfo),
-                ),
-                // 3. pracownicy
-                TurboTile(
-                  priority: 1,
-                  required: true,
-                  delegate: SimpleTextDelegate(
-                    text: _buildEmployeeNames(context),
-                  ),
-                ),
-                // 4. orderId
-                TurboTile(
-                  priority: 3,
-                  required: false,
-                  delegate: SimpleTextDelegate(text: task.orderId),
-                ),
-                // 5. status
-                TurboTile(
-                  priority: 4,
-                  required: false,
-                  delegate: SimpleTextDelegate(text: task.status.name),
-                ),
-                // 6. taskType
-                TurboTile(
-                  priority: 5,
-                  required: false,
-                  delegate: SimpleTextDelegate(text: task.taskType.name),
-                ),
-                // 7. carIds
-                TurboTile(
-                  priority: 2,
-                  required: true,
-                  delegate: SimpleTextDelegate(text: _buildCarDescriptions(context, task.carIds)),
+                  delegate: _TaskCardDelegate(task),
                 ),
               ],
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+class _TaskCardDelegate extends TurboTileDelegate {
+  final TaskElement task;
+  _TaskCardDelegate(this.task);
+
+  @override
+  List<TurboTileVariant> createVariants() => [
+        _variant(SizeVariant.big),
+        _variant(SizeVariant.medium),
+        _variant(SizeVariant.small),
+      ];
+
+  TurboTileVariant _variant(SizeVariant v) {
+    final width = switch (v) {
+      SizeVariant.big => 320.0,
+      SizeVariant.medium => 280.0,
+      SizeVariant.small => 240.0,
+    };
+    final height = v.height * 3;
+    return TurboTileVariant(
+      size: Size(width, height),
+      builder: (context) => SizedBox(
+        width: width,
+        height: height,
+        child: TaskCard(
+          task: task,
+          showEmployees: v != SizeVariant.small,
+          showVehicles: v != SizeVariant.small,
         ),
       ),
     );
