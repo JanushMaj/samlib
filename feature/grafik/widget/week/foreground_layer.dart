@@ -35,6 +35,29 @@ class ForegroundLayer extends StatelessWidget {
     );
   }
 
+  GrafikElementData _taskPlanningData(GrafikState state) {
+    return const GrafikElementData(
+      assignedEmployees: [],
+      assignedVehicles: [],
+    );
+  }
+
+  GrafikElementData _deliveryPlanningData(GrafikState state) {
+    return const GrafikElementData(
+      assignedEmployees: [],
+      assignedVehicles: [],
+    );
+  }
+
+  GrafikElementData _timeIssueData(GrafikState state, TimeIssueElement issue) {
+    final employees =
+        state.employees.where((e) => e.uid == issue.workerId).toList();
+    return GrafikElementData(
+      assignedEmployees: employees,
+      assignedVehicles: const [],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GrafikCubit, GrafikState>(
@@ -56,16 +79,25 @@ class ForegroundLayer extends StatelessWidget {
           // fallback – nieużywany, gdy przekazany jest weekTileBuilder
           weekTileBuilder: (elem) {
             if (elem is TaskPlanningElement) {
-              return TaskPlanningWeekTile(taskPlanning: elem);
+              return TaskPlanningWeekTile(
+                taskPlanning: elem,
+                data: _taskPlanningData(state),
+              );
             } else if (elem is DeliveryPlanningElement) {
-              return DeliveryPlanningWeekTile(deliveryPlanning: elem);
+              return DeliveryPlanningWeekTile(
+                deliveryPlanning: elem,
+                data: _deliveryPlanningData(state),
+              );
             } else if (elem is TaskElement) {
               return TaskWeekTile(
                 task: elem,
                 data: _taskData(state, elem),
               );
             } else if (elem is TimeIssueElement) {
-              return TimeIssueWeekTile(timeIssue: elem);
+              return TimeIssueWeekTile(
+                timeIssue: elem,
+                data: _timeIssueData(state, elem),
+              );
             } else {
               return DefaultWeekTile(element: elem);
             }

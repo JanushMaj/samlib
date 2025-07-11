@@ -1,95 +1,67 @@
 import 'package:flutter/material.dart';
 import 'package:kabast/domain/models/grafik/impl/task_planning_element.dart';
-import 'package:kabast/shared/turbo_grid/turbo_tile.dart';
+import 'package:kabast/domain/models/grafik/grafik_element_data.dart';
+import 'package:kabast/shared/grafik_element_card.dart';
 import 'package:kabast/shared/turbo_grid/turbo_grid.dart';
-import 'package:kabast/theme/app_tokens.dart';
+import 'package:kabast/shared/turbo_grid/turbo_tile.dart';
+import 'package:kabast/shared/turbo_grid/turbo_tile_delegate.dart';
+import 'package:kabast/shared/turbo_grid/turbo_tile_variant.dart';
 
-import '../../../../../shared/turbo_grid/widgets/clock_view_delegate.dart';
-import '../../../../../shared/turbo_grid/widgets/simple_text_delegate.dart';
-import '../../../../../shared/turbo_grid/widgets/work_time_planning_delegate.dart';
-import '../../dialog/grafik_element_popup.dart';
-import '../../../constants/element_styles.dart';
+import '../../../../../theme/size_variants.dart';
 
 class TaskPlanningWeekTile extends StatelessWidget {
   final TaskPlanningElement taskPlanning;
-  const TaskPlanningWeekTile({Key? key, required this.taskPlanning}) : super(key: key);
+  final GrafikElementData data;
+
+  const TaskPlanningWeekTile({
+    Key? key,
+    required this.taskPlanning,
+    required this.data,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final style = const GrafikElementStyleResolver().styleFor(taskPlanning.type);
-    return Padding(
-      padding: const EdgeInsets.all(AppSpacing.xs),
-      child: GestureDetector(
-        onTap: () => showGrafikElementPopup(context, taskPlanning),
-        child: Stack(
-          children: [
-            // ---------- główny kafelek ----------
-            Container(
-              decoration: BoxDecoration(
-                color: style.backgroundColor,
-                borderRadius: BorderRadius.circular(AppRadius.md),
-              ),
-              padding: const EdgeInsets.all(AppSpacing.xs),
-              child: LayoutBuilder(
-                builder: (context, constraints) => TurboGrid(
-                  tiles: [
-                    TurboTile(
-                      priority: 1,
-                      required: true,
-                      delegate: ClockViewDelegate(
-                        start: taskPlanning.startDateTime,
-                        end: taskPlanning.endDateTime,
-                      ),
-                    ),
-                    TurboTile(
-                      priority: 1,
-                      required: true,
-                      delegate: SimpleTextDelegate(text: taskPlanning.additionalInfo),
-                    ),
-                    TurboTile(
-                      priority: 2,
-                      required: false,
-                      delegate: SimpleTextDelegate(text: taskPlanning.orderId),
-                    ),
-                    TurboTile(
-                      priority: 3,
-                      required: false,
-                      delegate: SimpleTextDelegate(
-                        text: taskPlanning.probability.toString(),
-                      ),
-                    ),
-                    // UWAGA: to pole było tekstem – usuwamy,
-                    // bo teraz sygnalizujemy priorytet ikoną
-                    TurboTile(
-                      priority: 4,
-                      required: false,
-                      delegate: SimpleTextDelegate(text: taskPlanning.taskType.name),
-                    ),
-                    TurboTile(
-                      priority: 5,
-                      required: false,
-                      delegate: WorkTimePlanningDelegate(
-                        workerCount: taskPlanning.workerCount,
-                        minutes: taskPlanning.minutes,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+    return TurboGrid(
+      tiles: [
+        TurboTile(
+          priority: 1,
+          required: true,
+          delegate: _TaskPlanningCardDelegate(taskPlanning, data),
+        ),
+      ],
+    );
+  }
+}
 
-            // ---------- badge priorytetu ----------
-            if (taskPlanning.highPriority && style.badgeIcon != null)
-              Positioned(
-                bottom: 4,
-                right: 4,
-                child: Icon(
-                  style.badgeIcon,
-                  color: style.badgeColor,
-                  size: 18,
-                ),
-              ),
-          ],
+class _TaskPlanningCardDelegate extends TurboTileDelegate {
+  final TaskPlanningElement taskPlanning;
+  final GrafikElementData data;
+
+  _TaskPlanningCardDelegate(this.taskPlanning, this.data);
+
+  @override
+  List<TurboTileVariant> createVariants() => [
+        _variant(SizeVariant.big),
+        _variant(SizeVariant.medium),
+        _variant(SizeVariant.small),
+      ];
+
+  TurboTileVariant _variant(SizeVariant v) {
+    final width = switch (v) {
+      SizeVariant.big => 320.0,
+      SizeVariant.medium => 280.0,
+      SizeVariant.small => 240.0,
+    };
+    final height = v.height * 3;
+    return TurboTileVariant(
+      size: Size(width, height),
+      builder: (context) => SizedBox(
+        width: width,
+        height: height,
+        child: GrafikElementCard(
+          element: taskPlanning,
+          data: data,
+          variant: v,
         ),
       ),
     );
