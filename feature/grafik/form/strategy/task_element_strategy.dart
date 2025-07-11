@@ -40,8 +40,7 @@ class TaskElementStrategy implements GrafikElementFormStrategy {
 
   @override
   GrafikElement applyTemplate(GrafikElement element, TaskTemplate template) {
-    final overrides = GrafikElementRepository.toJson(template)..remove('id');
-    return _adapter.copyWithOverrides(element, overrides);
+    return element;
   }
 
   @override
