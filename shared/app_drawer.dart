@@ -42,7 +42,7 @@ class AppDrawer extends StatelessWidget {
                   title: Text('Grafik dzienny', style: TextStyle(color: colorScheme.onSurface)),
                   onTap: () {
                     Navigator.pop(context);
-                    context.go('/grafik');
+                    GoRouter.of(context).go('/grafik');
                   },
                 ),
                 ListTile(
@@ -50,7 +50,7 @@ class AppDrawer extends StatelessWidget {
                   title: Text('Grafik tygodniowy', style: TextStyle(color: colorScheme.onSurface)),
                   onTap: () {
                     Navigator.pop(context);
-                    context.go('/weekGrafik');
+                    GoRouter.of(context).go('/weekGrafik');
                   },
                 ),
                 ListTile(
@@ -58,7 +58,7 @@ class AppDrawer extends StatelessWidget {
                   title: Text('Zaopatrzenie', style: TextStyle(color: colorScheme.onSurface)),
                   onTap: () {
                     Navigator.pop(context);
-                    context.go('/supplies');
+                    GoRouter.of(context).go('/supplies');
                   },
                 ),
                 ListTile(
@@ -66,7 +66,7 @@ class AppDrawer extends StatelessWidget {
                   title: Text('Panel administracyjny', style: TextStyle(color: colorScheme.onSurface)),
                   onTap: () {
                     Navigator.pop(context);
-                    context.go('/admin');
+                    GoRouter.of(context).go('/admin');
                   },
                 ),
               ],
