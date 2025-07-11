@@ -10,6 +10,7 @@ import '../../../shared/appbar/grafik_appbar.dart';
 import '../../../shared/custom_fab.dart';
 import '../../permission/permission_widget.dart'; // Dodaj ten import
 import '../../../shared/utils/date_formatting.dart';
+import '../../../shared/app_drawer.dart';
 
 class SingleDayGrafikView extends StatefulWidget {
   final DateTime date;
@@ -34,6 +35,7 @@ class _SingleDayGrafikViewState extends State<SingleDayGrafikView> {
         final bp = breakpointFromWidth(width);
 
         return ResponsiveScaffold(
+          drawer: const AppDrawer(),
           appBar: GrafikAppBar(
             title: Text(
               '${AppStrings.grafik}: ${formattedDate(selectedDay)}',

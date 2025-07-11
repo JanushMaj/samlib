@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kabast/shared/responsive/responsive_layout.dart';
+import 'package:kabast/shared/app_drawer.dart';
 
 class ExtraOptionsScreen extends StatelessWidget {
   const ExtraOptionsScreen({Key? key}) : super(key: key);
@@ -7,6 +8,7 @@ class ExtraOptionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveScaffold(
+      drawer: const AppDrawer(),
       appBar: AppBar(
         title: const Text('Dodatkowe opcje'),
       ),

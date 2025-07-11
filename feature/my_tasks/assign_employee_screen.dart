@@ -10,6 +10,7 @@ import '../employee/employee_picker.dart';
 import '../../shared/form/custom_button.dart';
 import '../../shared/responsive/responsive_layout.dart';
 import '../../theme/app_tokens.dart';
+import '../../shared/app_drawer.dart';
 
 class MyTasksAssignEmployeeScreen extends StatefulWidget {
   const MyTasksAssignEmployeeScreen({super.key});
@@ -40,6 +41,7 @@ class _MyTasksAssignEmployeeScreenState
   Widget build(BuildContext context) {
     final employeeStream = GetIt.I<EmployeeRepository>().getEmployees();
     return ResponsiveScaffold(
+      drawer: const AppDrawer(),
       appBar: AppBar(title: const Text(AppStrings.assignEmployeeTitle)),
       body: LayoutBuilder(
         builder: (context, constraints) {
