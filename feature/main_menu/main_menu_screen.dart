@@ -7,7 +7,6 @@ class MainMenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('[MainMenuScreen] build');
     final bp = context.breakpoint;
     final crossAxisCount = bp == Breakpoint.small
         ? 1

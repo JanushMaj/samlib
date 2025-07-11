@@ -28,7 +28,6 @@ class _SupplyOrderFormState extends State<SupplyOrderForm> {
 
   @override
   Widget build(BuildContext context) {
-    print('[SupplyOrderForm] build');
     return Scaffold(
       appBar: AppBar(
         title: Text('Zamów: ${widget.item.name}'),

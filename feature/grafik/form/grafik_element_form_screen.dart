@@ -22,7 +22,6 @@ class GrafikElementFormScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('[GrafikElementFormScreen] build');
     return BlocProvider(
       create: (_) => GrafikElementFormCubit(
         grafikService: getIt<GrafikElementRepository>(),
