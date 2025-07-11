@@ -61,17 +61,41 @@ class _SingleDayGrafikViewState extends State<SingleDayGrafikView> {
                     permission: 'canChangeDate',
                     child: IconButton(
                       icon: const Icon(Icons.calendar_today),
+                      color: Theme.of(context).colorScheme.onPrimary,
                       onPressed: () async {
-                        final now = DateTime.now();
                         final picked = await showDatePicker(
                           context: context,
                           initialDate: selectedDay,
-                          firstDate: DateTime(now.year - 2),
-                          lastDate: DateTime(now.year + 2),
+                          firstDate: DateTime(2023),
+                          lastDate: DateTime(2030),
                         );
                         if (picked != null) {
                           context.read<DateCubit>().changeSelectedDay(picked);
                         }
+                      },
+                    ),
+                  ),
+                  PermissionWidget(
+                    permission: 'canChangeDate',
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_left),
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      onPressed: () {
+                        context
+                            .read<DateCubit>()
+                            .changeSelectedDay(selectedDay.subtract(const Duration(days: 1)));
+                      },
+                    ),
+                  ),
+                  PermissionWidget(
+                    permission: 'canChangeDate',
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_right),
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      onPressed: () {
+                        context
+                            .read<DateCubit>()
+                            .changeSelectedDay(selectedDay.add(const Duration(days: 1)));
                       },
                     ),
                   ),

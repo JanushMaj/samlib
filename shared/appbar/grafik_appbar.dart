@@ -33,18 +33,6 @@ class GrafikAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 
 
-        // Przycisk WYLOGOWANIA – tylko jeśli ma uprawnienie
-        PermissionWidget(
-          permission: 'canLogout',
-          child: IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Wyloguj',
-            onPressed: () {
-              context.read<AuthCubit>().signOut();
-            },
-          ),
-        ),
-
         // Przycisk USTAWIEŃ – tylko jeśli ma uprawnienie
         PermissionWidget(
           permission: 'canEditSettings',
