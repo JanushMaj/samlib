@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../shared/responsive/responsive_layout.dart';
 import '../permission/permission_widget.dart';
+import '../../shared/app_drawer.dart';
 
 class MainMenuScreen extends StatelessWidget {
   const MainMenuScreen({Key? key}) : super(key: key);
@@ -61,6 +62,7 @@ class MainMenuScreen extends StatelessWidget {
     ];
 
     return ResponsiveScaffold(
+      drawer: const AppDrawer(),
       appBar: AppBar(title: const Text('Menu')),
       body: GridView.count(
         padding: const EdgeInsets.all(16),

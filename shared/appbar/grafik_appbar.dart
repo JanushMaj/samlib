@@ -25,28 +25,7 @@ class GrafikAppBar extends StatelessWidget implements PreferredSizeWidget {
         // Jeśli mamy dodatkowe akcje, dołącz je:
         if (actions != null) ...actions!,
 
-        // Menu nawigacji, widoczne dla użytkowników z uprawnieniem
-        // "canUseApp". Zapewnia szybki dostęp do kluczowych ekranów.
-        PermissionWidget(
-          permission: 'canUseApp',
-          child: PopupMenuButton<String>(
-            onSelected: (route) => Navigator.pushNamed(context, route),
-            itemBuilder: (context) => const [
-              PopupMenuItem(
-                value: '/grafik',
-                child: Text('Grafik dzienny'),
-              ),
-              PopupMenuItem(
-                value: '/weekGrafik',
-                child: Text('Grafik tygodniowy'),
-              ),
-              PopupMenuItem(
-                value: '/supplies',
-                child: Text('Zaopatrzenie'),
-              ),
-            ],
-          ),
-        ),
+
 
         // Przycisk WYLOGOWANIA – tylko jeśli ma uprawnienie
         PermissionWidget(

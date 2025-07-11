@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../theme/app_tokens.dart';
 import '../../shared/responsive/responsive_layout.dart';
 import '../../shared/form/custom_button.dart';
+import '../../shared/app_drawer.dart';
 import '../../data/repositories/employee_repository.dart';
 import '../auth/auth_cubit.dart';
 import "../../data/repositories/app_user_repository.dart";
@@ -55,6 +56,7 @@ class _AssignEmployeeScreenState extends State<AssignEmployeeScreen> {
   Widget build(BuildContext context) {
     final employeeStream = GetIt.I<EmployeeRepository>().getEmployees();
     return ResponsiveScaffold(
+      drawer: const AppDrawer(),
       appBar: AppBar(title: const Text(AppStrings.assignEmployeeTitle)),
       body: LayoutBuilder(
         builder: (context, constraints) {

@@ -14,6 +14,7 @@ import '../permission/permission_widget.dart';
 import '../../shared/responsive/responsive_layout.dart';
 import '../../theme/app_tokens.dart';
 import '../../shared/utils/date_formatting.dart';
+import '../../shared/app_drawer.dart';
 
 class MyTasksScreen extends StatelessWidget {
   const MyTasksScreen({super.key});
@@ -31,6 +32,7 @@ class MyTasksScreen extends StatelessWidget {
 
     if (user.employeeId?.isEmpty ?? true) {
       return ResponsiveScaffold(
+        drawer: const AppDrawer(),
         appBar: AppBar(title: const Text('Moje zadania')),
         body: Center(
           child: Column(
@@ -90,6 +92,7 @@ class MyTasksScreen extends StatelessWidget {
     });
 
     return ResponsiveScaffold(
+      drawer: const AppDrawer(),
       appBar: AppBar(
         title: Text('Moje zadania: ${formattedDate(day)}'),
         actions: [

@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import '../../domain/models/supply_item.dart';
 import '../../domain/services/i_supply_repository.dart';
 import '../../shared/responsive/responsive_layout.dart';
+import '../../shared/app_drawer.dart';
 import 'supply_order_form.dart';
 
 class SupplyListScreen extends StatelessWidget {
@@ -13,6 +14,7 @@ class SupplyListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final repo = GetIt.instance<ISupplyRepository>();
     return ResponsiveScaffold(
+      drawer: const AppDrawer(),
       appBar: AppBar(
         title: const Text('Zaopatrzenie'),
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kabast/shared/appbar/grafik_appbar.dart';
 import 'package:kabast/shared/responsive/responsive_layout.dart';
 import 'package:kabast/theme/app_tokens.dart';
+import 'package:kabast/shared/app_drawer.dart';
 
 class NoAccessScreen extends StatelessWidget {
   const NoAccessScreen({super.key});
@@ -11,6 +12,7 @@ class NoAccessScreen extends StatelessWidget {
     final theme = Theme.of(context).textTheme;
 
     return ResponsiveScaffold(
+      drawer: const AppDrawer(),
       appBar: GrafikAppBar(title: Text(AppStrings.noAccessTitle, style: theme.titleLarge)),
       body: Center(
         child: ResponsivePadding(
