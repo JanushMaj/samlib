@@ -8,15 +8,15 @@ import '../../../../../shared/turbo_grid/widgets/clock_view_delegate.dart';
 import '../../../../../shared/turbo_grid/widgets/simple_text_delegate.dart';
 import '../../../../../shared/turbo_grid/widgets/work_time_planning_delegate.dart';
 import '../../dialog/grafik_element_popup.dart';
+import '../../../constants/element_styles.dart';
 
 class TaskPlanningWeekTile extends StatelessWidget {
   final TaskPlanningElement taskPlanning;
   const TaskPlanningWeekTile({Key? key, required this.taskPlanning}) : super(key: key);
 
-  Color _backgroundColor(BuildContext context) => Colors.green.shade100;
-
   @override
   Widget build(BuildContext context) {
+    final style = const GrafikElementStyleResolver().styleFor(taskPlanning.type);
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.xs),
       child: GestureDetector(
@@ -26,7 +26,7 @@ class TaskPlanningWeekTile extends StatelessWidget {
             // ---------- główny kafelek ----------
             Container(
               decoration: BoxDecoration(
-                color: _backgroundColor(context),
+                color: style.backgroundColor,
                 borderRadius: BorderRadius.circular(AppRadius.md),
               ),
               padding: const EdgeInsets.all(AppSpacing.xs),
@@ -79,13 +79,13 @@ class TaskPlanningWeekTile extends StatelessWidget {
             ),
 
             // ---------- badge priorytetu ----------
-            if (taskPlanning.highPriority)
+            if (taskPlanning.highPriority && style.badgeIcon != null)
               Positioned(
                 bottom: 4,
                 right: 4,
                 child: Icon(
-                  Icons.priority_high,
-                  color: Colors.red.shade700,
+                  style.badgeIcon,
+                  color: style.badgeColor,
                   size: 18,
                 ),
               ),

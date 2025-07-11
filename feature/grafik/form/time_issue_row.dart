@@ -5,6 +5,7 @@ import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
 import 'package:kabast/theme/app_tokens.dart';
 import 'package:kabast/theme/theme.dart';
 import 'package:kabast/shared/responsive/responsive_layout.dart';
+import '../constants/element_styles.dart';
 
 class TimeIssueRow extends StatelessWidget {
   final List<TimeIssueElement> timeIssues;
@@ -70,12 +71,13 @@ class TimeIssueRow extends StatelessWidget {
     })
         .toList();
 
+    final style = const GrafikElementStyleResolver().styleFor('TimeIssueElement');
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(
         AppSpacing.scaled(AppSpacing.sm, context.breakpoint),
       ),
-      color: Colors.red.shade100,
+      color: style.backgroundColor,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(

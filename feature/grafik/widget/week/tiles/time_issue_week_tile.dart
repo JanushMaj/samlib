@@ -9,6 +9,7 @@ import '../../../../../shared/turbo_grid/turbo_tile.dart';
 import '../../../../../shared/turbo_grid/widgets/clock_view_delegate.dart';
 import '../../../../../shared/turbo_grid/widgets/simple_text_delegate.dart';
 import '../../dialog/grafik_element_popup.dart';
+import '../../../constants/element_styles.dart';
 
 class TimeIssueWeekTile extends StatelessWidget {
   final TimeIssueElement timeIssue;
@@ -31,19 +32,17 @@ class TimeIssueWeekTile extends StatelessWidget {
         .join(", ");
   }
 
-  Color _backgroundColor(BuildContext context) {
-    return Colors.red.shade100;
-  }
 
   @override
   Widget build(BuildContext context) {
+    final style = const GrafikElementStyleResolver().styleFor(timeIssue.type);
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.xs),
       child: GestureDetector(
         onTap: () => showGrafikElementPopup(context, timeIssue),
         child: Container(
           decoration: BoxDecoration(
-            color: _backgroundColor(context),
+            color: style.backgroundColor,
             borderRadius: BorderRadius.circular(AppRadius.md),
           ),
           padding: const EdgeInsets.all(AppSpacing.xs),
