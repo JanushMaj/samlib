@@ -23,10 +23,13 @@ class AuthCubit extends Cubit<AuthState> {
 
   AuthCubit(this._authService) : super(AuthInitial()) {
     _authSub = _authService.authStateChanges().listen((appUser) {
+      print('AuthCubit auth state change: user=$appUser');
       _currentUser = appUser;
       if (appUser != null) {
+        print('AuthCubit emitting AuthAuthenticated');
         emit(AuthAuthenticated());
       } else {
+        print('AuthCubit emitting AuthUnauthenticated');
         emit(AuthUnauthenticated());
       }
     });
@@ -55,6 +58,10 @@ class AuthCubit extends Cubit<AuthState> {
 
 
   Future<void> signIn() async {
+    if (_currentUser != null) {
+      print('signIn skipped: user already authenticated');
+      return;
+    }
     try {
       emit(AuthLoading());
       await _authService.signIn(
