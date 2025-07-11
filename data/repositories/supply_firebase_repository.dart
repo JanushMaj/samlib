@@ -16,11 +16,8 @@ class SupplyFirebaseRepository implements ISupplyRepository {
 
   @override
   Stream<List<SupplyItem>> watchItems() {
-    return _items.snapshots().map((snapshot) {
-      return snapshot.docs
-          .map((doc) => SupplyItemDto.fromFirestore(doc).toDomain())
-          .toList();
-    });
+    // TODO: Replace with Firestore integration
+    return Stream<List<SupplyItem>>.empty();
   }
 
   @override
