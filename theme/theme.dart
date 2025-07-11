@@ -38,15 +38,15 @@ class AppTheme {
       scaffoldBackgroundColor: Colors.white,
 
       appBarTheme: AppBarTheme(
-        backgroundColor: scheme.primary,
-        foregroundColor: scheme.onPrimary,
+        backgroundColor: Colors.white,
+        foregroundColor: scheme.primary,
         titleTextStyle: TextStyle(
           fontSize: 16 * scale,
           fontWeight: FontWeight.w600,
-          color: scheme.onPrimary,
+          color: scheme.primary,
         ),
-        iconTheme: IconThemeData(color: scheme.onPrimary),
-        actionsIconTheme: IconThemeData(color: scheme.onPrimary),
+        iconTheme: IconThemeData(color: scheme.primary),
+        actionsIconTheme: IconThemeData(color: scheme.primary),
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),

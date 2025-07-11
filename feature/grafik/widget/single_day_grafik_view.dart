@@ -37,6 +37,7 @@ class _SingleDayGrafikViewState extends State<SingleDayGrafikView> {
             : constraints.maxWidth;
         final bp = breakpointFromWidth(width);
 
+        final colorScheme = Theme.of(context).colorScheme;
         return ResponsiveScaffold(
           drawer: const AppDrawer(),
           appBar: GrafikAppBar(
@@ -48,11 +49,9 @@ class _SingleDayGrafikViewState extends State<SingleDayGrafikView> {
               ),
             ),
             backgroundColor: _sameDate(selectedDay, DateTime.now())
-                ? Theme.of(context).colorScheme.secondaryContainer
-                : null,
-            foregroundColor: _sameDate(selectedDay, DateTime.now())
-                ? Theme.of(context).colorScheme.onSecondaryContainer
-                : null,
+                ? colorScheme.primaryContainer
+                : Colors.white,
+            foregroundColor: colorScheme.primary,
             actions: [
               Wrap(
                 spacing: AppSpacing.sm,
@@ -61,7 +60,7 @@ class _SingleDayGrafikViewState extends State<SingleDayGrafikView> {
                     permission: 'canChangeDate',
                     child: IconButton(
                       icon: const Icon(Icons.calendar_today),
-                      color: Theme.of(context).colorScheme.onPrimary,
+                      color: colorScheme.primary,
                       onPressed: () async {
                         final picked = await showDatePicker(
                           context: context,
@@ -79,7 +78,7 @@ class _SingleDayGrafikViewState extends State<SingleDayGrafikView> {
                     permission: 'canChangeDate',
                     child: IconButton(
                       icon: const Icon(Icons.arrow_left),
-                      color: Theme.of(context).colorScheme.onPrimary,
+                      color: colorScheme.primary,
                       onPressed: () {
                         context
                             .read<DateCubit>()
@@ -91,7 +90,7 @@ class _SingleDayGrafikViewState extends State<SingleDayGrafikView> {
                     permission: 'canChangeDate',
                     child: IconButton(
                       icon: const Icon(Icons.arrow_right),
-                      color: Theme.of(context).colorScheme.onPrimary,
+                      color: colorScheme.primary,
                       onPressed: () {
                         context
                             .read<DateCubit>()
