@@ -7,6 +7,7 @@ class AppSpacing {
   static const double xxs = 1.0;
   static const double xs = 2.0;
   static const double sm = 4.0;
+  static const double lg = 8.0;
 
   static double _scale(Breakpoint bp) {
     switch (bp) {
