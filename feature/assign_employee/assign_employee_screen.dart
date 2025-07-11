@@ -53,6 +53,7 @@ class _AssignEmployeeScreenState extends State<AssignEmployeeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('[AssignEmployeeScreen] build');
     final employeeStream = GetIt.I<EmployeeRepository>().getEmployees();
     return ResponsiveScaffold(
       appBar: AppBar(title: const Text(AppStrings.assignEmployeeTitle)),

@@ -10,6 +10,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('[LoginScreen] build');
     final authCubit = context.read<AuthCubit>();
     final theme = Theme.of(context);
 

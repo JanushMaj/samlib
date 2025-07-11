@@ -17,6 +17,7 @@ class SingleDayGrafikView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('[SingleDayGrafikView] build');
     final selectedDay = context.watch<DateCubit>().state.selectedDay;
 
     return LayoutBuilder(

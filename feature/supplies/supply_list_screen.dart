@@ -11,6 +11,7 @@ class SupplyListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('[SupplyListScreen] build');
     final repo = GetIt.instance<ISupplyRepository>();
     return ResponsiveScaffold(
       appBar: AppBar(
