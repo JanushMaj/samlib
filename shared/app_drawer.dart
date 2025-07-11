@@ -15,7 +15,7 @@ class AppDrawer extends StatelessWidget {
         children: [
           AppBar(
             automaticallyImplyLeading: false,
-            backgroundColor: colorScheme.primaryContainer,
+            backgroundColor: colorScheme.primary,
             centerTitle: true,
             title: Image.asset(
               'assets/images/logo_gradient.png',
@@ -24,7 +24,7 @@ class AppDrawer extends StatelessWidget {
             actions: [
               IconButton(
                 icon: const Icon(Icons.logout),
-                color: colorScheme.onPrimaryContainer,
+                color: colorScheme.onPrimary,
                 onPressed: () {
                   Navigator.pop(context);
                   context.read<AuthCubit>().signOut();
@@ -37,6 +37,8 @@ class AppDrawer extends StatelessWidget {
               padding: EdgeInsets.zero,
               children: [
                 ListTile(
+                  hoverColor: colorScheme.primaryContainer,
+                  selectedTileColor: colorScheme.primaryContainer,
                   leading: Icon(Icons.calendar_today, color: colorScheme.primary),
                   title: Text('Grafik dzienny', style: TextStyle(color: colorScheme.onSurface)),
                   onTap: () {
@@ -45,6 +47,8 @@ class AppDrawer extends StatelessWidget {
                   },
                 ),
                 ListTile(
+                  hoverColor: colorScheme.primaryContainer,
+                  selectedTileColor: colorScheme.primaryContainer,
                   leading: Icon(Icons.view_week, color: colorScheme.primary),
                   title: Text('Grafik tygodniowy', style: TextStyle(color: colorScheme.onSurface)),
                   onTap: () {
@@ -53,6 +57,8 @@ class AppDrawer extends StatelessWidget {
                   },
                 ),
                 ListTile(
+                  hoverColor: colorScheme.primaryContainer,
+                  selectedTileColor: colorScheme.primaryContainer,
                   leading: Icon(Icons.inventory, color: colorScheme.primary),
                   title: Text('Zaopatrzenie', style: TextStyle(color: colorScheme.onSurface)),
                   onTap: () {
@@ -61,6 +67,8 @@ class AppDrawer extends StatelessWidget {
                   },
                 ),
                 ListTile(
+                  hoverColor: colorScheme.primaryContainer,
+                  selectedTileColor: colorScheme.primaryContainer,
                   leading: Icon(Icons.admin_panel_settings, color: colorScheme.primary),
                   title: Text('Panel administracyjny', style: TextStyle(color: colorScheme.onSurface)),
                   onTap: () {

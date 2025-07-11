@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'app_tokens.dart';
+import 'color_schemes.dart';
 import 'package:kabast/shared/responsive/responsive_layout.dart';
 
 class AppTheme {
@@ -30,23 +31,22 @@ class AppTheme {
     final width = view.physicalSize.width / view.devicePixelRatio;
     final scale = (width / 400).clamp(0.8, 1.2);
 
+    final scheme = lightColorScheme;
     return ThemeData(
       useMaterial3: false,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color(0xFF1565C0),
-        brightness: Brightness.light,
-      ),
+      colorScheme: scheme,
       scaffoldBackgroundColor: Colors.white,
 
       appBarTheme: AppBarTheme(
-        backgroundColor: Colors.white,
+        backgroundColor: scheme.primary,
+        foregroundColor: scheme.onPrimary,
         titleTextStyle: TextStyle(
           fontSize: 16 * scale,
           fontWeight: FontWeight.w600,
-          color: const Color(0xFF1565C0),
+          color: scheme.onPrimary,
         ),
-        iconTheme: const IconThemeData(color: Color(0xFF1565C0)),
-        actionsIconTheme: const IconThemeData(color: Color(0xFF1565C0)),
+        iconTheme: IconThemeData(color: scheme.onPrimary),
+        actionsIconTheme: IconThemeData(color: scheme.onPrimary),
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
@@ -109,16 +109,16 @@ class AppTheme {
         padding: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
-          side: const BorderSide(
-            color: Color(0xFF1565C0),
+          side: BorderSide(
+            color: scheme.primary,
             width: 0.5,
           ),
         ),
-        selectedColor: const Color(0xFF64B5F6),
+        selectedColor: scheme.primaryContainer,
         backgroundColor: Colors.grey.shade200,
         labelStyle: TextStyle(
           fontSize: 16 * scale,
-          color: const Color(0xFF1565C0),
+          color: scheme.primary,
         ),
       ),
 
@@ -127,11 +127,11 @@ class AppTheme {
         contentPadding: const EdgeInsets.all(AppSpacing.sm),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: BorderSide(color: Color(0xFF1565C0),)
+          borderSide: BorderSide(color: scheme.primary,)
         ),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: const Color(0xFF64B5F6),
+        backgroundColor: scheme.primaryContainer,
         foregroundColor: Colors.white,
         elevation: 4,
       ),
