@@ -48,14 +48,6 @@ class AuthWrapper extends StatelessWidget {
       return '/noAccess';
     }
 
-    if (perms['canSeeWeeklySummary'] == true) {
-      return '/weekGrafik';
-    }
-
-    if (perms['canEditGrafik'] == true || perms['canSeeAllGrafik'] == true) {
-      return '/grafik';
-    }
-
-    return '/myTasks';
+    return '/mainMenu';
   }
 }

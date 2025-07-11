@@ -8,14 +8,10 @@ The logic lives in `feature/auth/wrapper/auth_wrapper.dart` inside `_resolveHome
 The route is resolved in order using the following rules:
 
 1. Users without `canUseApp` are sent to `/noAccess`.
-2. Users with `canSeeWeeklySummary` go to `/weekGrafik`.
-3. Users with `canEditGrafik` or `canSeeAllGrafik` go to `/grafik`.
-4. Everyone else is taken to `/myTasks`.
+2. Everyone else lands on `/mainMenu`.
 
 ## Example
 
-A simplified example mapping might look like:
-
-- Users with `canEditGrafik` → `/weekGrafik`
-- Role `hala` → `/grafik`
-- Others with `canUseApp` → `/myTasks`
+Previously users were routed directly to specific screens based on permissions.
+After introducing the main menu, all authenticated users with `canUseApp`
+enabled start at `/mainMenu` regardless of other permissions.
