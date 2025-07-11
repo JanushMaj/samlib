@@ -11,7 +11,7 @@ import '../../cubit/grafik_cubit.dart';
 import '../../cubit/grafik_state.dart';
 import '../../form/standard_task_row.dart';
 import 'employee_daily_summary.dart';
-import '../../../shared/task_card.dart';
+import 'package:kabast/shared/task_card.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 
 class TaskList extends StatelessWidget {
