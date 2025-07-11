@@ -7,6 +7,7 @@ import 'package:kabast/theme/app_tokens.dart';
 import '../../../../../shared/turbo_grid/widgets/clock_view_delegate.dart';
 import '../../../../../shared/turbo_grid/widgets/simple_text_delegate.dart';
 import '../../dialog/grafik_element_popup.dart';
+import '../../../constants/element_styles.dart';
 
 class DeliveryPlanningWeekTile extends StatelessWidget {
   final DeliveryPlanningElement deliveryPlanning;
@@ -14,19 +15,16 @@ class DeliveryPlanningWeekTile extends StatelessWidget {
   const DeliveryPlanningWeekTile({Key? key, required this.deliveryPlanning})
       : super(key: key);
 
-  Color _backgroundColor(BuildContext context) {
-    return Colors.orange.shade100;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final style = const GrafikElementStyleResolver().styleFor(deliveryPlanning.type);
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.xs),
       child: GestureDetector(
         onTap: () => showGrafikElementPopup(context, deliveryPlanning),
         child: Container(
           decoration: BoxDecoration(
-            color: _backgroundColor(context),
+            color: style.backgroundColor,
             borderRadius: BorderRadius.circular(AppRadius.md),
           ),
           padding: const EdgeInsets.all(AppSpacing.xs),

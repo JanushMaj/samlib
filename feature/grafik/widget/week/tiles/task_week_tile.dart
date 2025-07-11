@@ -8,20 +8,20 @@ import 'package:kabast/shared/task_card.dart';
 import '../../../../../theme/app_tokens.dart';
 import '../../../../../theme/size_variants.dart';
 import '../../dialog/grafik_element_popup.dart';
+import '../../../constants/element_styles.dart';
 
 class TaskWeekTile extends StatelessWidget {
   final TaskElement task;
   const TaskWeekTile({Key? key, required this.task}) : super(key: key);
 
-  Color _backgroundColor(BuildContext context) => Colors.lightBlue.shade100;
-
   @override
   Widget build(BuildContext context) {
+    final style = const GrafikElementStyleResolver().styleFor(task.type);
     return GestureDetector(
       onTap: () => showGrafikElementPopup(context, task),
       child: Container(
         decoration: BoxDecoration(
-          color: _backgroundColor(context),
+          color: style.backgroundColor,
           borderRadius: BorderRadius.circular(AppRadius.md),
         ),
         padding: const EdgeInsets.all(AppSpacing.xs),
