@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../feature/auth/auth_cubit.dart';
 
@@ -8,19 +9,23 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Drawer(
       child: Column(
         children: [
           AppBar(
             automaticallyImplyLeading: false,
-            backgroundColor:
-                Theme.of(context).colorScheme.primaryContainer,
+            backgroundColor: colorScheme.primaryContainer,
             centerTitle: true,
-            title: Image.asset('assets/images/logo_gradient.png', height: 40),
+            title: Image.asset(
+              'assets/images/logo_gradient.png',
+              height: 40,
+            ),
             actions: [
               IconButton(
                 icon: const Icon(Icons.logout),
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                color: colorScheme.onPrimaryContainer,
                 onPressed: () {
                   Navigator.pop(context);
                   context.read<AuthCubit>().signOut();
@@ -33,36 +38,35 @@ class AppDrawer extends StatelessWidget {
               padding: EdgeInsets.zero,
               children: [
                 ListTile(
-                  leading: const Icon(Icons.calendar_today),
-                  title: const Text('Grafik dzienny'),
+                  leading: Icon(Icons.calendar_today, color: colorScheme.primary),
+                  title: Text('Grafik dzienny', style: TextStyle(color: colorScheme.onSurface)),
                   onTap: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, '/grafik');
+                    context.go('/grafik');
                   },
                 ),
                 ListTile(
-                  leading: const Icon(Icons.view_week),
-                  title: const Text('Grafik tygodniowy'),
+                  leading: Icon(Icons.view_week, color: colorScheme.primary),
+                  title: Text('Grafik tygodniowy', style: TextStyle(color: colorScheme.onSurface)),
                   onTap: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, '/weekGrafik');
+                    context.go('/weekGrafik');
                   },
                 ),
                 ListTile(
-                  leading: const Icon(Icons.inventory),
-                  title: const Text('Zaopatrzenie'),
+                  leading: Icon(Icons.inventory, color: colorScheme.primary),
+                  title: Text('Zaopatrzenie', style: TextStyle(color: colorScheme.onSurface)),
                   onTap: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, '/supplies');
+                    context.go('/supplies');
                   },
                 ),
-                const Divider(),
                 ListTile(
-                  leading: const Icon(Icons.logout),
-                  title: const Text('Wyloguj'),
+                  leading: Icon(Icons.admin_panel_settings, color: colorScheme.primary),
+                  title: Text('Panel administracyjny', style: TextStyle(color: colorScheme.onSurface)),
                   onTap: () {
                     Navigator.pop(context);
-                    context.read<AuthCubit>().signOut();
+                    context.go('/admin');
                   },
                 ),
               ],

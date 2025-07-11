@@ -50,7 +50,12 @@ class SupplyListScreen extends StatelessWidget {
   Widget _buildItemTile(BuildContext context, SupplyItem item) {
     final isLow = item.isLowStock;
     return ListTile(
-      leading: isLow ? const Icon(Icons.warning, color: Colors.red) : null,
+      leading: isLow
+          ? Icon(
+              Icons.warning,
+              color: Theme.of(context).colorScheme.error,
+            )
+          : null,
       title: Text(item.name),
       subtitle: Text('${item.quantityAvailable} ${item.unit}'),
       trailing: TextButton(
