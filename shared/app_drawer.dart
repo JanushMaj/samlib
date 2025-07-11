@@ -15,7 +15,10 @@ class AppDrawer extends StatelessWidget {
         children: [
           AppBar(
             automaticallyImplyLeading: false,
-            backgroundColor: colorScheme.primary,
+            backgroundColor: Colors.white,
+            foregroundColor: colorScheme.primary,
+            iconTheme: IconThemeData(color: colorScheme.primary),
+            actionsIconTheme: IconThemeData(color: colorScheme.primary),
             centerTitle: true,
             title: Image.asset(
               'assets/images/logo_gradient.png',
@@ -24,7 +27,7 @@ class AppDrawer extends StatelessWidget {
             actions: [
               IconButton(
                 icon: const Icon(Icons.logout),
-                color: colorScheme.onPrimary,
+                color: colorScheme.primary,
                 onPressed: () {
                   Navigator.pop(context);
                   context.read<AuthCubit>().signOut();
