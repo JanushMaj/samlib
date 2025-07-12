@@ -11,7 +11,15 @@ import '../theme/theme.dart';
 import 'employee_chip.dart';
 import 'small_chip.dart';
 import 'responsive/responsive_layout.dart';
-import 'grafik_card_delegate.dart';
+import 'turbo_grid/turbo_grid.dart';
+import 'turbo_grid/turbo_tile.dart';
+import 'turbo_grid/turbo_tile_delegate.dart';
+import 'turbo_grid/turbo_tile_variant.dart';
+import 'turbo_grid/widgets/clock_view_delegate.dart';
+import 'turbo_grid/widgets/simple_text_delegate.dart';
+import 'turbo_grid/widgets/vehice_delegate.dart';
+import 'turbo_grid/widgets/employee_delegate.dart';
+import 'turbo_grid/widgets/work_time_planning_delegate.dart';
 
 class GrafikElementCard extends StatelessWidget {
   final GrafikElement element;
