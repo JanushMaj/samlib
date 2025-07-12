@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:kabast/shared/responsive/responsive_layout.dart';
+import 'dart:math' as math;
 
 /// Stałe odstępów, marginesów, paddingów
 class AppSpacing {
@@ -10,13 +11,18 @@ class AppSpacing {
   static const double lg = 8.0;
 
   static double _scale(Breakpoint bp) {
+    final view = WidgetsBinding.instance.platformDispatcher.views.first;
+    final shortSide =
+        math.min(view.physicalSize.width, view.physicalSize.height) /
+            view.devicePixelRatio;
+    final factor = shortSide >= 600 ? 2.0 : 1.0;
     switch (bp) {
       case Breakpoint.small:
-        return 1.0;
+        return 1.0 * factor;
       case Breakpoint.medium:
-        return 1.5;
+        return 1.5 * factor;
       case Breakpoint.large:
-        return 2.0;
+        return 2.0 * factor;
     }
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:math' as math;
 import 'package:kabast/shared/responsive/responsive_layout.dart';
 import 'package:kabast/theme/app_tokens.dart';
 import 'package:kabast/theme/theme.dart';
@@ -31,10 +32,11 @@ class _SingleDayGrafikViewState extends State<SingleDayGrafikView> {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final width = constraints.maxWidth == double.infinity
-            ? MediaQuery.of(context).size.width
-            : constraints.maxWidth;
-        final bp = breakpointFromWidth(width);
+        final size = MediaQuery.of(context).size;
+        final shortSide = constraints.maxWidth == double.infinity
+            ? size.shortestSide
+            : math.min(constraints.maxWidth, constraints.maxHeight);
+        final bp = breakpointFromWidth(shortSide);
 
         final colorScheme = Theme.of(context).colorScheme;
         return ResponsiveScaffold(

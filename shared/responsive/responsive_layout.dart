@@ -1,10 +1,11 @@
 import "package:flutter/material.dart";
+import 'dart:math' as math;
 enum Breakpoint { small, medium, large }
 
-/// Returns the [Breakpoint] for a given screen width.
-Breakpoint breakpointFromWidth(double width) {
-  if (width < 600) return Breakpoint.small;
-  if (width < 1000) return Breakpoint.medium;
+/// Returns the [Breakpoint] for the given shortest side length.
+Breakpoint breakpointFromWidth(double shortSide) {
+  if (shortSide < 600) return Breakpoint.small;
+  if (shortSide < 1000) return Breakpoint.medium;
   return Breakpoint.large;
 }
 
@@ -49,10 +50,11 @@ class ResponsiveScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final width = constraints.maxWidth == double.infinity
-            ? MediaQuery.of(context).size.width
-            : constraints.maxWidth;
-        final bp = _fromWidth(width);
+        final size = MediaQuery.of(context).size;
+        final shortSide = constraints.maxWidth == double.infinity
+            ? size.shortestSide
+            : math.min(constraints.maxWidth, constraints.maxHeight);
+        final bp = _fromWidth(shortSide);
         return BreakpointProvider(
           breakpoint: bp,
           child: Scaffold(

@@ -100,7 +100,9 @@ class GrafikElementCard extends StatelessWidget {
               color: style.backgroundColor,
               borderRadius: BorderRadius.circular(AppRadius.md),
             ),
-            padding: const EdgeInsets.all(AppSpacing.xs),
+            padding: EdgeInsets.all(
+              AppSpacing.scaled(AppSpacing.xs, context.breakpoint),
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
