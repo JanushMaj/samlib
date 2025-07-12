@@ -76,6 +76,7 @@ class GrafikElementCard extends StatelessWidget {
         }
 
         return Container(
+          height: constraints.maxHeight,
           decoration: BoxDecoration(
             color: style.backgroundColor,
             borderRadius: BorderRadius.circular(AppRadius.md),
