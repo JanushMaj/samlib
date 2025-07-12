@@ -6,6 +6,9 @@ import '../domain/models/grafik/grafik_element_data.dart';
 import '../domain/models/employee.dart';
 import '../domain/models/vehicle.dart';
 import '../feature/grafik/constants/element_styles.dart';
+import '../feature/grafik/constants/enums_ui.dart';
+import '../domain/models/grafik/impl/task_element.dart';
+import '../domain/models/grafik/impl/task_planning_element.dart';
 import '../theme/app_tokens.dart';
 import '../theme/size_variants.dart';
 import '../theme/theme.dart';
@@ -35,6 +38,15 @@ class GrafikElementCard extends StatelessWidget {
     final time = delegate.getTimeInfo();
     final description = delegate.getDescription();
 
+    IconData? typeIcon;
+    IconData? statusIcon;
+    if (element is TaskElement) {
+      typeIcon = (element as TaskElement).taskType.icon;
+      statusIcon = (element as TaskElement).status.icon;
+    } else if (element is TaskPlanningElement) {
+      typeIcon = (element as TaskPlanningElement).taskType.icon;
+    }
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final w = constraints.maxWidth;
@@ -47,8 +59,21 @@ class GrafikElementCard extends StatelessWidget {
 
         final children = <Widget>[];
 
-        // Order number / label
-        children.add(Text(label, style: ts, overflow: TextOverflow.ellipsis));
+        // Description first line
+        children.add(Text(
+          description,
+          style: ts,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ));
+        remaining -= lineH;
+
+        // Order number / label in bold
+        children.add(Text(
+          label,
+          style: ts.copyWith(fontWeight: FontWeight.bold),
+          overflow: TextOverflow.ellipsis,
+        ));
         remaining -= lineH;
 
         // Employees row - always visible, clipped to two lines
@@ -81,34 +106,60 @@ class GrafikElementCard extends StatelessWidget {
           remaining -= lineH;
         }
 
-        // Description grows with available space
-        final descLines = (remaining / lineH).floor();
-        if (descLines > 0) {
-          children.add(
-            Text(
-              description,
-              style: ts,
-              maxLines: descLines,
-              overflow: TextOverflow.ellipsis,
-            ),
-          );
-        }
+
 
         return SizedBox.expand(
           child: Container(
             decoration: BoxDecoration(
-              color: style.backgroundColor,
+              color: Colors.white,
               borderRadius: BorderRadius.circular(AppRadius.md),
+              border: Border.all(
+                color: style.borderColor,
+                width: AppSpacing.borderThin,
+              ),
             ),
             padding: EdgeInsets.all(
               AppSpacing.scaled(AppSpacing.xs, context.breakpoint),
             ),
             child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            child: Stack(
               children: [
-                ...children,
-                const Spacer(),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (typeIcon != null)
+                      Padding(
+                        padding: const EdgeInsets.only(right: AppSpacing.xs),
+                        child: Icon(
+                          typeIcon,
+                          size: variant.iconSize,
+                          color: style.borderColor,
+                        ),
+                      ),
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ...children,
+                          const Spacer(),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                if (statusIcon != null)
+                  Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: Icon(
+                      statusIcon,
+                      size: variant.iconSize,
+                      color: style.borderColor,
+                    ),
+                  ),
               ],
             ),
           ),
