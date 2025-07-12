@@ -41,16 +41,18 @@ class _TimeIssueCardDelegate extends TurboTileDelegate {
 
   @override
   List<TurboTileVariant> createVariants() => [
-        _variant(SizeVariant.big),
+        _variant(SizeVariant.large),
         _variant(SizeVariant.medium),
         _variant(SizeVariant.small),
+        _variant(SizeVariant.mini),
       ];
 
   TurboTileVariant _variant(SizeVariant v) {
     final width = switch (v) {
-      SizeVariant.big => 320.0,
+      SizeVariant.large => 320.0,
       SizeVariant.medium => 280.0,
       SizeVariant.small => 240.0,
+      SizeVariant.mini => 200.0,
     };
     final height = v.height * 3;
     return TurboTileVariant(

@@ -12,9 +12,10 @@ class ClockViewDelegate extends TurboTileDelegate {
 
   @override
   List<TurboTileVariant> createVariants() => [
-    _variant(SizeVariant.big, 120),
+    _variant(SizeVariant.large, 120),
     _variant(SizeVariant.medium, 100),
     _variant(SizeVariant.small, 80),
+    _variant(SizeVariant.mini, 60),
   ];
 
   // ---------------------------------------------------------------------------

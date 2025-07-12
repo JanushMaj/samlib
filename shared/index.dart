@@ -7,3 +7,4 @@ export 'utils/date_formatting.dart';
 export 'app_drawer.dart';
 export 'task_card.dart';
 export 'grafik_element_card.dart';
+export 'grafik_card_delegate.dart';

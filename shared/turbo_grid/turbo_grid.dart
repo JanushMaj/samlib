@@ -53,9 +53,9 @@ class TurboGrid extends StatelessWidget {
         _TileState(tile: t, variantIndex: 0, excluded: false)
     ];
 
-    const lastVariant = 2; // 0‑big,1‑medium,2‑small
+    const lastVariant = 3; // 0‑large,1‑medium,2‑small,3‑mini
 
-    // 1‑3. big → medium → small
+    // 1‑4. large → medium → small → mini
     for (var lvl = 0; lvl <= lastVariant; lvl++) {
       for (final s in states) s.variantIndex = lvl;
       if (_fits(states, maxW, maxH)) {

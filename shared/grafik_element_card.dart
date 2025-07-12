@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../domain/models/grafik/grafik_element.dart';
 import '../domain/models/grafik/grafik_element_data.dart';
-import '../domain/models/grafik/impl/task_element.dart';
-import '../domain/models/grafik/impl/task_planning_element.dart';
-import '../domain/models/grafik/impl/delivery_planning_element.dart';
-import '../domain/models/grafik/impl/time_issue_element.dart';
 import '../domain/models/employee.dart';
 import '../domain/models/vehicle.dart';
 import '../feature/grafik/constants/element_styles.dart';
@@ -40,19 +36,11 @@ class GrafikElementCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final style = const GrafikElementStyleResolver().styleFor(element.type);
+    final delegate = GrafikElementCardDelegateRegistry.delegateFor(element);
 
-    Widget child;
-    if (element is TaskElement) {
-      child = _buildTask(element as TaskElement);
-    } else if (element is TaskPlanningElement) {
-      child = _buildTaskPlanning(element as TaskPlanningElement);
-    } else if (element is DeliveryPlanningElement) {
-      child = _buildDeliveryPlanning(element as DeliveryPlanningElement);
-    } else if (element is TimeIssueElement) {
-      child = _buildTimeIssue(element as TimeIssueElement);
-    } else {
-      child = const SizedBox.shrink();
-    }
+    final label = delegate.getLabel();
+    final time = delegate.getTimeInfo();
+    final description = delegate.getDescription();
 
     return Container(
       decoration: BoxDecoration(
@@ -60,176 +48,51 @@ class GrafikElementCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppRadius.md),
       ),
       padding: const EdgeInsets.all(AppSpacing.xs),
-      child: child,
+      child: _buildContent(label, time, description),
     );
   }
 
-  Widget _buildTask(TaskElement task) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return TurboGrid(
-          tiles: [
-            TurboTile(
-              priority: 1,
-              required: true,
-              delegate: ClockViewDelegate(
-                start: task.startDateTime,
-                end: task.endDateTime,
-              ),
-            ),
-            TurboTile(
-              priority: 1,
-              required: true,
-              delegate: SimpleTextDelegate(text: task.additionalInfo),
-            ),
-            if (data.assignedEmployees.isNotEmpty)
-              TurboTile(
-                priority: 2,
-                required: false,
-                delegate: _EmployeeChipRowDelegate(data.assignedEmployees),
-              ),
-            if (data.assignedVehicles.isNotEmpty)
-              TurboTile(
-                priority: 3,
-                required: false,
-                delegate: _VehicleChipRowDelegate(data.assignedVehicles),
-              ),
-            TurboTile(
-              priority: 4,
-              required: false,
-              delegate: SimpleTextDelegate(text: task.orderId),
-            ),
-          ],
-        );
-      },
+  Widget _buildContent(String label, String time, String description) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: variant.textStyle, overflow: TextOverflow.ellipsis),
+        if (data.assignedEmployees.isNotEmpty) _employeeRow(context),
+        if (variant != SizeVariant.mini)
+          Text(time, style: variant.textStyle, maxLines: 1, overflow: TextOverflow.ellipsis),
+        if (variant != SizeVariant.mini && variant != SizeVariant.small)
+          Text(_descriptionText(description), style: variant.textStyle),
+      ],
     );
   }
 
-  Widget _buildTaskPlanning(TaskPlanningElement planning) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final tiles = [
-          TurboTile(
-            priority: 1,
-            required: true,
-            delegate: ClockViewDelegate(
-              start: planning.startDateTime,
-              end: planning.endDateTime,
-            ),
-          ),
-          TurboTile(
-            priority: 1,
-            required: true,
-            delegate: SimpleTextDelegate(text: planning.additionalInfo),
-          ),
-          TurboTile(
-            priority: 2,
-            required: false,
-            delegate: SimpleTextDelegate(text: planning.orderId),
-          ),
-          TurboTile(
-            priority: 3,
-            required: false,
-            delegate: SimpleTextDelegate(
-              text: planning.probability.toString(),
-            ),
-          ),
-          TurboTile(
-            priority: 4,
-            required: false,
-            delegate: SimpleTextDelegate(text: planning.taskType.name),
-          ),
-          TurboTile(
-            priority: 5,
-            required: false,
-            delegate: WorkTimePlanningDelegate(
-              workerCount: planning.workerCount,
-              minutes: planning.minutes,
-            ),
-          ),
-        ];
-        return Stack(
-          children: [
-            TurboGrid(tiles: tiles),
-            if (planning.highPriority)
-              Positioned(
-                bottom: 4,
-                right: 4,
-                child: const Icon(Icons.priority_high, size: 18),
-              ),
-          ],
-        );
-      },
+  Widget _employeeRow(BuildContext context) {
+    final showFull = variant == SizeVariant.large || variant == SizeVariant.medium;
+    final limit = switch (variant) {
+      SizeVariant.large => data.assignedEmployees.length,
+      SizeVariant.medium => data.assignedEmployees.length,
+      SizeVariant.small => 3,
+      SizeVariant.mini => 2,
+    };
+    final list = data.assignedEmployees.take(limit).toList();
+    final chips = list
+        .map((e) => EmployeeChip(employee: e, showFullName: showFull))
+        .toList();
+    if (data.assignedEmployees.length > limit) {
+      chips.add(Text('…', style: variant.textStyle));
+    }
+    return Wrap(
+      spacing: AppTheme.sizeFor(context.breakpoint, 4),
+      runSpacing: AppTheme.sizeFor(context.breakpoint, 4),
+      children: chips,
     );
   }
 
-  Widget _buildDeliveryPlanning(DeliveryPlanningElement delivery) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return TurboGrid(
-          tiles: [
-            TurboTile(
-              priority: 1,
-              required: true,
-              delegate: ClockViewDelegate(
-                start: delivery.startDateTime,
-                end: delivery.endDateTime,
-              ),
-            ),
-            TurboTile(
-              priority: 1,
-              required: true,
-              delegate: SimpleTextDelegate(text: delivery.additionalInfo),
-            ),
-            TurboTile(
-              priority: 3,
-              required: true,
-              delegate: SimpleTextDelegate(text: delivery.orderId),
-            ),
-            TurboTile(
-              priority: 4,
-              required: true,
-              delegate: SimpleTextDelegate(text: delivery.category.name),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget _buildTimeIssue(TimeIssueElement issue) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return TurboGrid(
-          tiles: [
-            TurboTile(
-              priority: 1,
-              required: true,
-              delegate: ClockViewDelegate(
-                start: issue.startDateTime,
-                end: issue.endDateTime,
-              ),
-            ),
-            TurboTile(
-              priority: 1,
-              required: true,
-              delegate: SimpleTextDelegate(text: issue.additionalInfo),
-            ),
-            if (data.assignedEmployees.isNotEmpty)
-              TurboTile(
-                priority: 2,
-                required: true,
-                delegate: _EmployeeChipRowDelegate(data.assignedEmployees),
-              ),
-            TurboTile(
-              priority: 3,
-              required: false,
-              delegate: SimpleTextDelegate(text: issue.issueType.name),
-            ),
-          ],
-        );
-      },
-    );
+  String _descriptionText(String text) {
+    if (variant == SizeVariant.medium && text.length > 15) {
+      return text.substring(0, 15) + '…';
+    }
+    return text;
   }
 }
 
@@ -240,9 +103,10 @@ class _EmployeeChipRowDelegate extends TurboTileDelegate {
 
   @override
   List<TurboTileVariant> createVariants() => [
-        _variant(SizeVariant.big, 80.0 * employees.length),
+        _variant(SizeVariant.large, 80.0 * employees.length),
         _variant(SizeVariant.medium, 70.0 * employees.length),
         _variant(SizeVariant.small, 60.0 * employees.length),
+        _variant(SizeVariant.mini, 50.0 * employees.length),
       ];
 
   TurboTileVariant _variant(SizeVariant v, double width) => TurboTileVariant(
@@ -270,9 +134,10 @@ class _VehicleChipRowDelegate extends TurboTileDelegate {
 
   @override
   List<TurboTileVariant> createVariants() => [
-        _variant(SizeVariant.big, 100.0 * vehicles.length),
+        _variant(SizeVariant.large, 100.0 * vehicles.length),
         _variant(SizeVariant.medium, 90.0 * vehicles.length),
         _variant(SizeVariant.small, 80.0 * vehicles.length),
+        _variant(SizeVariant.mini, 70.0 * vehicles.length),
       ];
 
   TurboTileVariant _variant(SizeVariant v, double width) => TurboTileVariant(

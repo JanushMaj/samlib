@@ -74,7 +74,7 @@ rendered through a single UI component – `GrafikElementCard`.  The card lives 
 - **element** – the concrete `GrafikElement` instance.
 - **data** – a `GrafikElementData` object containing assigned employees, vehicles
   and assignment information.
-- **variant** – a `SizeVariant` (`big`, `medium`, `small`, `mini`) describing the
+- **variant** – a `SizeVariant` (`large`, `medium`, `small`, `mini`) describing the
   available tile size.
 
 `GrafikElementCard` does not read from `GrafikCubit`.  Instead the parent widget
