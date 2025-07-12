@@ -65,6 +65,39 @@ factory AppUserDto.fromJson(Map<String, dynamic> json) {
 ```
 The DTO converts back to domain objects with a `toDomain()` method.
 
+## Unified Grafik Element Rendering
+
+Grafik elements (tasks, task planning, deliveries and time issues) are all
+rendered through a single UI component – `GrafikElementCard`.  The card lives in
+`shared/` and receives all necessary data explicitly:
+
+- **element** – the concrete `GrafikElement` instance.
+- **data** – a `GrafikElementData` object containing assigned employees, vehicles
+  and assignment information.
+- **variant** – a `SizeVariant` (`big`, `medium`, `small`, `mini`) describing the
+  available tile size.
+
+`GrafikElementCard` does not read from `GrafikCubit`.  Instead the parent widget
+passes the resolved element data.  Visual styles like background color or badge
+icon are provided by `GrafikElementStyleResolver`, centralising all display
+rules for each element type.
+
+Weekly tiles (`TaskWeekTile`, `TaskPlanningWeekTile`,
+`DeliveryPlanningWeekTile`, `TimeIssueWeekTile`) are now thin wrappers that place
+`GrafikElementCard` inside a `TurboGrid`.  This unifies daily and weekly views
+and removes bespoke layout logic from each tile.
+
+Responsiveness is handled through `SizeVariant`; the parent (for example
+`TurboGrid` or a daily view) may decide which variant to use based on available
+space.  The card adapts its content accordingly.
+
+Benefits of this approach:
+
+- reduced code duplication across tiles,
+- consistent UI and styling,
+- simpler testing and mocking of elements,
+- clear separation of responsibilities between data retrieval and rendering.
+
 ## Refactoring Notes
 - Domain models are now free of Firebase and UI imports.
 - `DateCubit` resolves the next working day using `GrafikResolver` instead of relying on UI logic.
