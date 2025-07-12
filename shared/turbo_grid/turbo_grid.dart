@@ -126,7 +126,13 @@ class TurboGrid extends StatelessWidget {
         Positioned(
           left: x,
           top: y,
-          child: SizedBox(width: w, height: h, child: v.builder(ctx)),
+          child: SizedBox(
+            width: w,
+            height: h,
+            child: LayoutBuilder(
+              builder: (c, constraints) => v.builder(c, constraints),
+            ),
+          ),
         ),
       );
 

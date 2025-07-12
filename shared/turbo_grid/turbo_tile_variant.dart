@@ -8,7 +8,11 @@ class TurboTileVariant {
   final Size size;
 
   /// Budowniczy, który generuje zawartość kafelka dla tego wariantu.
-  final WidgetBuilder builder;
+  ///
+  /// Zamiast przyjmować jedynie [BuildContext], przekazujemy również
+  /// [BoxConstraints] tak, aby implementacje mogły wykorzystać
+  /// dostępne ograniczenia przy budowaniu widżetu.
+  final Widget Function(BuildContext, BoxConstraints) builder;
 
   TurboTileVariant({required this.size, required this.builder});
 }

@@ -24,12 +24,13 @@ class TimeIssueWeekTile extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final width = constraints.maxWidth;
+        final height = constraints.maxHeight;
         return TurboGrid(
           tiles: [
             TurboTile(
               priority: 1,
               required: true,
-              delegate: _TimeIssueCardDelegate(timeIssue, data, width),
+              delegate: _TimeIssueCardDelegate(timeIssue, data, width, height),
             ),
           ],
         );
@@ -42,8 +43,9 @@ class _TimeIssueCardDelegate extends TurboTileDelegate {
   final TimeIssueElement timeIssue;
   final GrafikElementData data;
   final double width;
+  final double height;
 
-  _TimeIssueCardDelegate(this.timeIssue, this.data, this.width);
+  _TimeIssueCardDelegate(this.timeIssue, this.data, this.width, this.height);
 
   @override
   List<TurboTileVariant> createVariants() => [
@@ -54,12 +56,9 @@ class _TimeIssueCardDelegate extends TurboTileDelegate {
       ];
 
   TurboTileVariant _variant(SizeVariant v) {
-    final height = v.height * 3;
     return TurboTileVariant(
       size: Size(width, height),
-      builder: (context) => SizedBox(
-        width: width,
-        height: height,
+      builder: (context, constraints) => SizedBox.expand(
         child: GrafikElementCard(
           element: timeIssue,
           data: data,

@@ -21,32 +21,31 @@ class ClockViewDelegate extends TurboTileDelegate {
   // ---------------------------------------------------------------------------
   TurboTileVariant _variant(SizeVariant v, double width) => TurboTileVariant(
     size: Size(width, v.height),
-    builder: (c) {
+    builder: (c, constraints) {
       final same = _sameDay();
       final fmt = same ? DateFormat.Hm() : DateFormat('dd.MM');
 
       final from = Text(fmt.format(start), style: v.textStyle);
       final to   = Text(fmt.format(end),   style: v.textStyle);
 
-      return SizedBox(
-        height: v.height,
+      return SizedBox.expand(
         child: same
             ? Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            from,
-            const SizedBox(width: 1),
-            Icon(Icons.arrow_right_alt, size: v.iconSize),
-            const SizedBox(width: 1),
-            to,
-          ],
-        )
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                from,
+                const SizedBox(width: 1),
+                Icon(Icons.arrow_right_alt, size: v.iconSize),
+                const SizedBox(width: 1),
+                to,
+              ],
+            )
             : Text(
-          "${fmt.format(start)} - ${fmt.format(end)}",
-          style: v.textStyle,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
+              "${fmt.format(start)} - ${fmt.format(end)}",
+              style: v.textStyle,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
       );
     },
   );

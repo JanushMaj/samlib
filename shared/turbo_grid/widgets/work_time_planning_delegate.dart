@@ -23,8 +23,7 @@ class WorkTimePlanningDelegate extends TurboTileDelegate {
 
   TurboTileVariant _variant(SizeVariant v, double width) => TurboTileVariant(
     size: Size(width, v.height),
-    builder: (c) => SizedBox(
-      height: v.height,
+    builder: (c, constraints) => SizedBox.expand(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
