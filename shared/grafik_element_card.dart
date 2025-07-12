@@ -53,7 +53,7 @@ class GrafikElementCard extends StatelessWidget {
         final children = <Widget>[
           Text(label, style: variant.textStyle, overflow: TextOverflow.ellipsis),
           if (data.assignedEmployees.isNotEmpty)
-            _employeeRow(context, canShowFullNames),
+            _employeeRow(context, canShowFullNames, variant),
           if (showTime)
             Text(time,
                 style: variant.textStyle,
@@ -90,10 +90,18 @@ class GrafikElementCard extends StatelessWidget {
     );
   }
 
-  Widget _employeeRow(BuildContext context, bool showFullName) {
+  Widget _employeeRow(
+    BuildContext context,
+    bool showFullName,
+    SizeVariant sizeVariant,
+  ) {
     final chips = data.assignedEmployees
         .map<Widget>(
-          (e) => EmployeeChip(employee: e, showFullName: showFullName),
+          (e) => EmployeeChip(
+            employee: e,
+            showFullName: showFullName,
+            sizeVariant: sizeVariant,
+          ),
         )
         .toList();
     return Wrap(
@@ -128,6 +136,7 @@ class _EmployeeChipRowDelegate extends TurboTileDelegate {
                 .map((e) => EmployeeChip(
                       employee: e,
                       showFullName: context.breakpoint != Breakpoint.small,
+                      sizeVariant: v,
                     ))
                 .toList(),
           ),
