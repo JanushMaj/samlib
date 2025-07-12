@@ -31,7 +31,8 @@ class TaskList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<GrafikCubit, GrafikState>(
       builder: (context, state) {
-        List<TaskElement> tasks = state.tasks;
+        // Create a mutable copy so we can apply filtering and sorting
+        List<TaskElement> tasks = List.from(state.tasks);
         if (!showAll) {
           final currentUser = context.read<AuthCubit>().currentUser;
           final userId = currentUser?.employeeId;
@@ -41,6 +42,32 @@ class TaskList extends StatelessWidget {
               .toSet();
           tasks = tasks.where((t) => assignedIds.contains(t.id)).toList();
         }
+        // Sort tasks by custom rules
+        int typeIndex(GrafikTaskType t) {
+          switch (t) {
+            case GrafikTaskType.Produkcja:
+              return 0;
+            case GrafikTaskType.Inne:
+              return 1;
+            case GrafikTaskType.Budowa:
+              return 2;
+            case GrafikTaskType.Serwis:
+              return 3;
+          }
+        }
+
+        tasks.sort((a, b) {
+          final type = typeIndex(a.taskType).compareTo(typeIndex(b.taskType));
+          if (type != 0) return type;
+
+          final start = a.startDateTime.compareTo(b.startDateTime);
+          if (start != 0) return start;
+
+          final durationA = a.endDateTime.difference(a.startDateTime).inMinutes;
+          final durationB = b.endDateTime.difference(b.startDateTime).inMinutes;
+          return durationA.compareTo(durationB);
+        });
+
         final employees = state.employees;
         final issues = state.issues;
 
@@ -96,7 +123,7 @@ class TaskList extends StatelessWidget {
           final columns = switch (breakpoint) {
             Breakpoint.small => 1,
             Breakpoint.medium => 2,
-            Breakpoint.large => 3,
+            Breakpoint.large => 2,
           };
 
           children.add(
