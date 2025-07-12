@@ -6,8 +6,7 @@ import 'package:kabast/shared/responsive/responsive_layout.dart';
 import 'package:kabast/theme/app_tokens.dart';
 import '../pending_task_column.dart';
 import '../../../../shared/appbar/grafik_appbar.dart';
-import '../../../../shared/custom_fab.dart';
-import '../../../permission/permission_widget.dart';
+import '../../../../shared/add_grafik_fab.dart';
 import '../../../date/date_cubit.dart';
 import '../../../date/date_state.dart';
 import '../../../../shared/app_drawer.dart';
@@ -92,12 +91,7 @@ class WeekGrafikView extends StatelessWidget {
         ),
       ),
 
-      floatingActionButton: PermissionWidget(
-        permission: 'canAddGrafik',
-        child: CustomFAB(
-          onPressed: () => Navigator.pushNamed(context, '/addGrafik'),
-        ),
-      ),
+      floatingActionButton: const AddGrafikFAB(),
     );
   }
 }

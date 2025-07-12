@@ -7,8 +7,7 @@ import 'package:kabast/feature/grafik/widget/task/task_list.dart';
 import 'package:kabast/feature/date/date_cubit.dart';
 
 import '../../../shared/appbar/grafik_appbar.dart';
-import '../../../shared/custom_fab.dart';
-import '../../permission/permission_widget.dart'; // Dodaj ten import
+import '../../../shared/add_grafik_fab.dart';
 import '../../../shared/utils/date_formatting.dart';
 import '../../../shared/app_drawer.dart';
 
@@ -137,14 +136,7 @@ class _SingleDayGrafikViewState extends State<SingleDayGrafikView> {
             showAll: _showAll,
           ),
       ),
-          floatingActionButton: PermissionWidget(
-            permission: 'canAddGrafik',
-            child: CustomFAB(
-              onPressed: () {
-                Navigator.pushNamed(context, '/addGrafik');
-              },
-            ),
-          ),
+          floatingActionButton: const AddGrafikFAB(),
         );
       },
     );
