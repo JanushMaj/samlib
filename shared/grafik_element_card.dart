@@ -48,11 +48,16 @@ class GrafikElementCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppRadius.md),
       ),
       padding: const EdgeInsets.all(AppSpacing.xs),
-      child: _buildContent(label, time, description),
+      child: _buildContent(context, label, time, description),
     );
   }
 
-  Widget _buildContent(String label, String time, String description) {
+  Widget _buildContent(
+    BuildContext context,
+    String label,
+    String time,
+    String description,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -75,8 +80,10 @@ class GrafikElementCard extends StatelessWidget {
       SizeVariant.mini => 2,
     };
     final list = data.assignedEmployees.take(limit).toList();
-    final chips = list
-        .map((e) => EmployeeChip(employee: e, showFullName: showFull))
+    final List<Widget> chips = list
+        .map<Widget>(
+          (e) => EmployeeChip(employee: e, showFullName: showFull),
+        )
         .toList();
     if (data.assignedEmployees.length > limit) {
       chips.add(Text('…', style: variant.textStyle));
