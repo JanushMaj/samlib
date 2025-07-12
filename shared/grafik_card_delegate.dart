@@ -1,8 +1,8 @@
-import 'domain/models/grafik/grafik_element.dart';
-import 'domain/models/grafik/impl/task_element.dart';
-import 'domain/models/grafik/impl/task_planning_element.dart';
-import 'domain/models/grafik/impl/delivery_planning_element.dart';
-import 'domain/models/grafik/impl/time_issue_element.dart';
+import 'package:kabast/domain/models/grafik/grafik_element.dart';
+import 'package:kabast/domain/models/grafik/impl/delivery_planning_element.dart';
+import 'package:kabast/domain/models/grafik/impl/task_element.dart';
+import 'package:kabast/domain/models/grafik/impl/task_planning_element.dart';
+import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
 
 abstract class GrafikElementCardDelegate {
   String getLabel();
