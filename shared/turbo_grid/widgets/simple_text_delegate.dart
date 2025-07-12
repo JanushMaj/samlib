@@ -11,9 +11,10 @@ class SimpleTextDelegate extends TurboTileDelegate {
 
   @override
   List<TurboTileVariant> createVariants() => [
-    _build(SizeVariant.big),
+    _build(SizeVariant.large),
     _build(SizeVariant.medium, maxLines: 3),
     _build(SizeVariant.small, maxLines: 1),
+    _build(SizeVariant.mini, maxLines: 1),
   ];
 
   TurboTileVariant _build(SizeVariant v, {int? maxLines}) {

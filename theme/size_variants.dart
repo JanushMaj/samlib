@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Rozmiary kafelków (widok tygodniowy i inne gridy).
-enum SizeVariant { big, medium, small }
+enum SizeVariant { large, medium, small, mini }
 
 extension SizeVariantSpec on SizeVariant {
   double get _scale {
@@ -12,22 +12,25 @@ extension SizeVariantSpec on SizeVariant {
 
   /// Wysokość kafelka ‑ **musi być taka sama** we wszystkich delegatach.
   double get height => switch (this) {
-    SizeVariant.big    => 48 * _scale,
+    SizeVariant.large  => 48 * _scale,
     SizeVariant.medium => 32 * _scale,
     SizeVariant.small  => 20 * _scale,
+    SizeVariant.mini   => 16 * _scale,
   };
 
   /// Domyślny rozmiar ikon.
   double get iconSize => switch (this) {
-    SizeVariant.big    => 20 * _scale,
+    SizeVariant.large  => 20 * _scale,
     SizeVariant.medium => 16 * _scale,
     SizeVariant.small  => 14 * _scale,
+    SizeVariant.mini   => 12 * _scale,
   };
 
   /// Spójny styl tekstu (height = 1 ⇒ brak dodatkowego leadingu).
   TextStyle get textStyle => switch (this) {
-    SizeVariant.big    => TextStyle(fontSize: 18 * _scale, height: 1),
+    SizeVariant.large  => TextStyle(fontSize: 18 * _scale, height: 1),
     SizeVariant.medium => TextStyle(fontSize: 14 * _scale, height: 1),
     SizeVariant.small  => TextStyle(fontSize: 12 * _scale, height: 1),
+    SizeVariant.mini   => TextStyle(fontSize: 10 * _scale, height: 1),
   };
 }

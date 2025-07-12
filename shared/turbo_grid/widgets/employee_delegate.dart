@@ -14,9 +14,10 @@ class EmployeeDelegate extends TurboTileDelegate {
   List<TurboTileVariant> createVariants() {
     final width = _responsiveWidth(140);
     return [
-      _variant(SizeVariant.big, width),
+      _variant(SizeVariant.large, width),
       _variant(SizeVariant.medium, width),
       _variant(SizeVariant.small, width),
+      _variant(SizeVariant.mini, width),
     ];
   }
 

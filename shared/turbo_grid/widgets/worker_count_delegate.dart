@@ -10,9 +10,10 @@ class WorkerCountDelegate extends TurboTileDelegate {
 
   @override
   List<TurboTileVariant> createVariants() => [
-    _variant(SizeVariant.big,   80),
-    _variant(SizeVariant.medium,80),
+    _variant(SizeVariant.large, 80),
+    _variant(SizeVariant.medium, 80),
     _variant(SizeVariant.small, 80),
+    _variant(SizeVariant.mini, 80),
   ];
 
   TurboTileVariant _variant(SizeVariant v, double width) => TurboTileVariant(

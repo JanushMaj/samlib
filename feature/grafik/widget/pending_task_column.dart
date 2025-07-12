@@ -52,7 +52,7 @@ class PendingTasksColumn extends StatelessWidget {
           itemCount: pending.length,
           separatorBuilder: (_, __) => const SizedBox(height: 8),
           itemBuilder: (context, index) => SizedBox(
-            height: SizeVariant.big.height * 4,
+            height: SizeVariant.large.height * 4,
             child: TaskPlanningWeekTile(
               taskPlanning: pending[index],
               data: _pendingData(state, pending[index]),

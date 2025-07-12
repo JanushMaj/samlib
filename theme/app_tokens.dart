@@ -30,9 +30,10 @@ class AppSpacing {
   static const int alphaLow = 25;
 
   /// Wysokości kafelków (aliasy do SizeVariant, dla wygody w layoutach).
-  static const double tileBig    = 48;
+  static const double tileLarge  = 48;
   static const double tileMedium = 32;
   static const double tileSmall  = 20;
+  static const double tileMini   = 16;
 }
 
 /// Promienie zaokrągleń (border radius)

@@ -11,9 +11,10 @@ class VehicleDelegate extends TurboTileDelegate {
 
   @override
   List<TurboTileVariant> createVariants() => [
-    _variant(SizeVariant.big,   220),
-    _variant(SizeVariant.medium,180),
+    _variant(SizeVariant.large, 220),
+    _variant(SizeVariant.medium, 180),
     _variant(SizeVariant.small, 150),
+    _variant(SizeVariant.mini, 120),
   ];
 
   TurboTileVariant _variant(SizeVariant v, double width) => TurboTileVariant(
