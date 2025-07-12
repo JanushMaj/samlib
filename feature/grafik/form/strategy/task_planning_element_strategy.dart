@@ -32,6 +32,7 @@ class TaskPlanningElementStrategy implements GrafikElementFormStrategy {
       addedByUserId: '',
       addedTimestamp: DateTime.now(),
       closed: false,
+      plannedWorkerIds: const [],
     );
   }
 

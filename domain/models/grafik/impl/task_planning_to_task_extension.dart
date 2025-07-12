@@ -26,10 +26,6 @@ extension ToTaskElement on TaskPlanningElement {
       addedByUserId: addedByUserId,
       addedTimestamp: DateTime.now(),
       closed: false,
-
-      // pola informacyjne
-      expectedWorkerCount: workerCount,
-      plannedMinutes: minutes,
     );
   }
 }

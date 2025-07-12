@@ -35,10 +35,16 @@ class ForegroundLayer extends StatelessWidget {
     );
   }
 
-  GrafikElementData _taskPlanningData(GrafikState state) {
-    return const GrafikElementData(
-      assignedEmployees: [],
-      assignedVehicles: [],
+  GrafikElementData _taskPlanningData(
+    GrafikState state,
+    TaskPlanningElement taskPlanning,
+  ) {
+    final employees = state.employees
+        .where((e) => taskPlanning.plannedWorkerIds.contains(e.uid))
+        .toList();
+    return GrafikElementData(
+      assignedEmployees: employees,
+      assignedVehicles: const [],
     );
   }
 
@@ -81,7 +87,7 @@ class ForegroundLayer extends StatelessWidget {
             if (elem is TaskPlanningElement) {
               return TaskPlanningWeekTile(
                 taskPlanning: elem,
-                data: _taskPlanningData(state),
+                data: _taskPlanningData(state, elem),
               );
             } else if (elem is DeliveryPlanningElement) {
               return DeliveryPlanningWeekTile(

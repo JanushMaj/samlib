@@ -12,7 +12,9 @@ import '../../../shared/form/small_number_picker/small_number_picker.dart';
 import '../../../domain/constants/pending_placeholder_date.dart';
 import '../cubit/form/grafik_element_form_cubit.dart';
 import '../cubit/form/grafik_element_form_state.dart';
-import 'components/assignment_editor.dart';
+import '../../employee/employee_picker.dart';
+import 'package:get_it/get_it.dart';
+import '../../../../data/repositories/employee_repository.dart';
 
 class GrafikPlanningFields extends StatelessWidget {
   final TaskPlanningElement element;
@@ -101,14 +103,14 @@ class GrafikPlanningFields extends StatelessWidget {
               context.read<GrafikElementFormCubit>().updateField('highPriority', val),
         ),
         const SizedBox(height: AppSpacing.sm * 2),
-        BlocBuilder<GrafikElementFormCubit, GrafikElementFormState>(
-          builder: (context, state) {
-            if (state is! GrafikElementFormEditing) return const SizedBox.shrink();
-            return AssignmentEditor(
-              taskStart: state.element.startDateTime,
-              taskEnd: state.element.endDateTime,
-              assignments: state.assignments,
-            );
+        EmployeePicker(
+          employeeStream: GetIt.I<EmployeeRepository>().getEmployees(),
+          initialSelectedIds: element.plannedWorkerIds,
+          onSelectionChanged: (employees) {
+            final ids = employees.map((e) => e.uid).toList();
+            context
+                .read<GrafikElementFormCubit>()
+                .updateField('plannedWorkerIds', ids);
           },
         ),
       ],

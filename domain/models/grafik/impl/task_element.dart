@@ -9,12 +9,6 @@ class TaskElement extends GrafikElement {
   final GrafikTaskType taskType;
   final List<String> carIds;
 
-  // ───────── TYLKO DO WIDOKU ─────────
-  /// Ilu pracowników pierwotnie planowano (przy konwersji z TaskPlanningElement).
-  final int? expectedWorkerCount;
-
-  /// Na ile minut pierwotnie planowano zadanie.
-  final int? plannedMinutes;
 
   TaskElement({
     required String id,
@@ -30,8 +24,6 @@ class TaskElement extends GrafikElement {
     required bool closed,
 
     // pola transient
-    this.expectedWorkerCount,
-    this.plannedMinutes,
   }) : super(
     id: id,
     startDateTime: startDateTime,
@@ -60,8 +52,6 @@ class TaskElement extends GrafikElement {
     String? addedByUserId,
     DateTime? addedTimestamp,
     bool? closed,
-    int? expectedWorkerCount,
-    int? plannedMinutes,
   }) {
     return TaskElement(
       id: id ?? this.id,
@@ -75,8 +65,6 @@ class TaskElement extends GrafikElement {
       addedByUserId: addedByUserId ?? this.addedByUserId,
       addedTimestamp: addedTimestamp ?? this.addedTimestamp,
       closed: closed ?? this.closed,
-      expectedWorkerCount: expectedWorkerCount ?? this.expectedWorkerCount,
-      plannedMinutes: plannedMinutes ?? this.plannedMinutes,
     );
   }
 
@@ -95,7 +83,5 @@ class TaskElement extends GrafikElement {
     addedByUserId: addedByUserId,
     addedTimestamp: addedTimestamp,
     closed: closed,
-    expectedWorkerCount: expectedWorkerCount,
-    plannedMinutes: plannedMinutes,
   );
 }
