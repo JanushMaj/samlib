@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
 import 'package:kabast/feature/grafik/cubit/grafik_state.dart';
+import 'package:kabast/domain/models/grafik/grafik_element_data.dart';
+import 'package:kabast/domain/models/grafik/impl/task_planning_element.dart';
 import 'package:kabast/theme/size_variants.dart';
 
 import 'week/tiles/task_planning_week_tile.dart';
@@ -9,6 +11,16 @@ import 'week/tiles/task_planning_week_tile.dart';
 /// Kolumna z zadaniami oznaczonymi `isPending == true` („Wisi i Grozi”).
 class PendingTasksColumn extends StatelessWidget {
   const PendingTasksColumn({super.key});
+
+  GrafikElementData _pendingData(
+    GrafikState state,
+    TaskPlanningElement taskPlanning,
+  ) {
+    return const GrafikElementData(
+      assignedEmployees: [],
+      assignedVehicles: [],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +53,10 @@ class PendingTasksColumn extends StatelessWidget {
           separatorBuilder: (_, __) => const SizedBox(height: 8),
           itemBuilder: (context, index) => SizedBox(
             height: SizeVariant.big.height * 4,
-            child: TaskPlanningWeekTile(taskPlanning: pending[index]),
+            child: TaskPlanningWeekTile(
+              taskPlanning: pending[index],
+              data: _pendingData(state, pending[index]),
+            ),
           ),
         );
       },
