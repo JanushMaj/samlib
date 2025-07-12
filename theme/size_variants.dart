@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
 /// Rozmiary kafelków (widok tygodniowy i inne gridy).
 enum SizeVariant { large, medium, small, mini }
@@ -7,7 +8,11 @@ extension SizeVariantSpec on SizeVariant {
   double get _scale {
     final view = WidgetsBinding.instance.platformDispatcher.views.first;
     final width = view.physicalSize.width / view.devicePixelRatio;
-    return (width / 400).clamp(0.8, 1.2);
+    final shortSide =
+        math.min(view.physicalSize.width, view.physicalSize.height) /
+            view.devicePixelRatio;
+    final base = (width / 400).clamp(0.8, 1.2);
+    return shortSide >= 600 ? 2.0 : base;
   }
 
   /// Wysokość kafelka ‑ **musi być taka sama** we wszystkich delegatach.

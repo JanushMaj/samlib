@@ -118,7 +118,12 @@ class GrafikElementCard extends StatelessWidget {
                 width: AppSpacing.borderThin,
               ),
             ),
-            padding: const EdgeInsets.all(AppSpacing.xs),
+            padding: EdgeInsets.all(
+              AppSpacing.scaled(AppSpacing.xs, context.breakpoint),
+            ),
+            child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
             child: Stack(
               children: [
                 Row(
