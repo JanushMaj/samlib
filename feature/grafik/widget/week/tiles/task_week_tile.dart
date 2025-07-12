@@ -23,12 +23,13 @@ class TaskWeekTile extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final width = constraints.maxWidth;
+        final height = constraints.maxHeight;
         return TurboGrid(
           tiles: [
             TurboTile(
               priority: 1,
               required: true,
-              delegate: _TaskCardDelegate(task, data, width),
+              delegate: _TaskCardDelegate(task, data, width, height),
             ),
           ],
         );
@@ -41,8 +42,9 @@ class _TaskCardDelegate extends TurboTileDelegate {
   final TaskElement task;
   final GrafikElementData data;
   final double width;
+  final double height;
 
-  _TaskCardDelegate(this.task, this.data, this.width);
+  _TaskCardDelegate(this.task, this.data, this.width, this.height);
 
   @override
   List<TurboTileVariant> createVariants() => [
@@ -53,12 +55,9 @@ class _TaskCardDelegate extends TurboTileDelegate {
       ];
 
   TurboTileVariant _variant(SizeVariant v) {
-    final height = v.height * 3;
     return TurboTileVariant(
       size: Size(width, height),
-      builder: (context) => SizedBox(
-        width: width,
-        height: height,
+      builder: (context, constraints) => SizedBox.expand(
         child: GrafikElementCard(
           element: task,
           data: data,

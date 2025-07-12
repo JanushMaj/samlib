@@ -133,8 +133,7 @@ class _EmployeeChipRowDelegate extends TurboTileDelegate {
 
   TurboTileVariant _variant(SizeVariant v, double width) => TurboTileVariant(
         size: Size(width, v.height),
-        builder: (context) => SizedBox(
-          height: v.height,
+        builder: (context, constraints) => SizedBox.expand(
           child: Wrap(
             spacing: AppTheme.sizeFor(context.breakpoint, 4),
             runSpacing: AppTheme.sizeFor(context.breakpoint, 4),
@@ -165,8 +164,7 @@ class _VehicleChipRowDelegate extends TurboTileDelegate {
 
   TurboTileVariant _variant(SizeVariant v, double width) => TurboTileVariant(
         size: Size(width, v.height),
-        builder: (context) => SizedBox(
-          height: v.height,
+        builder: (context, constraints) => SizedBox.expand(
           child: Wrap(
             spacing: AppTheme.sizeFor(context.breakpoint, 4),
             runSpacing: AppTheme.sizeFor(context.breakpoint, 4),

@@ -23,8 +23,7 @@ class SimpleTextDelegate extends TurboTileDelegate {
 
     return TurboTileVariant(
       size: size,
-      builder: (context) => SizedBox(
-        height: v.height,
+      builder: (context, constraints) => SizedBox.expand(
         child: Text(
           text,
           style: v.textStyle,
