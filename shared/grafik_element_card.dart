@@ -37,36 +37,59 @@ class GrafikElementCard extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final h = constraints.maxHeight;
         final w = constraints.maxWidth;
+        final ts = variant.textStyle;
 
-        // Height driven layout decisions
-        final showEmployees = h > 40;
-        final showFullNames = h > 80 && w > 200;
-        final showTime = h > 100;
-        final showDescription = h > 130;
-        final multiLineDescription = h > 160;
+        // Approximate line height for text rows
+        final lineH = ts.fontSize + 4;
 
-        final children = <Widget>[
-          Text(label, style: variant.textStyle, overflow: TextOverflow.ellipsis),
-          if (showEmployees && data.assignedEmployees.isNotEmpty)
-            _employeeRow(context, showFullNames, variant),
-          if (showTime)
-            Text(time,
-                style: variant.textStyle,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis),
-        ];
+        double remaining = constraints.maxHeight;
 
-        if (showDescription) {
+        final children = <Widget>[];
+
+        // Order number / label
+        children.add(Text(label, style: ts, overflow: TextOverflow.ellipsis));
+        remaining -= lineH;
+
+        // Employees row - always visible, clipped to two lines
+        if (data.assignedEmployees.isNotEmpty) {
+          children.add(
+            ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: variant.height * 2),
+              child: ClipRect(
+                child: _employeeRow(
+                  context,
+                  w > 200,
+                  variant,
+                ),
+              ),
+            ),
+          );
+          remaining -= variant.height;
+        }
+
+        // Time information
+        if (remaining > lineH) {
+          children.add(
+            Text(
+              time,
+              style: ts,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          );
+          remaining -= lineH;
+        }
+
+        // Description grows with available space
+        final descLines = (remaining / lineH).floor();
+        if (descLines > 0) {
           children.add(
             Text(
               description,
-              style: variant.textStyle,
-              maxLines: multiLineDescription ? 3 : 1,
-              overflow: multiLineDescription
-                  ? TextOverflow.visible
-                  : TextOverflow.ellipsis,
+              style: ts,
+              maxLines: descLines,
+              overflow: TextOverflow.ellipsis,
             ),
           );
         }
@@ -109,6 +132,7 @@ class GrafikElementCard extends StatelessWidget {
     return Wrap(
       spacing: AppTheme.sizeFor(context.breakpoint, 4),
       runSpacing: AppTheme.sizeFor(context.breakpoint, 4),
+      clipBehavior: Clip.hardEdge,
       children: chips,
     );
   }
