@@ -42,64 +42,65 @@ class GrafikElementCard extends StatelessWidget {
     final time = delegate.getTimeInfo();
     final description = delegate.getDescription();
 
-    return Container(
-      decoration: BoxDecoration(
-        color: style.backgroundColor,
-        borderRadius: BorderRadius.circular(AppRadius.md),
-      ),
-      padding: const EdgeInsets.all(AppSpacing.xs),
-      child: _buildContent(context, label, time, description),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isVeryNarrow = constraints.maxWidth < 140;
+        final isTall = constraints.maxHeight > 120;
+        final canShowFullNames = constraints.maxWidth > 200;
+        final canShowDescription = isTall;
+        final showTime = constraints.maxHeight > 40 && !isVeryNarrow;
+
+        final children = <Widget>[
+          Text(label, style: variant.textStyle, overflow: TextOverflow.ellipsis),
+          if (data.assignedEmployees.isNotEmpty)
+            _employeeRow(context, canShowFullNames),
+          if (showTime)
+            Text(time,
+                style: variant.textStyle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis),
+        ];
+
+        if (canShowDescription) {
+          final multiLine = constraints.maxHeight > 160;
+          children.add(
+            Text(
+              description,
+              style: variant.textStyle,
+              maxLines: multiLine ? 3 : 1,
+              overflow: multiLine
+                  ? TextOverflow.visible
+                  : TextOverflow.ellipsis,
+            ),
+          );
+        }
+
+        return Container(
+          decoration: BoxDecoration(
+            color: style.backgroundColor,
+            borderRadius: BorderRadius.circular(AppRadius.md),
+          ),
+          padding: const EdgeInsets.all(AppSpacing.xs),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: children,
+          ),
+        );
+      },
     );
   }
 
-  Widget _buildContent(
-    BuildContext context,
-    String label,
-    String time,
-    String description,
-  ) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: variant.textStyle, overflow: TextOverflow.ellipsis),
-        if (data.assignedEmployees.isNotEmpty) _employeeRow(context),
-        if (variant != SizeVariant.mini)
-          Text(time, style: variant.textStyle, maxLines: 1, overflow: TextOverflow.ellipsis),
-        if (variant != SizeVariant.mini && variant != SizeVariant.small)
-          Text(_descriptionText(description), style: variant.textStyle),
-      ],
-    );
-  }
-
-  Widget _employeeRow(BuildContext context) {
-    final showFull = variant == SizeVariant.large || variant == SizeVariant.medium;
-    final limit = switch (variant) {
-      SizeVariant.large => data.assignedEmployees.length,
-      SizeVariant.medium => data.assignedEmployees.length,
-      SizeVariant.small => 3,
-      SizeVariant.mini => 2,
-    };
-    final list = data.assignedEmployees.take(limit).toList();
-    final List<Widget> chips = list
+  Widget _employeeRow(BuildContext context, bool showFullName) {
+    final chips = data.assignedEmployees
         .map<Widget>(
-          (e) => EmployeeChip(employee: e, showFullName: showFull),
+          (e) => EmployeeChip(employee: e, showFullName: showFullName),
         )
         .toList();
-    if (data.assignedEmployees.length > limit) {
-      chips.add(Text('…', style: variant.textStyle));
-    }
     return Wrap(
       spacing: AppTheme.sizeFor(context.breakpoint, 4),
       runSpacing: AppTheme.sizeFor(context.breakpoint, 4),
       children: chips,
     );
-  }
-
-  String _descriptionText(String text) {
-    if (variant == SizeVariant.medium && text.length > 15) {
-      return text.substring(0, 15) + '…';
-    }
-    return text;
   }
 }
 
