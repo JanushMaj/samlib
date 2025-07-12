@@ -21,8 +21,6 @@ import 'turbo_grid/turbo_tile_delegate.dart';
 import 'turbo_grid/turbo_tile_variant.dart';
 import 'turbo_grid/widgets/clock_view_delegate.dart';
 import 'turbo_grid/widgets/simple_text_delegate.dart';
-import 'turbo_grid/widgets/vehice_delegate.dart';
-import 'turbo_grid/widgets/employee_delegate.dart';
 import 'turbo_grid/widgets/work_time_planning_delegate.dart';
 
 class GrafikElementCard extends StatelessWidget {
