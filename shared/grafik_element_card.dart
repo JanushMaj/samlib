@@ -75,16 +75,21 @@ class GrafikElementCard extends StatelessWidget {
           );
         }
 
-        return Container(
-          height: constraints.maxHeight,
-          decoration: BoxDecoration(
-            color: style.backgroundColor,
-            borderRadius: BorderRadius.circular(AppRadius.md),
-          ),
-          padding: const EdgeInsets.all(AppSpacing.xs),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: children,
+        return SizedBox.expand(
+          child: Container(
+            decoration: BoxDecoration(
+              color: style.backgroundColor,
+              borderRadius: BorderRadius.circular(AppRadius.md),
+            ),
+            padding: const EdgeInsets.all(AppSpacing.xs),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ...children,
+                const Spacer(),
+              ],
+            ),
           ),
         );
       },
