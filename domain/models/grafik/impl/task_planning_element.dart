@@ -9,6 +9,9 @@ class TaskPlanningElement extends GrafikElement {
   final int minutes;
   final bool highPriority;
 
+  /// Lista wstępnie planowanych pracowników
+  final List<String> plannedWorkerIds;
+
   /// WisiIGrozi – zadanie bez terminu
   final bool isPending;
 
@@ -27,6 +30,7 @@ class TaskPlanningElement extends GrafikElement {
     required DateTime addedTimestamp,
     required bool closed,
     this.isPending = false, // 👈 domyślnie nie wisi
+    this.plannedWorkerIds = const [],
   }) : super(
     id: id,
     startDateTime: startDateTime,

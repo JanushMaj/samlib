@@ -113,7 +113,7 @@ class _GrafikElementPopupState extends State<GrafikElementPopup> {
             if (_element is DeliveryPlanningElement)
               ..._buildDeliveryPlanningDetails(_element as DeliveryPlanningElement),
             if (_element is TaskPlanningElement)
-              ..._buildTaskPlanningDetails(_element as TaskPlanningElement),
+              ..._buildTaskPlanningDetails(context, _element as TaskPlanningElement),
             if (_element is TimeIssueElement)
               ..._buildTimeIssueDetails(_element as TimeIssueElement),
             if (_element is TaskElement) ...[
@@ -220,14 +220,23 @@ class _GrafikElementPopupState extends State<GrafikElementPopup> {
         Text('Category: ${delivery.category.name}'),
       ];
 
-  List<Widget> _buildTaskPlanningDetails(TaskPlanningElement planning) => [
-    Text('Worker Count: ${planning.workerCount}'),
-    Text('Order ID: ${planning.orderId}'),
-    Text('Probability: ${planning.probability.name}'),
-    Text('Task Type: ${planning.taskType.name}'),
-    Text('Minutes: ${planning.minutes}'),
-    Text('Pilne: ${planning.highPriority ? 'Tak' : 'Nie'}'),
-  ];
+  List<Widget> _buildTaskPlanningDetails(BuildContext context, TaskPlanningElement planning) {
+    final employees = context.read<GrafikCubit>().state.employees
+        .where((e) => planning.plannedWorkerIds.contains(e.uid))
+        .toList();
+    final names = employees.isNotEmpty
+        ? employees.map((e) => e.formattedNameWithSecondInitial).join(', ')
+        : 'Brak';
+    return [
+      Text('Pracownicy: $names'),
+      Text('Worker Count: ${planning.workerCount}'),
+      Text('Order ID: ${planning.orderId}'),
+      Text('Probability: ${planning.probability.name}'),
+      Text('Task Type: ${planning.taskType.name}'),
+      Text('Minutes: ${planning.minutes}'),
+      Text('Pilne: ${planning.highPriority ? 'Tak' : 'Nie'}'),
+    ];
+  }
 
   List<Widget> _buildTimeIssueDetails(TimeIssueElement issue) => [
     Text('Reason: ${issue.issueType}'),

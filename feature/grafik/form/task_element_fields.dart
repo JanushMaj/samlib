@@ -24,21 +24,6 @@ class TaskFields extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // ───── info z planu ─────
-        if (element.expectedWorkerCount != null) ...[
-          Text(
-            'Planowano: ${element.expectedWorkerCount} pracowników',
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-        ],
-        if (element.plannedMinutes != null) ...[
-          Text(
-            'Planowany czas: ${element.plannedMinutes} min',
-            style: const TextStyle(fontStyle: FontStyle.italic),
-          ),
-          const SizedBox(height: 16),
-        ],
         const TaskTemplatesRow(),
         // Order ID
         CustomTextField(

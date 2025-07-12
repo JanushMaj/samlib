@@ -12,6 +12,7 @@ class TaskPlanningElementDto extends GrafikElementDto {
   final int minutes;
   final bool highPriority;
   final bool isPending;
+  final List<String> plannedWorkerIds;
 
   TaskPlanningElementDto({
     required super.id,
@@ -29,6 +30,7 @@ class TaskPlanningElementDto extends GrafikElementDto {
     required this.minutes,
     required this.highPriority,
     this.isPending = false,
+    this.plannedWorkerIds = const [],
   });
 
   factory TaskPlanningElementDto.fromJson(Map<String, dynamic> json) {
@@ -64,6 +66,8 @@ class TaskPlanningElementDto extends GrafikElementDto {
       minutes: json['minutes'] as int? ?? 60,
       highPriority: json['highPriority'] as bool? ?? false,
       isPending: json['isPending'] as bool? ?? false,
+      plannedWorkerIds:
+          (json['plannedWorkerIds'] as List?)?.cast<String>() ?? const [],
     );
   }
 
@@ -76,6 +80,7 @@ class TaskPlanningElementDto extends GrafikElementDto {
         'minutes': minutes,
         'highPriority': highPriority,
         'isPending': isPending,
+        'plannedWorkerIds': plannedWorkerIds,
       };
 
   TaskPlanningElement toDomain() => TaskPlanningElement(
@@ -93,6 +98,7 @@ class TaskPlanningElementDto extends GrafikElementDto {
         addedTimestamp: addedTimestamp,
         closed: closed,
         isPending: isPending,
+        plannedWorkerIds: plannedWorkerIds,
       );
 
   static TaskPlanningElementDto fromDomain(TaskPlanningElement element) =>
@@ -112,5 +118,6 @@ class TaskPlanningElementDto extends GrafikElementDto {
         minutes: element.minutes,
         highPriority: element.highPriority,
         isPending: element.isPending,
+        plannedWorkerIds: List<String>.from(element.plannedWorkerIds),
       );
 }

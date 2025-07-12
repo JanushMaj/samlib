@@ -16,9 +16,12 @@ class PendingTasksColumn extends StatelessWidget {
     GrafikState state,
     TaskPlanningElement taskPlanning,
   ) {
-    return const GrafikElementData(
-      assignedEmployees: [],
-      assignedVehicles: [],
+    final employees = state.employees
+        .where((e) => taskPlanning.plannedWorkerIds.contains(e.uid))
+        .toList();
+    return GrafikElementData(
+      assignedEmployees: employees,
+      assignedVehicles: const [],
     );
   }
 
