@@ -6,13 +6,14 @@ import 'package:kabast/theme/app_tokens.dart';
 import 'package:kabast/theme/theme.dart';
 import 'package:kabast/shared/responsive/responsive_layout.dart';
 import '../../../auth/auth_cubit.dart';
-import '../../../../domain/models/grafik/enums.dart';
 import '../../cubit/grafik_cubit.dart';
 import '../../cubit/grafik_state.dart';
 import '../../form/standard_task_row.dart';
 import 'employee_daily_summary.dart';
-import 'package:kabast/shared/task_card.dart';
+import 'package:kabast/shared/grafik_element_card.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
+import 'package:kabast/domain/models/grafik/grafik_element_data.dart';
+import 'package:kabast/shared/utils/tile_size_resolver.dart';
 
 class TaskList extends StatelessWidget {
   final DateTime date;
@@ -108,9 +109,34 @@ class TaskList extends StatelessWidget {
                   childAspectRatio: 3,
                 ),
                 itemCount: nonStandardTasks.length,
-                itemBuilder: (context, index) => TaskCard(
-                  task: nonStandardTasks[index],
-                ),
+                itemBuilder: (context, index) {
+                  final task = nonStandardTasks[index];
+                  final assignments = state.assignments
+                      .where((a) => a.taskId == task.id)
+                      .toList();
+                  final employees = state.employees
+                      .where((e) => assignments.any((a) => a.workerId == e.uid))
+                      .toList();
+                  final vehicles = state.vehicles
+                      .where((v) => task.carIds.contains(v.id))
+                      .toList();
+                  final data = GrafikElementData(
+                    assignedEmployees: employees,
+                    assignedVehicles: vehicles,
+                    assignments: assignments,
+                  );
+                  return LayoutBuilder(
+                    builder: (context, constraints) {
+                      final variant = TileSizeResolver.resolve(
+                          width: constraints.maxWidth);
+                      return GrafikElementCard(
+                        element: task,
+                        data: data,
+                        variant: variant,
+                      );
+                    },
+                  );
+                },
               ),
             ),
           );
