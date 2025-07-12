@@ -20,14 +20,19 @@ class TaskWeekTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TurboGrid(
-      tiles: [
-        TurboTile(
-          priority: 1,
-          required: true,
-          delegate: _TaskCardDelegate(task, data),
-        ),
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.maxWidth;
+        return TurboGrid(
+          tiles: [
+            TurboTile(
+              priority: 1,
+              required: true,
+              delegate: _TaskCardDelegate(task, data, width),
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -35,8 +40,9 @@ class TaskWeekTile extends StatelessWidget {
 class _TaskCardDelegate extends TurboTileDelegate {
   final TaskElement task;
   final GrafikElementData data;
+  final double width;
 
-  _TaskCardDelegate(this.task, this.data);
+  _TaskCardDelegate(this.task, this.data, this.width);
 
   @override
   List<TurboTileVariant> createVariants() => [
@@ -47,12 +53,6 @@ class _TaskCardDelegate extends TurboTileDelegate {
       ];
 
   TurboTileVariant _variant(SizeVariant v) {
-    final width = switch (v) {
-      SizeVariant.large => 320.0,
-      SizeVariant.medium => 280.0,
-      SizeVariant.small => 240.0,
-      SizeVariant.mini => 200.0,
-    };
     final height = v.height * 3;
     return TurboTileVariant(
       size: Size(width, height),
