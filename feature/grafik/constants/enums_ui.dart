@@ -15,3 +15,18 @@ extension GrafikStatusX on GrafikStatus {
     }
   }
 }
+
+extension GrafikTaskTypeX on GrafikTaskType {
+  IconData get icon {
+    switch (this) {
+      case GrafikTaskType.Budowa:
+        return Icons.construction;
+      case GrafikTaskType.Produkcja:
+        return Icons.precision_manufacturing;
+      case GrafikTaskType.Serwis:
+        return Icons.handyman;
+      case GrafikTaskType.Inne:
+        return Icons.more_horiz;
+    }
+  }
+}
