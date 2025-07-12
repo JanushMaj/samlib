@@ -37,16 +37,20 @@ class GrafikElementCard extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final isVeryNarrow = constraints.maxWidth < 140;
-        final isTall = constraints.maxHeight > 120;
-        final canShowFullNames = constraints.maxWidth > 200;
-        final canShowDescription = isTall;
-        final showTime = constraints.maxHeight > 40 && !isVeryNarrow;
+        final h = constraints.maxHeight;
+        final w = constraints.maxWidth;
+
+        // Height driven layout decisions
+        final showEmployees = h > 40;
+        final showFullNames = h > 80 && w > 200;
+        final showTime = h > 100;
+        final showDescription = h > 130;
+        final multiLineDescription = h > 160;
 
         final children = <Widget>[
           Text(label, style: variant.textStyle, overflow: TextOverflow.ellipsis),
-          if (data.assignedEmployees.isNotEmpty)
-            _employeeRow(context, canShowFullNames, variant),
+          if (showEmployees && data.assignedEmployees.isNotEmpty)
+            _employeeRow(context, showFullNames, variant),
           if (showTime)
             Text(time,
                 style: variant.textStyle,
@@ -54,14 +58,13 @@ class GrafikElementCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis),
         ];
 
-        if (canShowDescription) {
-          final multiLine = constraints.maxHeight > 160;
+        if (showDescription) {
           children.add(
             Text(
               description,
               style: variant.textStyle,
-              maxLines: multiLine ? 3 : 1,
-              overflow: multiLine
+              maxLines: multiLineDescription ? 3 : 1,
+              overflow: multiLineDescription
                   ? TextOverflow.visible
                   : TextOverflow.ellipsis,
             ),
