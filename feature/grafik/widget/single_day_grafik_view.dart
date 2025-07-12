@@ -109,17 +109,14 @@ class _SingleDayGrafikViewState extends State<SingleDayGrafikView> {
               ),
               PermissionWidget(
                 permission: 'canSeeAllGrafik',
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(AppStrings.showAllGrafik),
-                    Switch(
-                      value: _showAll,
-                      onChanged: (v) {
-                        setState(() => _showAll = v);
-                      },
-                    ),
-                  ],
+                child: IconButton(
+                  icon: Icon(_showAll ? Icons.person : Icons.group),
+                  tooltip: _showAll
+                      ? AppStrings.showMyGrafik
+                      : AppStrings.showAllGrafik,
+                  onPressed: () {
+                    setState(() => _showAll = !_showAll);
+                  },
                 ),
               ),
             ],

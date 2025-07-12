@@ -101,6 +101,7 @@ class AppStrings {
   static const dateRangePicker = 'Wybierz zakres dat';
   static const pickDate = 'Wybierz datę';
   static const showAllGrafik = 'Pokaż cały grafik';
+  static const showMyGrafik = 'Pokaż mój grafik';
 
   static const zero = 'Zeruj';
   static const save = 'Zapisz';
