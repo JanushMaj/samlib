@@ -4,6 +4,7 @@ import 'package:kabast/shared/responsive/responsive_layout.dart';
 import 'package:kabast/theme/app_tokens.dart';
 import 'package:kabast/theme/size_variants.dart';
 import 'package:kabast/theme/theme.dart';
+import 'employee_chip_style_resolver.dart';
 
 class EmployeeChip extends StatelessWidget {
   final Employee employee;
@@ -21,20 +22,15 @@ class EmployeeChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final bp = context.breakpoint;
     final bool full = showFullName ?? bp != Breakpoint.small;
-    double scale() {
-      switch (sizeVariant) {
-        case SizeVariant.large:
-          return 1.5;
-        case SizeVariant.medium:
-          return 1.2;
-        case SizeVariant.small:
-          return 1.0;
-        case SizeVariant.mini:
-          return 0.8;
-      }
-    }
-
-    final paddingScale = scale();
+    final style = const EmployeeChipStyleResolver().styleFor(sizeVariant);
+    final padding = EdgeInsets.symmetric(
+      horizontal: AppTheme.sizeFor(bp, style.horizontal),
+      vertical: AppTheme.sizeFor(bp, style.vertical),
+    );
+    final textStyle = TextStyle(
+      fontSize: AppTheme.sizeFor(bp, style.fontSize),
+      height: 1,
+    );
 
     if (full) {
       final name = employee.formattedNameWithSecondInitial;
@@ -49,14 +45,14 @@ class EmployeeChip extends StatelessWidget {
               children: [
                 TextSpan(
                   text: surname.substring(0, 1),
-                  style: sizeVariant.textStyle.copyWith(
+                  style: textStyle.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
                 ),
                 TextSpan(
                   text: surname.substring(1) + rest,
-                  style: sizeVariant.textStyle.copyWith(
+                  style: textStyle.copyWith(
                     fontWeight: FontWeight.normal,
                     color: Colors.black,
                   ),
@@ -65,16 +61,13 @@ class EmployeeChip extends StatelessWidget {
             ),
           ),
         ),
-        padding: EdgeInsets.symmetric(
-          horizontal: AppTheme.sizeFor(bp, 2 * paddingScale),
-          vertical: AppTheme.sizeFor(bp, 1 * paddingScale),
-        ),
+        padding: padding,
         labelPadding: EdgeInsets.zero,
         visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         backgroundColor: Colors.grey.shade200,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(style.borderRadius),
         ),
       );
     } else {
@@ -85,20 +78,20 @@ class EmployeeChip extends StatelessWidget {
           .take(2)
           .join();
       return Chip(
-        padding: EdgeInsets.all(AppTheme.sizeFor(bp, 1 * paddingScale)),
+        padding: EdgeInsets.all(AppTheme.sizeFor(bp, style.vertical)),
         labelPadding: EdgeInsets.zero,
         visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         label: Text(
           initials,
-          style: sizeVariant.textStyle.copyWith(
+          style: textStyle.copyWith(
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
         ),
         backgroundColor: Colors.grey.shade200,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppRadius.md),
+          borderRadius: BorderRadius.circular(style.borderRadius),
         ),
       );
     }
