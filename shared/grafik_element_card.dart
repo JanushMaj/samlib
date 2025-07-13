@@ -108,6 +108,8 @@ class GrafikElementCard extends StatelessWidget {
 
 
 
+        final showBadge = style.badgeIcon != null && remaining > variant.iconSize;
+
         return SizedBox.expand(
           child: Container(
             decoration: BoxDecoration(
@@ -150,6 +152,16 @@ class GrafikElementCard extends StatelessWidget {
                     ),
                   ],
                 ),
+                if (showBadge)
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: Icon(
+                      style.badgeIcon!,
+                      size: variant.iconSize,
+                      color: style.badgeColor,
+                    ),
+                  ),
                 if (statusIcon != null)
                   Positioned(
                     right: 0,
