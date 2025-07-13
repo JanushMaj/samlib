@@ -29,4 +29,18 @@ extension GrafikTaskTypeX on GrafikTaskType {
         return Icons.more_horiz;
     }
   }
+
+  /// Color of task card border for daily view.
+  Color get borderColor {
+    switch (this) {
+      case GrafikTaskType.Produkcja:
+        return Colors.blue;
+      case GrafikTaskType.Budowa:
+        return Colors.yellow;
+      case GrafikTaskType.Serwis:
+        return Colors.green;
+      case GrafikTaskType.Inne:
+        return Colors.grey;
+    }
+  }
 }
