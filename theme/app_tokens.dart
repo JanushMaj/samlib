@@ -15,7 +15,9 @@ class AppSpacing {
     final shortSide =
         math.min(view.physicalSize.width, view.physicalSize.height) /
             view.devicePixelRatio;
-    final factor = shortSide >= 600 ? 2.0 : 1.0;
+    final factor = shortSide >= 600
+        ? (shortSide / 600).clamp(1.2, 1.6)
+        : 1.0;
     switch (bp) {
       case Breakpoint.small:
         return 1.0 * factor;
