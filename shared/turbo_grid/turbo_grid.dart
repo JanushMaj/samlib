@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'turbo_tile.dart'; // <-- popraw ścieżkę jeśli masz inny układ folderów
 
 /// TurboGrid – widget układający dynamicznie kafelki (TurboTile) w dostępnej przestrzeni,
 /// przyjmując listę kafelków w konstruktorze. Nie zmieniamy nazwy, parametrów ani nic innego.
