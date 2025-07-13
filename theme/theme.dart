@@ -5,12 +5,18 @@ import 'color_schemes.dart';
 import 'package:kabast/shared/responsive/responsive_layout.dart';
 
 class AppTheme {
-  static bool _largeScreen() {
+  static double _deviceScale() {
     final view = WidgetsBinding.instance.platformDispatcher.views.first;
+    final width = view.physicalSize.width / view.devicePixelRatio;
     final shortest =
         math.min(view.physicalSize.width, view.physicalSize.height) /
             view.devicePixelRatio;
-    return shortest >= 600;
+
+    if (shortest >= 600) {
+      return (shortest / 600).clamp(1.2, 1.6);
+    }
+
+    return (width / 400).clamp(0.8, 1.2);
   }
 
   static double _scaleFor(Breakpoint bp) {
@@ -25,25 +31,23 @@ class AppTheme {
   }
 
   static TextStyle textStyleFor(Breakpoint bp, TextStyle style) {
-    final scale = _largeScreen() ? 2.0 : _scaleFor(bp);
+    final scale = _deviceScale();
+    final base = _scaleFor(bp);
+    final value = math.max(base, scale);
     return style.copyWith(
-      fontSize: style.fontSize != null ? style.fontSize! * scale : null,
+      fontSize: style.fontSize != null ? style.fontSize! * value : null,
     );
   }
 
   /// Scales arbitrary size values according to the current [Breakpoint].
   static double sizeFor(Breakpoint bp, double size) {
-    final scale = _largeScreen() ? 2.0 : _scaleFor(bp);
-    return size * scale;
+    final scale = _deviceScale();
+    final base = _scaleFor(bp);
+    final value = math.max(base, scale);
+    return size * value;
   }
   static ThemeData buildTheme() {
-    final view = WidgetsBinding.instance.platformDispatcher.views.first;
-    final width = view.physicalSize.width / view.devicePixelRatio;
-    final shortSide =
-        math.min(view.physicalSize.width, view.physicalSize.height) /
-            view.devicePixelRatio;
-    final base = (width / 400).clamp(0.8, 1.2);
-    final scale = shortSide >= 600 ? 2.0 : base;
+    final scale = _deviceScale();
 
     final scheme = lightColorScheme;
     return ThemeData(
