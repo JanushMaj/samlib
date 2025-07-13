@@ -160,7 +160,6 @@ class GrafikElementCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ...children,
-                          const Spacer(),
                         ],
                       ),
                     ),
