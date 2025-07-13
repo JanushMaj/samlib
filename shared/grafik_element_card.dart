@@ -59,41 +59,54 @@ class GrafikElementCard extends StatelessWidget {
 
         final children = <Widget>[];
 
-        // Description first line
-        children.add(Text(
-          description,
-          style: ts,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ));
-        remaining -= lineH;
-
-        // Order number / label in bold
-        children.add(Text(
-          label,
-          style: ts.copyWith(fontWeight: FontWeight.bold),
-          overflow: TextOverflow.ellipsis,
-        ));
-        remaining -= lineH;
-
-        // Employees row - always visible, clipped to two lines
-        if (data.assignedEmployees.isNotEmpty) {
+        // 1) description - at most two lines
+        if (remaining > lineH) {
+          final descLines = remaining ~/ lineH > 1 ? 2 : 1;
           children.add(
-            ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: variant.height * 2),
-              child: ClipRect(
-                child: _employeeRow(
-                  context,
-                  w > 200,
-                  variant,
-                ),
-              ),
+            Text(
+              description,
+              style: ts,
+              maxLines: descLines,
+              overflow: TextOverflow.ellipsis,
             ),
           );
-          remaining -= variant.height;
+          remaining -= lineH * descLines;
         }
 
-        // Time information
+        // 2) label / number in bold
+        if (remaining > lineH) {
+          children.add(
+            Text(
+              label,
+              style: ts.copyWith(fontWeight: FontWeight.bold),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          );
+          remaining -= lineH;
+        }
+
+        // 3) employee chips - wrap, up to two lines
+        if (data.assignedEmployees.isNotEmpty && remaining > variant.height) {
+          final availableLines = (remaining / variant.height).floor().clamp(0, 2);
+          if (availableLines > 0) {
+            children.add(
+              ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: variant.height * availableLines),
+                child: ClipRect(
+                  child: _employeeRow(
+                    context,
+                    w > 200,
+                    variant,
+                  ),
+                ),
+              ),
+            );
+            remaining -= variant.height * availableLines;
+          }
+        }
+
+        // 4) time/date text
         if (remaining > lineH) {
           children.add(
             Text(
