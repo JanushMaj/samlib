@@ -128,38 +128,57 @@ class TaskList extends StatelessWidget {
 
           children.add(
             Expanded(
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: columns,
-                  crossAxisSpacing: AppSpacing.sm,
-                  mainAxisSpacing: AppSpacing.sm,
-                  childAspectRatio: 3,
-                ),
-                itemCount: nonStandardTasks.length,
-                itemBuilder: (context, index) {
-                  final task = nonStandardTasks[index];
-                  final assignments = state.assignments
-                      .where((a) => a.taskId == task.id)
-                      .toList();
-                  final employees = state.employees
-                      .where((e) => assignments.any((a) => a.workerId == e.uid))
-                      .toList();
-                  final vehicles = state.vehicles
-                      .where((v) => task.carIds.contains(v.id))
-                      .toList();
-                  final data = GrafikElementData(
-                    assignedEmployees: employees,
-                    assignedVehicles: vehicles,
-                    assignments: assignments,
-                  );
-                  return LayoutBuilder(
-                    builder: (context, constraints) {
-                      final variant = TileSizeResolver.resolve(
-                          width: constraints.maxWidth);
-                      return GrafikElementCard(
-                        element: task,
-                        data: data,
-                        variant: variant,
+              child: LayoutBuilder(
+                builder: (context, gridConstraints) {
+                  final taskCount = nonStandardTasks.length;
+                  final rows = (taskCount / columns).ceil();
+
+                  final totalSpacingHeight =
+                      AppSpacing.sm * (rows > 0 ? rows - 1 : 0);
+                  final availableHeight =
+                      gridConstraints.maxHeight - totalSpacingHeight;
+                  final tileHeight =
+                      rows > 0 ? availableHeight / rows : gridConstraints.maxHeight;
+
+                  final tileWidth =
+                      (gridConstraints.maxWidth - AppSpacing.sm * (columns - 1)) /
+                          columns;
+                  final aspectRatio = tileWidth / tileHeight;
+
+                  return GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: columns,
+                      crossAxisSpacing: AppSpacing.sm,
+                      mainAxisSpacing: AppSpacing.sm,
+                      childAspectRatio: aspectRatio,
+                    ),
+                    itemCount: nonStandardTasks.length,
+                    itemBuilder: (context, index) {
+                      final task = nonStandardTasks[index];
+                      final assignments = state.assignments
+                          .where((a) => a.taskId == task.id)
+                          .toList();
+                      final employees = state.employees
+                          .where((e) => assignments.any((a) => a.workerId == e.uid))
+                          .toList();
+                      final vehicles = state.vehicles
+                          .where((v) => task.carIds.contains(v.id))
+                          .toList();
+                      final data = GrafikElementData(
+                        assignedEmployees: employees,
+                        assignedVehicles: vehicles,
+                        assignments: assignments,
+                      );
+                      return LayoutBuilder(
+                        builder: (context, constraints) {
+                          final variant = TileSizeResolver.resolve(
+                              width: constraints.maxWidth);
+                          return GrafikElementCard(
+                            element: task,
+                            data: data,
+                            variant: variant,
+                          );
+                        },
                       );
                     },
                   );
