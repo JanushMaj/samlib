@@ -12,7 +12,10 @@ extension SizeVariantSpec on SizeVariant {
         math.min(view.physicalSize.width, view.physicalSize.height) /
             view.devicePixelRatio;
     final base = (width / 400).clamp(0.8, 1.2);
-    return shortSide >= 600 ? 2.0 : base;
+    if (shortSide >= 600) {
+      return (shortSide / 600).clamp(1.2, 1.6);
+    }
+    return base;
   }
 
   /// Wysokość kafelka ‑ **musi być taka sama** we wszystkich delegatach.
