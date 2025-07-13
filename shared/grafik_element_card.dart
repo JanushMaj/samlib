@@ -53,7 +53,7 @@ class GrafikElementCard extends StatelessWidget {
         final ts = variant.textStyle;
 
         // Approximate line height for text rows
-        final lineH = ts.fontSize + 4;
+        final lineH = ts.fontSize! + 4;
 
         double remaining = constraints.maxHeight;
 
@@ -139,7 +139,7 @@ class GrafikElementCard extends StatelessWidget {
             child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
-            child: Stack(
+            children: [Stack(
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,9 +187,9 @@ class GrafikElementCard extends StatelessWidget {
                     ),
                   ),
               ],
-            ),
+            )],
           ),
-        );
+        ),);
       },
     );
   }
