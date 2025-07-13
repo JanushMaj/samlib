@@ -21,17 +21,28 @@ class GrafikElementCard extends StatelessWidget {
   final GrafikElement element;
   final GrafikElementData data;
   final SizeVariant variant;
+  final bool useTaskTypeBorderColor;
 
   const GrafikElementCard({
     super.key,
     required this.element,
     required this.data,
     required this.variant,
+    this.useTaskTypeBorderColor = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    final style = const GrafikElementStyleResolver().styleFor(element.type);
+    GrafikElementStyle style =
+        const GrafikElementStyleResolver().styleFor(element.type);
+    if (useTaskTypeBorderColor && element is TaskElement) {
+      style = GrafikElementStyle(
+        backgroundColor: style.backgroundColor,
+        borderColor: (element as TaskElement).taskType.borderColor,
+        badgeIcon: style.badgeIcon,
+        badgeColor: style.badgeColor,
+      );
+    }
     final delegate = GrafikElementCardDelegateRegistry.delegateFor(element);
 
     final label = delegate.getLabel();

@@ -160,6 +160,7 @@ class TaskList extends StatelessWidget {
                         element: task,
                         data: data,
                         variant: variant,
+                        useTaskTypeBorderColor: true,
                       );
                     },
                   );
