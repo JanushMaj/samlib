@@ -28,17 +28,18 @@ class LoginScreen extends StatelessWidget {
         body: LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(
-              child: ResponsivePadding(
-                small: EdgeInsets.all(AppSpacing.sm * 4),
-                medium: EdgeInsets.all(AppSpacing.sm * 6),
-                large: EdgeInsets.all(AppSpacing.sm * 8),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: constraints.maxHeight,
-                    maxWidth: 400,
-                  ),
-                child: Center(
-                  child: Column(
+              child: Center(
+                child: ResponsivePadding(
+                  small: EdgeInsets.all(AppSpacing.sm * 4),
+                  medium: EdgeInsets.all(AppSpacing.sm * 6),
+                  large: EdgeInsets.all(AppSpacing.sm * 8),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                      maxWidth: 400,
+                    ),
+                    child: Center(
+                      child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
