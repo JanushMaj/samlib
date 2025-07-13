@@ -153,9 +153,10 @@ class GrafikElementCard extends StatelessWidget {
                           color: style.borderColor,
                         ),
                       ),
-                    Expanded(
+                    Flexible(
+                      fit: FlexFit.loose,
                       child: Column(
-                        mainAxisSize: MainAxisSize.max,
+                        mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ...children,
