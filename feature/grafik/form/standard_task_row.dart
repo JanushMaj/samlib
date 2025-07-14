@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kabast/feature/grafik/cubit/grafik_cubit.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
+import 'package:kabast/shared/responsive/responsive_layout.dart';
 import 'package:kabast/theme/app_tokens.dart';
 import 'package:kabast/theme/theme.dart';
-import 'package:kabast/shared/responsive/responsive_layout.dart';
 
+import '../widget/task/template_task_card.dart';
 import '../widget/dialog/grafik_element_popup.dart';
 
 class StandardTaskRow extends StatelessWidget {
@@ -15,72 +14,31 @@ class StandardTaskRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Pobieramy listę pracowników, aby odczytać nazwiska.
-    final employees = context.watch<GrafikCubit>().state.employees;
-
-    final state = context.watch<GrafikCubit>().state;
-
-    final List<Widget> taskWidgets = standardTasks.map((task) {
-      final assignedIds = state.assignments
-          .where((a) => a.taskId == task.id)
-          .map((a) => a.workerId)
-          .toSet();
-      List<String> workerSurnames;
-      if (assignedIds.isEmpty) {
-        workerSurnames = ["Brak przypisanych pracowników"];
-      } else {
-        workerSurnames = assignedIds.map((workerId) {
-          try {
-            final employee = employees.firstWhere((e) => e.uid == workerId);
-            final surname = employee.fullName.split(' ').first;
-            return surname;
-          } catch (e) {
-            return '';
-          }
-        }).where((name) => name.isNotEmpty).toList();
-        if (workerSurnames.isEmpty) {
-          workerSurnames = ["Brak przypisanych pracowników"];
-        }
-      }
-
-      final namesJoined = workerSurnames.join(', ');
-      // Pobieramy dodatkowe info z pola additionalInfo danego taska.
-      final additionalInfo = task.additionalInfo;
-      // Łączymy informacje w jeden ciąg.
-      final fullText = "$namesJoined - $additionalInfo";
-
-      // Przycinamy tekst do 37 znaków (jeśli jest dłuższy) i dodajemy "..."
-      final displayText = fullText.length > 37 ? fullText.substring(0, 37) + "..." : fullText;
-
-      return GestureDetector(
-        onTap: () {
-          showGrafikElementPopup(context, task);
-        },
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: AppSpacing.scaled(AppSpacing.sm, context.breakpoint),
-            horizontal: AppSpacing.scaled(AppSpacing.sm, context.breakpoint),
-          ),
-          child: Text(
-            displayText,
-            style: AppTheme.textStyleFor(
-              context.breakpoint,
-              Theme.of(context).textTheme.bodyLarge!,
-            ),
-          ),
-        ),
-      );
-    }).toList();
+    final bp = context.breakpoint;
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(
-        AppSpacing.scaled(AppSpacing.sm, context.breakpoint),
-      ),
-      color: Colors.grey.shade300, // Kolor tła, by wyróżnić ten obszar.
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: taskWidgets,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final columns = bp == Breakpoint.small ? 1 : 2;
+          final spacing = AppSpacing.sm;
+          final cardWidth =
+              (constraints.maxWidth - spacing * (columns - 1)) / columns;
+
+          return Wrap(
+            spacing: spacing,
+            runSpacing: spacing,
+            children: standardTasks.map((task) {
+              return SizedBox(
+                width: cardWidth,
+                child: GestureDetector(
+                  onTap: () => showGrafikElementPopup(context, task),
+                  child: TemplateTaskCard(task: task),
+                ),
+              );
+            }).toList(),
+          );
+        },
       ),
     );
   }
