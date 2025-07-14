@@ -5,6 +5,9 @@
 ///
 import '../enums.dart';
 
+/// Order id used for tasks considered "standard" and listed separately.
+const String kStandardOrderId = '0001';
+
 class TaskTemplate {
   final String label;
   final GrafikTaskType taskType;
@@ -33,7 +36,7 @@ const kTaskTemplates = <TaskTemplate>[
     label: 'SZADO',
     taskType: GrafikTaskType.Inne,
     status: GrafikStatus.Realizacja,
-    orderId: '0001',
+    orderId: kStandardOrderId,
     carIds: [],
     startHour: 7,
     endHour: 15,
@@ -43,7 +46,7 @@ const kTaskTemplates = <TaskTemplate>[
     label: 'KRAWCZYK',
     taskType: GrafikTaskType.Inne,
     status: GrafikStatus.Realizacja,
-    orderId: '0001',
+    orderId: kStandardOrderId,
     carIds: ['QqYtL81vjbmpi6859Q9Y'],
     startHour: 7,
     endHour: 15,

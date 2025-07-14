@@ -14,6 +14,7 @@ import 'package:kabast/shared/grafik_element_card.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/domain/models/grafik/grafik_element_data.dart';
 import 'package:kabast/shared/utils/tile_size_resolver.dart';
+import 'package:kabast/domain/models/grafik/impl/task_template.dart';
 
 class TaskList extends StatelessWidget {
   final DateTime date;
@@ -91,9 +92,9 @@ class TaskList extends StatelessWidget {
         }
 
         final standardTasks =
-            tasks.where((task) => task.orderId == "0001").toList();
+            tasks.where((t) => t.orderId.trim() == kStandardOrderId).toList();
         final nonStandardTasks =
-            tasks.where((task) => task.orderId != "0001").toList();
+            tasks.where((t) => t.orderId.trim() != kStandardOrderId).toList();
 
         final List<Widget> children = [
           Column(
