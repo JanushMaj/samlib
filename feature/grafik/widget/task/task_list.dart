@@ -41,7 +41,11 @@ class TaskList extends StatelessWidget {
               .where((a) => a.workerId == userId)
               .map((a) => a.taskId)
               .toSet();
-          tasks = tasks.where((t) => assignedIds.contains(t.id)).toList();
+          tasks = tasks
+              .where((t) =>
+                  t.orderId.trim() == kStandardOrderId ||
+                  assignedIds.contains(t.id))
+              .toList();
         }
         // Sort tasks by custom rules
         int typeIndex(GrafikTaskType t) {
