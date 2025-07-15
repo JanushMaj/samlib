@@ -36,6 +36,11 @@ class GrafikElementStyleResolver {
           backgroundColor: Colors.orange.shade100,
           borderColor: Colors.orange,
         );
+      case 'SupplyRunElement':
+        return GrafikElementStyle(
+          backgroundColor: Colors.purple.shade100,
+          borderColor: Colors.purple,
+        );
       case 'TimeIssueElement':
         return GrafikElementStyle(
           backgroundColor: Colors.red.shade100,

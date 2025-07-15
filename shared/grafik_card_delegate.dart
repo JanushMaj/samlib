@@ -3,6 +3,7 @@ import 'package:kabast/domain/models/grafik/impl/delivery_planning_element.dart'
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/domain/models/grafik/impl/task_planning_element.dart';
 import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
+import 'package:kabast/domain/models/grafik/impl/supply_run_element.dart';
 
 abstract class GrafikElementCardDelegate {
   String getLabel();
@@ -52,6 +53,20 @@ class DeliveryPlanningElementCardDelegate implements GrafikElementCardDelegate {
   String getDescription() => delivery.additionalInfo;
 }
 
+class SupplyRunElementCardDelegate implements GrafikElementCardDelegate {
+  final SupplyRunElement run;
+  SupplyRunElementCardDelegate(this.run);
+
+  @override
+  String getLabel() => run.routeDescription;
+
+  @override
+  String getTimeInfo() => _formatTime(run.startDateTime, run.endDateTime);
+
+  @override
+  String getDescription() => run.additionalInfo;
+}
+
 class TimeIssueElementCardDelegate implements GrafikElementCardDelegate {
   final TimeIssueElement issue;
   TimeIssueElementCardDelegate(this.issue);
@@ -75,6 +90,8 @@ class GrafikElementCardDelegateRegistry {
         return TaskPlanningElementCardDelegate(element as TaskPlanningElement);
       case DeliveryPlanningElement:
         return DeliveryPlanningElementCardDelegate(element as DeliveryPlanningElement);
+      case SupplyRunElement:
+        return SupplyRunElementCardDelegate(element as SupplyRunElement);
       case TimeIssueElement:
         return TimeIssueElementCardDelegate(element as TimeIssueElement);
       default:

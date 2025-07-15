@@ -5,11 +5,13 @@ import '../../../domain/models/grafik/impl/task_element.dart';
 import '../../../domain/models/grafik/impl/time_issue_element.dart';
 import '../../../domain/models/grafik/impl/delivery_planning_element.dart';
 import '../../../domain/models/grafik/impl/task_planning_element.dart';
+import '../../../domain/models/grafik/impl/supply_run_element.dart';
 import '../../../domain/models/grafik/enums.dart';
 import 'task_element_dto.dart';
 import 'time_issue_element_dto.dart';
 import 'delivery_planning_element_dto.dart';
 import 'task_planning_element_dto.dart';
+import 'supply_run_element_dto.dart';
 
 abstract class GrafikElementDto {
   static DateTime parseDateTime(dynamic value, DateTime fallback) {
@@ -67,6 +69,9 @@ abstract class GrafikElementDto {
       case 'DeliveryPlanningElement':
         return DeliveryPlanningElementDto.fromDomain(
             element as DeliveryPlanningElement);
+      case 'SupplyRunElement':
+        return SupplyRunElementDto.fromDomain(
+            element as SupplyRunElement);
       case 'TaskPlanningElement':
         return TaskPlanningElementDto.fromDomain(
             element as TaskPlanningElement);
@@ -84,6 +89,8 @@ abstract class GrafikElementDto {
         return TimeIssueElementDto.fromJson(json);
       case 'DeliveryPlanningElement':
         return DeliveryPlanningElementDto.fromJson(json);
+      case 'SupplyRunElement':
+        return SupplyRunElementDto.fromJson(json);
       case 'TaskPlanningElement':
         return TaskPlanningElementDto.fromJson(json);
       default:
