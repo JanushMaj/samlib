@@ -8,4 +8,6 @@ abstract class ISupplyRepository {
   Future<void> placeOrder(SupplyOrder order);
 
   Stream<List<SupplyOrder>> watchOrders();
+
+  Future<void> updateOrderStatus(String id, String status);
 }
