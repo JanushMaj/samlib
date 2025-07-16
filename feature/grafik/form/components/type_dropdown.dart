@@ -17,6 +17,7 @@ class TypeDropdown extends StatelessWidget {
       'TaskPlanningElement': 'Planowane zadanie',
       'TimeIssueElement': 'Czas Pracy',
       'DeliveryPlanningElement': 'Dostawa',
+      'SupplyRunElement': 'Trasa zaopatrzenia',
     };
 
     return Row(
