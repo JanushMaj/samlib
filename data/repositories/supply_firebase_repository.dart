@@ -43,4 +43,9 @@ class SupplyFirebaseRepository implements ISupplyRepository {
     return _orders.snapshots().map((query) =>
         query.docs.map((doc) => SupplyOrderDto.fromFirestore(doc).toDomain()).toList());
   }
+
+  @override
+  Future<void> updateOrderStatus(String id, String status) async {
+    await _orders.doc(id).update({'status': status});
+  }
 }
