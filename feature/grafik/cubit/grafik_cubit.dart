@@ -84,7 +84,11 @@ class GrafikCubit extends Cubit<GrafikState> {
       _grafikRepo.getElementsWithinRange(
         start: start,
         end: end,
-        types: ['TaskElement', 'TimeIssueElement'],
+        types: [
+          'TaskElement',
+          'TimeIssueElement',
+          'SupplyRunElement',
+        ],
       ),
       _employeeRepo.getEmployees(),
       _taskAssignmentRepo.getAssignmentsWithinRange(start: start, end: end),
@@ -141,6 +145,7 @@ class GrafikCubit extends Cubit<GrafikState> {
         'TimeIssueElement',
         'TaskPlanningElement',
         'DeliveryPlanningElement',
+        'SupplyRunElement',
       ],
     );
 
