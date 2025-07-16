@@ -37,9 +37,10 @@ class GrafikElementStyleResolver {
           borderColor: Colors.orange,
         );
       case 'SupplyRunElement':
-        return GrafikElementStyle(
-          backgroundColor: Colors.purple.shade100,
-          borderColor: Colors.purple,
+        return const GrafikElementStyle(
+          backgroundColor: Color(0xFFD9B99B),
+          borderColor: Color(0xFF8A6C4F),
+          badgeIcon: Icons.shopping_cart,
         );
       case 'TimeIssueElement':
         return GrafikElementStyle(
