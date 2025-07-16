@@ -8,6 +8,7 @@ import 'feature/grafik/widget/week/week_grafik_view.dart';
 import 'feature/auth/screen/no_access_screen.dart';
 import 'feature/my_tasks/my_tasks_screen.dart';
 import 'feature/supplies/supply_list_screen.dart';
+import 'feature/supplies/supply_run_planning_screen.dart';
 import 'feature/assign_employee/assign_employee_screen.dart';
 import 'feature/my_tasks/assign_employee_screen.dart';
 import 'feature/admin/admin_panel_screen.dart';
@@ -38,6 +39,9 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const ExtraOptionsScreen());
       case '/supplies':
         return MaterialPageRoute(builder: (_) => const SupplyListScreen());
+      case '/planSupplyRun':
+        return MaterialPageRoute(
+            builder: (_) => const SupplyRunPlanningScreen());
       case '/admin':
         return MaterialPageRoute(builder: (_) => const AdminPanelScreen());
       case '/addGrafik':

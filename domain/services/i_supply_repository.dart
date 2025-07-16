@@ -6,4 +6,6 @@ abstract class ISupplyRepository {
   Future<void> saveItem(SupplyItem item);
 
   Future<void> placeOrder(SupplyOrder order);
+
+  Stream<List<SupplyOrder>> watchOrders();
 }

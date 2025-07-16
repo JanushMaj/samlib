@@ -37,4 +37,10 @@ class SupplyFirebaseRepository implements ISupplyRepository {
     await _orders.add(dto.toJson());
     // TODO: Integrate with external warehouse system via adapter
   }
+
+  @override
+  Stream<List<SupplyOrder>> watchOrders() {
+    return _orders.snapshots().map((query) =>
+        query.docs.map((doc) => SupplyOrderDto.fromFirestore(doc).toDomain()).toList());
+  }
 }
