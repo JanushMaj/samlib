@@ -1,57 +1,64 @@
+import '../../../domain/models/supply_order.dart';
+
 class SupplyRunPlanningState {
-  final Set<String> selectedIds;
+  final List<SupplyOrder> availableOrders;
+  final Set<String> selectedOrderIds;
   final String routeDescription;
   final String additionalInfo;
-  final DateTime startTime;
-  final DateTime endTime;
+  final DateTime startDateTime;
+  final DateTime endDateTime;
   final bool isSubmitting;
-  final bool isSuccess;
-  final String? error;
+  final bool success;
+  final String? errorMsg;
 
   SupplyRunPlanningState({
-    required this.selectedIds,
+    required this.availableOrders,
+    required this.selectedOrderIds,
     required this.routeDescription,
     required this.additionalInfo,
-    required this.startTime,
-    required this.endTime,
+    required this.startDateTime,
+    required this.endDateTime,
     this.isSubmitting = false,
-    this.isSuccess = false,
-    this.error,
+    this.success = false,
+    this.errorMsg,
   });
 
   factory SupplyRunPlanningState.initial() {
     final now = DateTime.now();
     return SupplyRunPlanningState(
-      selectedIds: {},
+      availableOrders: const [],
+      selectedOrderIds: {},
       routeDescription: '',
       additionalInfo: '',
-      startTime: now.add(const Duration(hours: 1)),
-      endTime: now.add(const Duration(hours: 2)),
+      startDateTime: now.add(const Duration(hours: 1)),
+      endDateTime: now.add(const Duration(hours: 2)),
       isSubmitting: false,
-      isSuccess: false,
-      error: null,
+      success: false,
+      errorMsg: null,
     );
   }
 
   SupplyRunPlanningState copyWith({
-    Set<String>? selectedIds,
+    List<SupplyOrder>? availableOrders,
+    Set<String>? selectedOrderIds,
     String? routeDescription,
     String? additionalInfo,
-    DateTime? startTime,
-    DateTime? endTime,
+    DateTime? startDateTime,
+    DateTime? endDateTime,
     bool? isSubmitting,
-    bool? isSuccess,
-    String? error,
+    bool? success,
+    String? errorMsg,
   }) {
     return SupplyRunPlanningState(
-      selectedIds: selectedIds ?? this.selectedIds,
+      availableOrders: availableOrders ?? this.availableOrders,
+      selectedOrderIds: selectedOrderIds ?? this.selectedOrderIds,
       routeDescription: routeDescription ?? this.routeDescription,
       additionalInfo: additionalInfo ?? this.additionalInfo,
-      startTime: startTime ?? this.startTime,
-      endTime: endTime ?? this.endTime,
+      startDateTime: startDateTime ?? this.startDateTime,
+      endDateTime: endDateTime ?? this.endDateTime,
       isSubmitting: isSubmitting ?? this.isSubmitting,
-      isSuccess: isSuccess ?? this.isSuccess,
-      error: error ?? this.error,
+      success: success ?? this.success,
+      errorMsg: errorMsg ?? this.errorMsg,
     );
   }
 }

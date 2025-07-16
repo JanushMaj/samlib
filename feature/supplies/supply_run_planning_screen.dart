@@ -45,7 +45,7 @@ class _SupplyRunPlanningScreenState extends State<SupplyRunPlanningScreen> {
 
   Widget _buildOrderTile(
       SupplyOrder order, SupplyRunPlanningState state, SupplyRunPlanningCubit cubit) {
-    final checked = state.selectedIds.contains(order.id);
+    final checked = state.selectedOrderIds.contains(order.id);
     return CheckboxListTile(
       value: checked,
       onChanged: (_) => cubit.toggleSelection(order.id),
@@ -82,24 +82,14 @@ class _SupplyRunPlanningScreenState extends State<SupplyRunPlanningScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          StreamBuilder<List<SupplyOrder>>(
-                            stream: cubit.streamSupplyOrders(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return const Center(
-                                    child: CircularProgressIndicator());
-                              }
-                              final orders = snapshot.data!;
-                              if (orders.isEmpty) {
-                                return const Text('Brak oczekujących zamówień');
-                              }
-                              return Column(
-                                children: orders
-                                    .map((o) => _buildOrderTile(o, state, cubit))
-                                    .toList(),
-                              );
-                            },
-                          ),
+                          if (state.availableOrders.isEmpty)
+                            const Text('Brak oczekujących zamówień')
+                          else
+                            Column(
+                              children: state.availableOrders
+                                  .map((o) => _buildOrderTile(o, state, cubit))
+                                  .toList(),
+                            ),
                           const SizedBox(height: AppSpacing.lg),
                           TextField(
                             controller: _routeCtrl,
@@ -116,17 +106,18 @@ class _SupplyRunPlanningScreenState extends State<SupplyRunPlanningScreen> {
                           ),
                           const SizedBox(height: AppSpacing.lg),
                           DateTimePickerField(
-                            initialDate: state.startTime,
-                            initialStartHour: state.startTime.hour.toDouble(),
-                            initialEndHour: state.endTime.hour.toDouble(),
+                            initialDate: state.startDateTime,
+                            initialStartHour:
+                                state.startDateTime.hour.toDouble(),
+                            initialEndHour: state.endDateTime.hour.toDouble(),
                             onChanged: (range) {
-                              cubit.setStartTime(range.start);
-                              cubit.setEndTime(range.end);
+                              cubit.setStartDateTime(range.start);
+                              cubit.setEndDateTime(range.end);
                             },
                           ),
                           const SizedBox(height: AppSpacing.lg * 2),
                           ElevatedButton(
-                            onPressed: state.selectedIds.isEmpty
+                            onPressed: state.selectedOrderIds.isEmpty
                                 ? null
                                 : _planRun,
                             child: const Text('Zaplanuj trasę'),
