@@ -10,6 +10,7 @@ enum GrafikTaskType {
   Produkcja,
   Budowa,
   Inne,
+  Zaopatrzenie,
 }
 
 enum GrafikProbability {

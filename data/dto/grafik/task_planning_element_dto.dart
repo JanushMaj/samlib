@@ -55,12 +55,11 @@ class TaskPlanningElementDto extends GrafikElementDto {
       workerCount: json['workerCount'] as int? ?? 1,
       orderId: json['orderId'] as String? ?? '',
       probability: GrafikProbability.values.firstWhere(
-        (e) => e.toString() ==
-            (json['probability'] ?? 'GrafikProbability.Pewne'),
+        (e) => e.name == (json['probability'] ?? 'Pewne'),
         orElse: () => GrafikProbability.Pewne,
       ),
       taskType: GrafikTaskType.values.firstWhere(
-        (e) => e.toString() == (json['taskType'] ?? 'GrafikTaskType.Inne'),
+        (e) => e.name == (json['taskType'] ?? 'Inne'),
         orElse: () => GrafikTaskType.Inne,
       ),
       minutes: json['minutes'] as int? ?? 60,
@@ -75,8 +74,8 @@ class TaskPlanningElementDto extends GrafikElementDto {
         ...baseToJson(),
         'workerCount': workerCount,
         'orderId': orderId,
-        'probability': probability.toString(),
-        'taskType': taskType.toString(),
+        'probability': probability.name,
+        'taskType': taskType.name,
         'minutes': minutes,
         'highPriority': highPriority,
         'isPending': isPending,

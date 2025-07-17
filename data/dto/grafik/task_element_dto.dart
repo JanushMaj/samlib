@@ -46,11 +46,11 @@ class TaskElementDto extends GrafikElementDto {
       closed: json['closed'] as bool? ?? false,
       orderId: json['orderId'] as String? ?? '',
       status: GrafikStatus.values.firstWhere(
-        (e) => e.toString() == (json['status'] ?? 'GrafikStatus.Realizacja'),
+        (e) => e.name == (json['status'] ?? 'Realizacja'),
         orElse: () => GrafikStatus.Realizacja,
       ),
       taskType: GrafikTaskType.values.firstWhere(
-        (e) => e.toString() == (json['taskType'] ?? 'GrafikTaskType.Inne'),
+        (e) => e.name == (json['taskType'] ?? 'Inne'),
         orElse: () => GrafikTaskType.Inne,
       ),
       carIds: (json['carIds'] as List?)?.cast<String>() ?? <String>[],
@@ -60,8 +60,8 @@ class TaskElementDto extends GrafikElementDto {
   Map<String, dynamic> toJson() => {
         ...baseToJson(),
         'orderId': orderId,
-        'status': status.toString(),
-        'taskType': taskType.toString(),
+        'status': status.name,
+        'taskType': taskType.name,
         'carIds': carIds,
       };
 

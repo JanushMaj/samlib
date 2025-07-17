@@ -45,17 +45,19 @@ class TaskList extends StatelessWidget {
         }
         // Sort tasks by custom rules
         int typeIndex(GrafikTaskType t) {
-          switch (t) {
-            case GrafikTaskType.Produkcja:
-              return 0;
-            case GrafikTaskType.Inne:
-              return 1;
-            case GrafikTaskType.Budowa:
-              return 2;
-            case GrafikTaskType.Serwis:
-              return 3;
+            switch (t) {
+              case GrafikTaskType.Produkcja:
+                return 0;
+              case GrafikTaskType.Inne:
+                return 1;
+              case GrafikTaskType.Budowa:
+                return 2;
+              case GrafikTaskType.Serwis:
+                return 3;
+              case GrafikTaskType.Zaopatrzenie:
+                return 4;
+            }
           }
-        }
 
         tasks.sort((a, b) {
           final type = typeIndex(a.taskType).compareTo(typeIndex(b.taskType));
