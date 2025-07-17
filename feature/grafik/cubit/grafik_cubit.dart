@@ -13,8 +13,10 @@ import '../../../domain/models/grafik/grafik_element.dart';
 import '../../../domain/models/grafik/impl/delivery_planning_element.dart';
 import '../../../domain/models/grafik/impl/task_element.dart';
 import '../../../domain/models/grafik/impl/task_planning_element.dart';
+import '../../../domain/models/grafik/impl/supply_run_element.dart';
 import '../../../domain/models/vehicle.dart';
 import '../../../domain/models/grafik/task_assignment.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'grafik_mapping_utils.dart';
 import 'grafik_state.dart';
 
@@ -95,6 +97,11 @@ class GrafikCubit extends Cubit<GrafikState> {
           (elements, employees, assignments) {
         final tasks = elements.whereType<TaskElement>().toList();
         final issues = elements.whereType<TimeIssueElement>().toList();
+        final supplyRuns = elements
+            .whereType<SupplyRunElement>()
+            .where((r) => r.addedByUserId ==
+                FirebaseAuth.instance.currentUser?.uid)
+            .toList();
 
         final mapping = calculateTaskTimeIssueDisplayMapping(
           tasks: tasks,
@@ -112,6 +119,7 @@ class GrafikCubit extends Cubit<GrafikState> {
         return {
           'tasks': tasks,
           'issues': issues,
+          'supplyRuns': supplyRuns,
           'employees': employees,
           'assignments': assignments,
           'mapping': mapping,
@@ -123,6 +131,7 @@ class GrafikCubit extends Cubit<GrafikState> {
         emit(state.copyWith(
           tasks: combinedData['tasks'] as List<TaskElement>,
           issues: combinedData['issues'] as List<TimeIssueElement>,
+          supplyRuns: combinedData['supplyRuns'] as List<SupplyRunElement>,
           employees: combinedData['employees'] as List<Employee>,
           taskTimeIssueDisplayMapping:
               combinedData['mapping'] as Map<String, List<String>>,
@@ -162,12 +171,18 @@ class GrafikCubit extends Cubit<GrafikState> {
         final timeIssues = elements.whereType<TimeIssueElement>().toList();
         final taskPlannings = elements.whereType<TaskPlanningElement>().toList();
         final deliveryPlannings = elements.whereType<DeliveryPlanningElement>().toList();
+        final supplyRuns = elements
+            .whereType<SupplyRunElement>()
+            .where((r) =>
+                r.addedByUserId == FirebaseAuth.instance.currentUser?.uid)
+            .toList();
 
         return {
           'taskElements': taskElements,
           'timeIssues': timeIssues,
           'taskPlannings': taskPlannings,
           'deliveryPlanningElements': deliveryPlannings,
+          'supplyRuns': supplyRuns,
           'employees': employees,
         };
       },
@@ -178,6 +193,7 @@ class GrafikCubit extends Cubit<GrafikState> {
         taskPlannings: data['taskPlannings'] as List<TaskPlanningElement>,
         deliveryPlannings:
             data['deliveryPlanningElements'] as List<DeliveryPlanningElement>,
+        supplyRuns: data['supplyRuns'] as List<SupplyRunElement>,
       );
       emit(state.copyWith(
         weekData: updatedWeek,
