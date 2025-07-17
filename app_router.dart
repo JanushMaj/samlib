@@ -9,6 +9,7 @@ import 'feature/auth/screen/no_access_screen.dart';
 import 'feature/my_tasks/my_tasks_screen.dart';
 import 'feature/supplies/supply_list_screen.dart';
 import 'feature/supplies/supply_run_planning_screen.dart';
+import 'feature/supplies/supply_run_approval_screen.dart';
 import 'feature/assign_employee/assign_employee_screen.dart';
 import 'feature/my_tasks/assign_employee_screen.dart';
 import 'feature/admin/admin_panel_screen.dart';
@@ -42,6 +43,9 @@ class AppRouter {
       case '/planSupplyRun':
         return MaterialPageRoute(
             builder: (_) => const SupplyRunPlanningScreen());
+      case '/approveSupplyRuns':
+        return MaterialPageRoute(
+            builder: (_) => const SupplyRunApprovalScreen());
       case '/admin':
         return MaterialPageRoute(builder: (_) => const AdminPanelScreen());
       case '/addGrafik':
