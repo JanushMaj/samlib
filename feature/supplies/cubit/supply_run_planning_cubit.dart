@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain/models/grafik/impl/supply_run_element.dart';
+import '../../../domain/models/grafik/impl/supply_run_to_task_extension.dart';
 import '../../../domain/models/supply_order.dart';
 import '../../../data/repositories/grafik_element_repository.dart';
 import '../../../domain/services/i_supply_repository.dart';
@@ -69,6 +70,37 @@ class SupplyRunPlanningCubit extends Cubit<SupplyRunPlanningState> {
     } catch (e) {
       emit(state.copyWith(
           isSubmitting: false, success: false, errorMsg: e.toString()));
+    }
+  }
+
+  /// Close an existing [run] by converting it to a [TaskElement].
+  /// The resulting task is saved via [_grafikRepository] and all related
+  /// [SupplyOrder]s are marked as delivered.
+  Future<void> closeSupplyRun(
+    SupplyRunElement run, {
+    required String orderId,
+    List<String> carIds = const [],
+  }) async {
+    emit(state.copyWith(isSubmitting: true, success: false, errorMsg: null));
+    final task = run.toTaskElement(
+      orderId: orderId,
+      carIds: carIds,
+    );
+    try {
+      await _grafikRepository.saveGrafikElement(task);
+      await _grafikRepository.saveGrafikElement(run.copyWith(closed: true));
+      await Future.wait(
+        run.supplyOrderIds.map(
+          (id) => _supplyRepository.updateOrderStatus(id, 'delivered'),
+        ),
+      );
+      emit(state.copyWith(isSubmitting: false, success: true));
+    } catch (e) {
+      emit(state.copyWith(
+        isSubmitting: false,
+        success: false,
+        errorMsg: e.toString(),
+      ));
     }
   }
 
