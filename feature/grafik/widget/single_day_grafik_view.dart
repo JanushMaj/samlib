@@ -5,6 +5,7 @@ import 'package:kabast/shared/responsive/responsive_layout.dart';
 import 'package:kabast/theme/app_tokens.dart';
 import 'package:kabast/theme/theme.dart';
 import 'package:kabast/feature/grafik/widget/task/task_list.dart';
+import 'package:kabast/feature/grafik/widget/task/supply_run_list.dart';
 import 'package:kabast/feature/date/date_cubit.dart';
 
 import '../../../shared/appbar/grafik_appbar.dart';
@@ -129,10 +130,23 @@ class _SingleDayGrafikViewState extends State<SingleDayGrafikView> {
             small: const EdgeInsets.all(AppSpacing.sm),
             medium: const EdgeInsets.all(AppSpacing.sm * 2),
             large: const EdgeInsets.all(AppSpacing.sm * 3),
-          child: TaskList(
-            date: selectedDay,
-            breakpoint: bp,
-            showAll: _showAll,
+          child: Column(
+            children: [
+              Expanded(
+                child: TaskList(
+                  date: selectedDay,
+                  breakpoint: bp,
+                  showAll: _showAll,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.sm * 2),
+              Expanded(
+                child: SupplyRunList(
+                  breakpoint: bp,
+                  showAll: _showAll,
+                ),
+              ),
+            ],
           ),
       ),
           floatingActionButton: const AddGrafikFAB(),
