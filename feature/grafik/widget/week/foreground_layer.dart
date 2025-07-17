@@ -5,12 +5,14 @@ import 'package:kabast/domain/models/grafik/impl/task_planning_element.dart';
 import 'package:kabast/domain/models/grafik/impl/delivery_planning_element.dart';
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
+import 'package:kabast/domain/models/grafik/impl/supply_run_element.dart';
 import 'package:kabast/domain/models/grafik/grafik_element_data.dart';
 import 'package:kabast/feature/grafik/widget/week/tiles/default_week_tile.dart';
 import 'package:kabast/feature/grafik/widget/week/tiles/delivery_planning_week_tile.dart';
 import 'package:kabast/feature/grafik/widget/week/tiles/task_planning_week_tile.dart';
 import 'package:kabast/feature/grafik/widget/week/tiles/task_week_tile.dart';
 import 'package:kabast/feature/grafik/widget/week/tiles/time_issue_week_tile.dart';
+import 'package:kabast/feature/grafik/widget/week/tiles/supply_run_week_tile.dart';
 
 import '../../cubit/grafik_cubit.dart';
 import '../../cubit/grafik_state.dart';
@@ -64,6 +66,13 @@ class ForegroundLayer extends StatelessWidget {
     );
   }
 
+  GrafikElementData _supplyRunData(GrafikState state) {
+    return const GrafikElementData(
+      assignedEmployees: [],
+      assignedVehicles: [],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GrafikCubit, GrafikState>(
@@ -94,6 +103,11 @@ class ForegroundLayer extends StatelessWidget {
               return DeliveryPlanningWeekTile(
                 deliveryPlanning: elem,
                 data: _deliveryPlanningData(state),
+              );
+            } else if (elem is SupplyRunElement) {
+              return SupplyRunWeekTile(
+                supplyRun: elem,
+                data: _supplyRunData(state),
               );
             } else if (elem is TaskElement) {
               return TaskWeekTile(
