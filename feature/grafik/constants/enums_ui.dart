@@ -27,6 +27,8 @@ extension GrafikTaskTypeX on GrafikTaskType {
         return Icons.handyman;
       case GrafikTaskType.Inne:
         return Icons.more_horiz;
+      case GrafikTaskType.Zaopatrzenie:
+        return Icons.local_shipping;
     }
   }
 
@@ -41,6 +43,8 @@ extension GrafikTaskTypeX on GrafikTaskType {
         return Colors.green;
       case GrafikTaskType.Inne:
         return Colors.grey;
+      case GrafikTaskType.Zaopatrzenie:
+        return Colors.brown;
     }
   }
 }
