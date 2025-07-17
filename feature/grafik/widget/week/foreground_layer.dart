@@ -72,6 +72,7 @@ class ForegroundLayer extends StatelessWidget {
         final planningElements = <GrafikElement>[
           ...state.weekData.taskPlannings,
           ...state.weekData.deliveryPlannings,
+          ...state.weekData.supplyRuns,
           ...state.weekData.taskElements,
           ...state.weekData.timeIssues,
         ];
