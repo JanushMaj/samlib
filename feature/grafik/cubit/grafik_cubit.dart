@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
@@ -39,12 +40,12 @@ class GrafikCubit extends Cubit<GrafikState> {
   late final StreamSubscription<DateState> _dateSub;
 
   GrafikCubit(
-      this._grafikRepo,
-      this._vehicleWatcher,
-      this._employeeRepo,
-      this._taskAssignmentRepo,
-      this._dateCubit,
-      ) : super(GrafikState.initial()) {
+    this._grafikRepo,
+    this._vehicleWatcher,
+    this._employeeRepo,
+    this._taskAssignmentRepo,
+    this._dateCubit,
+  ) : super(GrafikState.initial()) {
     _subscribeVehicles();
     _dateSub = _dateCubit.stream.listen((dateState) {
       _subscribeMapping(dateState.selectedDay);
@@ -54,10 +55,9 @@ class GrafikCubit extends Cubit<GrafikState> {
     _loadWeek(_dateCubit.state.selectedDayInWeekView);
   }
 
-
   void _subscribeVehicles() {
     _vehicleSub = _vehicleWatcher.watchVehicles().listen(
-          (vehicles) {
+      (vehicles) {
         if (!isClosed) {
           emit(state.copyWith(vehicles: vehicles));
         }
@@ -78,73 +78,99 @@ class GrafikCubit extends Cubit<GrafikState> {
     final start = DateTime(day.year, day.month, day.day);
     final end = DateTime(day.year, day.month, day.day, 23, 59, 59, 999);
 
-    _mappingSub = Rx.combineLatest3<
-        List<GrafikElement>,
-        List<Employee>,
-        List<TaskAssignment>,
-        Map<String, dynamic>>(
-      _grafikRepo.getElementsWithinRange(
-        start: start,
-        end: end,
-        types: [
-          'TaskElement',
-          'TimeIssueElement',
-          'SupplyRunElement',
-        ],
-      ),
-      _employeeRepo.getEmployees(),
-      _taskAssignmentRepo.getAssignmentsWithinRange(start: start, end: end),
-          (elements, employees, assignments) {
-        final tasks = elements.whereType<TaskElement>().toList();
-        final issues = elements.whereType<TimeIssueElement>().toList();
-        final supplyRuns = elements
-            .whereType<SupplyRunElement>()
-            .where((r) => r.addedByUserId ==
-                FirebaseAuth.instance.currentUser?.uid)
-            .toList();
+    _mappingSub =
+        Rx.combineLatest3<
+              List<GrafikElement>,
+              List<Employee>,
+              List<TaskAssignment>,
+              Map<String, dynamic>
+            >(
+              _grafikRepo.getElementsWithinRange(
+                start: start,
+                end: end,
+                types: ['TaskElement', 'TimeIssueElement', 'SupplyRunElement'],
+              ),
+              _employeeRepo.getEmployees(),
+              _taskAssignmentRepo.getAssignmentsWithinRange(
+                start: start,
+                end: end,
+              ),
+              (elements, employees, assignments) {
+                final tasks = elements.whereType<TaskElement>().toList();
+                final issues = elements.whereType<TimeIssueElement>().toList();
+                final supplyRuns = elements
+                    .whereType<SupplyRunElement>()
+                    .where(
+                      (r) =>
+                          r.addedByUserId ==
+                          FirebaseAuth.instance.currentUser?.uid,
+                    )
+                    .toList();
 
-        final mapping = calculateTaskTimeIssueDisplayMapping(
-          tasks: tasks,
-          issues: issues,
-          employees: employees,
-          assignments: assignments,
-        );
+                final mapping = calculateTaskTimeIssueDisplayMapping(
+                  tasks: tasks,
+                  issues: issues,
+                  employees: employees,
+                  assignments: assignments,
+                );
 
-        final transferMapping = calculateTaskTransferDisplayMapping(
-          tasks: tasks,
-          employees: employees,
-          assignments: assignments,
-        );
+                final transferMapping = calculateTaskTransferDisplayMapping(
+                  tasks: tasks,
+                  employees: employees,
+                  assignments: assignments,
+                );
 
-        return {
-          'tasks': tasks,
-          'issues': issues,
-          'supplyRuns': supplyRuns,
-          'employees': employees,
-          'assignments': assignments,
-          'mapping': mapping,
-          'transferMapping': transferMapping,
-        };
-      },
-    ).listen((combinedData) {
-      if (!isClosed) {
-        emit(state.copyWith(
-          tasks: combinedData['tasks'] as List<TaskElement>,
-          issues: combinedData['issues'] as List<TimeIssueElement>,
-          supplyRuns: combinedData['supplyRuns'] as List<SupplyRunElement>,
-          employees: combinedData['employees'] as List<Employee>,
-          taskTimeIssueDisplayMapping:
-              combinedData['mapping'] as Map<String, List<String>>,
-          taskTransferDisplayMapping:
-              combinedData['transferMapping'] as Map<String, List<String>>,
-          assignments: combinedData['assignments'] as List<TaskAssignment>,
-        ));
-      }
-    });
+                return {
+                  'tasks': tasks,
+                  'issues': issues,
+                  'supplyRuns': supplyRuns,
+                  'employees': employees,
+                  'assignments': assignments,
+                  'mapping': mapping,
+                  'transferMapping': transferMapping,
+                };
+              },
+            )
+            .listen(
+              (combinedData) {
+                if (!isClosed) {
+                  emit(
+                    state.copyWith(
+                      tasks: combinedData['tasks'] as List<TaskElement>,
+                      issues: combinedData['issues'] as List<TimeIssueElement>,
+                      supplyRuns:
+                          combinedData['supplyRuns'] as List<SupplyRunElement>,
+                      employees: combinedData['employees'] as List<Employee>,
+                      taskTimeIssueDisplayMapping:
+                          combinedData['mapping'] as Map<String, List<String>>,
+                      taskTransferDisplayMapping:
+                          combinedData['transferMapping']
+                              as Map<String, List<String>>,
+                      assignments:
+                          combinedData['assignments'] as List<TaskAssignment>,
+                    ),
+                  );
+                }
+              },
+              onError: (e) {
+                log('Error in _subscribeMapping: $e');
+                if (!isClosed) {
+                  emit(state.copyWith(error: e.toString()));
+                }
+              },
+            );
   }
 
   void _loadWeek(DateTime monday) {
-    final friday = monday.add(const Duration(days: 4, hours: 23, minutes: 59, seconds: 59, milliseconds: 999));
+    final friday = monday.add(
+      const Duration(
+        days: 4,
+        hours: 23,
+        minutes: 59,
+        seconds: 59,
+        milliseconds: 999,
+      ),
+    );
 
     final grafikStream = _grafikRepo.getElementsWithinRange(
       start: monday,
@@ -163,45 +189,63 @@ class GrafikCubit extends Cubit<GrafikState> {
       _weekDataSub.cancel();
     } catch (_) {}
 
-    _weekDataSub = Rx.combineLatest2<List<GrafikElement>, List<Employee>, Map<String, dynamic>>(
-      grafikStream,
-      employeeStream,
-          (elements, employees) {
-        final taskElements = elements.whereType<TaskElement>().toList();
-        final timeIssues = elements.whereType<TimeIssueElement>().toList();
-        final taskPlannings = elements.whereType<TaskPlanningElement>().toList();
-        final deliveryPlannings = elements.whereType<DeliveryPlanningElement>().toList();
-        final supplyRuns = elements
-            .whereType<SupplyRunElement>()
-            .where((r) =>
-                r.addedByUserId == FirebaseAuth.instance.currentUser?.uid)
-            .toList();
+    _weekDataSub =
+        Rx.combineLatest2<
+              List<GrafikElement>,
+              List<Employee>,
+              Map<String, dynamic>
+            >(grafikStream, employeeStream, (elements, employees) {
+              final taskElements = elements.whereType<TaskElement>().toList();
+              final timeIssues = elements
+                  .whereType<TimeIssueElement>()
+                  .toList();
+              final taskPlannings = elements
+                  .whereType<TaskPlanningElement>()
+                  .toList();
+              final deliveryPlannings = elements
+                  .whereType<DeliveryPlanningElement>()
+                  .toList();
+              final supplyRuns = elements
+                  .whereType<SupplyRunElement>()
+                  .where(
+                    (r) =>
+                        r.addedByUserId ==
+                        FirebaseAuth.instance.currentUser?.uid,
+                  )
+                  .toList();
 
-        return {
-          'taskElements': taskElements,
-          'timeIssues': timeIssues,
-          'taskPlannings': taskPlannings,
-          'deliveryPlanningElements': deliveryPlannings,
-          'supplyRuns': supplyRuns,
-          'employees': employees,
-        };
-      },
-    ).listen((data) {
-      final updatedWeek = state.weekData.copyWith(
-        taskElements: data['taskElements'] as List<TaskElement>,
-        timeIssues: data['timeIssues'] as List<TimeIssueElement>,
-        taskPlannings: data['taskPlannings'] as List<TaskPlanningElement>,
-        deliveryPlannings:
-            data['deliveryPlanningElements'] as List<DeliveryPlanningElement>,
-        supplyRuns: data['supplyRuns'] as List<SupplyRunElement>,
-      );
-      emit(state.copyWith(
-        weekData: updatedWeek,
-        employees: data['employees'] as List<Employee>,
-      ));
-    }, onError: (e) {
-      emit(state.copyWith(error: e.toString()));
-    });
+              return {
+                'taskElements': taskElements,
+                'timeIssues': timeIssues,
+                'taskPlannings': taskPlannings,
+                'deliveryPlanningElements': deliveryPlannings,
+                'supplyRuns': supplyRuns,
+                'employees': employees,
+              };
+            })
+            .listen(
+              (data) {
+                final updatedWeek = state.weekData.copyWith(
+                  taskElements: data['taskElements'] as List<TaskElement>,
+                  timeIssues: data['timeIssues'] as List<TimeIssueElement>,
+                  taskPlannings:
+                      data['taskPlannings'] as List<TaskPlanningElement>,
+                  deliveryPlannings:
+                      data['deliveryPlanningElements']
+                          as List<DeliveryPlanningElement>,
+                  supplyRuns: data['supplyRuns'] as List<SupplyRunElement>,
+                );
+                emit(
+                  state.copyWith(
+                    weekData: updatedWeek,
+                    employees: data['employees'] as List<Employee>,
+                  ),
+                );
+              },
+              onError: (e) {
+                emit(state.copyWith(error: e.toString()));
+              },
+            );
   }
 
   Future<Duration> getTotalWorkTimeForEmployee({
