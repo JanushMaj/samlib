@@ -5,8 +5,8 @@ import '../../domain/models/supply_item.dart';
 import '../../domain/services/i_supply_repository.dart';
 import '../../shared/responsive/responsive_layout.dart';
 import '../../shared/app_drawer.dart';
-import '../../shared/custom_fab.dart';
 import '../permission/permission_widget.dart';
+import 'plan_supply_run_fab.dart';
 import 'supply_order_form.dart';
 
 class SupplyListScreen extends StatelessWidget {
@@ -30,9 +30,7 @@ class SupplyListScreen extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: CustomFAB(
-        onPressed: () => Navigator.pushNamed(context, '/planSupplyRun'),
-      ),
+      floatingActionButton: const PlanSupplyRunFAB(),
       body: StreamBuilder<List<SupplyItem>>(
         stream: repo.watchItems(),
         builder: (context, snapshot) {
