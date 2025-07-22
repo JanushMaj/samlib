@@ -10,6 +10,13 @@ The route is resolved in order using the following rules:
 1. Users without `canUseApp` are sent to `/noAccess`.
 2. Everyone else lands on `/grafik`.
 
+## Supply run approval
+
+The app defines a `canApprove` permission used for confirming supply runs.
+By default this permission is enabled for the `admin`, `kierownik` and
+`kierownikProdukcji` roles.  Accessing the `/approveSupplyRuns` route requires
+this permission.
+
 ## Example
 
 Initially users were routed directly to specific screens based on permissions.
