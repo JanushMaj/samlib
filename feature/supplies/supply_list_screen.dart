@@ -5,6 +5,8 @@ import '../../domain/models/supply_item.dart';
 import '../../domain/services/i_supply_repository.dart';
 import '../../shared/responsive/responsive_layout.dart';
 import '../../shared/app_drawer.dart';
+import '../../shared/custom_fab.dart';
+import '../permission/permission_widget.dart';
 import 'supply_order_form.dart';
 
 class SupplyListScreen extends StatelessWidget {
@@ -17,6 +19,19 @@ class SupplyListScreen extends StatelessWidget {
       drawer: const AppDrawer(),
       appBar: AppBar(
         title: const Text('Zaopatrzenie'),
+        actions: [
+          PermissionWidget(
+            permission: 'canApprove',
+            child: IconButton(
+              icon: const Icon(Icons.check),
+              onPressed: () =>
+                  Navigator.pushNamed(context, '/approveSupplyRuns'),
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: CustomFAB(
+        onPressed: () => Navigator.pushNamed(context, '/planSupplyRun'),
       ),
       body: StreamBuilder<List<SupplyItem>>(
         stream: repo.watchItems(),
