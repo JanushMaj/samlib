@@ -23,6 +23,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canChangeDate': true,
         'canSeeAllGrafik': true,
         'canApprove': true,
+        'canPlanSupplyRun': true,
         'canUseApp': true,
       };
     case UserRole.czlowiekZarzadu:
@@ -38,6 +39,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canChangeDate': true,
         'canSeeAllGrafik': true,
         'canApprove': false,
+        'canPlanSupplyRun': false,
         'canUseApp': true,
       };
     case UserRole.kierownik:
@@ -52,6 +54,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canChangeDate': true,
         'canSeeAllGrafik': true,
         'canApprove': true,
+        'canPlanSupplyRun': true,
         'canUseApp': true,
       };
     case UserRole.monter:
@@ -66,6 +69,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canChangeDate': false,
         'canSeeAllGrafik': false,
         'canApprove': false,
+        'canPlanSupplyRun': false,
         'canUseApp': true,
       };
     case UserRole.hala:
@@ -80,6 +84,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canChangeDate': true,
         'canSeeAllGrafik': false,
         'canApprove': false,
+        'canPlanSupplyRun': false,
         'canUseApp': true,
       };
     case UserRole.kierownikProdukcji:
@@ -94,6 +99,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canChangeDate': true,
         'canSeeAllGrafik': true,
         'canApprove': true,
+        'canPlanSupplyRun': true,
         'canUseApp': true,
       };
     default:
@@ -108,6 +114,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canChangeDate': false,
         'canSeeAllGrafik': false,
         'canApprove': false,
+        'canPlanSupplyRun': false,
         'canUseApp': false, // tylko user nie może
       };
   }
