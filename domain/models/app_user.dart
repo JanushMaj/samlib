@@ -1,4 +1,3 @@
-
 enum UserRole {
   admin,
   czlonekZarzadu,
@@ -23,6 +22,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canLogout': true,
         'canChangeDate': true,
         'canSeeAllGrafik': true,
+        'canApprove': true,
         'canUseApp': true,
       };
     case UserRole.czlowiekZarzadu:
@@ -37,6 +37,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canLogout': true,
         'canChangeDate': true,
         'canSeeAllGrafik': true,
+        'canApprove': false,
         'canUseApp': true,
       };
     case UserRole.kierownik:
@@ -50,6 +51,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canLogout': true,
         'canChangeDate': true,
         'canSeeAllGrafik': true,
+        'canApprove': true,
         'canUseApp': true,
       };
     case UserRole.monter:
@@ -63,6 +65,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canLogout': true,
         'canChangeDate': false,
         'canSeeAllGrafik': false,
+        'canApprove': false,
         'canUseApp': true,
       };
     case UserRole.hala:
@@ -76,6 +79,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canLogout': false,
         'canChangeDate': true,
         'canSeeAllGrafik': false,
+        'canApprove': false,
         'canUseApp': true,
       };
     case UserRole.kierownikProdukcji:
@@ -89,6 +93,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canLogout': true,
         'canChangeDate': true,
         'canSeeAllGrafik': true,
+        'canApprove': true,
         'canUseApp': true,
       };
     default:
@@ -102,6 +107,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canLogout': true,
         'canChangeDate': false,
         'canSeeAllGrafik': false,
+        'canApprove': false,
         'canUseApp': false, // tylko user nie może
       };
   }
@@ -133,7 +139,8 @@ class AppUser {
       fullName: '',
       employeeId: '',
       role: UserRole.user,
-      permissionsOverride: {}, // pusta mapa, która dzięki effectivePermissions zostanie rozszerzona domyślnymi uprawnieniami
+      permissionsOverride:
+          {}, // pusta mapa, która dzięki effectivePermissions zostanie rozszerzona domyślnymi uprawnieniami
     );
   }
 
@@ -165,5 +172,4 @@ class AppUser {
     });
     return defaults;
   }
-
 }
