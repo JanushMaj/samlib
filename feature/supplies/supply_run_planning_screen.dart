@@ -11,6 +11,10 @@ import '../supplies/cubit/supply_run_planning_state.dart';
 import '../../shared/app_drawer.dart';
 import '../../shared/responsive/responsive_layout.dart';
 import '../../shared/datetime/date_time_picker_field.dart';
+import '../employee/employee_picker.dart';
+import '../vehicle/widget/vehicle_picker.dart';
+import '../../data/repositories/employee_repository.dart';
+import '../../data/repositories/vehicle_repository.dart';
 import '../../theme/app_tokens.dart';
 
 class SupplyRunPlanningScreen extends StatefulWidget {
@@ -103,6 +107,27 @@ class _SupplyRunPlanningScreenState extends State<SupplyRunPlanningScreen> {
                             onChanged: cubit.setAdditionalInfo,
                             decoration: const InputDecoration(
                                 labelText: 'Dodatkowe informacje'),
+                          ),
+                          const SizedBox(height: AppSpacing.lg),
+                          EmployeePicker(
+                            singleSelection: true,
+                            employeeStream:
+                                GetIt.I<EmployeeRepository>().getEmployees(),
+                            initialSelectedIds:
+                                state.selectedDriverIds.toList(),
+                            onSelectionChanged: (drivers) =>
+                                cubit.setDriverIds(
+                                    drivers.map((e) => e.uid).toList()),
+                          ),
+                          const SizedBox(height: AppSpacing.lg),
+                          VehiclePicker(
+                            vehicleStream:
+                                GetIt.I<VehicleRepository>().getVehicles(),
+                            initialSelectedIds:
+                                state.selectedVehicleIds.toList(),
+                            onSelectionChanged: (vehicles) =>
+                                cubit.setVehicleIds(
+                                    vehicles.map((v) => v.id).toList()),
                           ),
                           const SizedBox(height: AppSpacing.lg),
                           DateTimePickerField(

@@ -6,6 +6,8 @@ import 'grafik_element_dto.dart';
 class SupplyRunElementDto extends GrafikElementDto {
   final List<String> supplyOrderIds;
   final String routeDescription;
+  final List<String> vehicleIds;
+  final List<String> driverIds;
 
   SupplyRunElementDto({
     required super.id,
@@ -18,6 +20,8 @@ class SupplyRunElementDto extends GrafikElementDto {
     required super.closed,
     required this.supplyOrderIds,
     required this.routeDescription,
+    this.vehicleIds = const [],
+    this.driverIds = const [],
   });
 
   factory SupplyRunElementDto.fromJson(Map<String, dynamic> json) {
@@ -42,6 +46,8 @@ class SupplyRunElementDto extends GrafikElementDto {
       supplyOrderIds:
           (json['supplyOrderIds'] as List?)?.cast<String>() ?? const <String>[],
       routeDescription: json['routeDescription'] as String? ?? '',
+      vehicleIds: (json['vehicleIds'] as List?)?.cast<String>() ?? const <String>[],
+      driverIds: (json['driverIds'] as List?)?.cast<String>() ?? const <String>[],
     );
   }
 
@@ -50,6 +56,8 @@ class SupplyRunElementDto extends GrafikElementDto {
         ...baseToJson(),
         'supplyOrderIds': supplyOrderIds,
         'routeDescription': routeDescription,
+        'vehicleIds': vehicleIds,
+        'driverIds': driverIds,
       };
 
   @override
@@ -60,6 +68,8 @@ class SupplyRunElementDto extends GrafikElementDto {
         additionalInfo: additionalInfo,
         supplyOrderIds: supplyOrderIds,
         routeDescription: routeDescription,
+        vehicleIds: vehicleIds,
+        driverIds: driverIds,
         addedByUserId: addedByUserId,
         addedTimestamp: addedTimestamp,
         closed: closed,
@@ -77,5 +87,7 @@ class SupplyRunElementDto extends GrafikElementDto {
         closed: element.closed,
         supplyOrderIds: List<String>.from(element.supplyOrderIds),
         routeDescription: element.routeDescription,
+        vehicleIds: List<String>.from(element.vehicleIds),
+        driverIds: List<String>.from(element.driverIds),
       );
 }

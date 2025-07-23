@@ -24,6 +24,8 @@ class SupplyRunElementStrategy implements GrafikElementFormStrategy {
       additionalInfo: '',
       supplyOrderIds: const [],
       routeDescription: '',
+      vehicleIds: const [],
+      driverIds: const [],
       addedByUserId: '',
       addedTimestamp: DateTime.now(),
       closed: false,

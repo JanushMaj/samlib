@@ -14,6 +14,8 @@ void main() {
       additionalInfo: 'info',
       supplyOrderIds: const ['o1', 'o2'],
       routeDescription: 'route',
+      vehicleIds: const ['v1'],
+      driverIds: const ['d1'],
       addedByUserId: 'u1',
       addedTimestamp: DateTime(2023, 1, 1),
       closed: false,
