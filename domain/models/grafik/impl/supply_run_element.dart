@@ -4,6 +4,8 @@ import '../grafik_element.dart';
 class SupplyRunElement extends GrafikElement {
   final List<String> supplyOrderIds;
   final String routeDescription;
+  final List<String> vehicleIds;
+  final List<String> driverIds;
 
   SupplyRunElement({
     required String id,
@@ -12,6 +14,8 @@ class SupplyRunElement extends GrafikElement {
     required String additionalInfo,
     required this.supplyOrderIds,
     required this.routeDescription,
+    this.vehicleIds = const [],
+    this.driverIds = const [],
     required String addedByUserId,
     required DateTime addedTimestamp,
     bool closed = false,
@@ -33,6 +37,8 @@ class SupplyRunElement extends GrafikElement {
     String? additionalInfo,
     List<String>? supplyOrderIds,
     String? routeDescription,
+    List<String>? vehicleIds,
+    List<String>? driverIds,
     String? addedByUserId,
     DateTime? addedTimestamp,
     bool? closed,
@@ -44,6 +50,8 @@ class SupplyRunElement extends GrafikElement {
       additionalInfo: additionalInfo ?? this.additionalInfo,
       supplyOrderIds: supplyOrderIds ?? List<String>.from(this.supplyOrderIds),
       routeDescription: routeDescription ?? this.routeDescription,
+      vehicleIds: vehicleIds ?? List<String>.from(this.vehicleIds),
+      driverIds: driverIds ?? List<String>.from(this.driverIds),
       addedByUserId: addedByUserId ?? this.addedByUserId,
       addedTimestamp: addedTimestamp ?? this.addedTimestamp,
       closed: closed ?? this.closed,
@@ -57,6 +65,8 @@ class SupplyRunElement extends GrafikElement {
         additionalInfo: additionalInfo,
         supplyOrderIds: List<String>.from(supplyOrderIds),
         routeDescription: routeDescription,
+        vehicleIds: List<String>.from(vehicleIds),
+        driverIds: List<String>.from(driverIds),
         addedByUserId: addedByUserId,
         addedTimestamp: addedTimestamp,
         closed: closed,

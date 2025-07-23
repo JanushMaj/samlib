@@ -40,6 +40,14 @@ class SupplyRunPlanningCubit extends Cubit<SupplyRunPlanningState> {
     emit(state.copyWith(additionalInfo: info));
   }
 
+  void setVehicleIds(List<String> ids) {
+    emit(state.copyWith(selectedVehicleIds: ids.toSet()));
+  }
+
+  void setDriverIds(List<String> ids) {
+    emit(state.copyWith(selectedDriverIds: ids.toSet()));
+  }
+
   void setStartDateTime(DateTime start) {
     emit(state.copyWith(startDateTime: start));
   }
@@ -57,6 +65,8 @@ class SupplyRunPlanningCubit extends Cubit<SupplyRunPlanningState> {
       additionalInfo: state.additionalInfo,
       supplyOrderIds: state.selectedOrderIds.toList(),
       routeDescription: state.routeDescription,
+      vehicleIds: state.selectedVehicleIds.toList(),
+      driverIds: state.selectedDriverIds.toList(),
       addedByUserId: userId,
       addedTimestamp: DateTime.now(),
       closed: false,
