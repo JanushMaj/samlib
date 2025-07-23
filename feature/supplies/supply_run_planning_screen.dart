@@ -44,7 +44,6 @@ class _SupplyRunPlanningScreenState extends State<SupplyRunPlanningScreen> {
     final user = context.read<AuthCubit>().currentUser;
     if (user == null) return;
     await context.read<SupplyRunPlanningCubit>().createSupplyRun(user.id);
-    if (mounted) Navigator.of(context).pop();
   }
 
   Widget _buildOrderTile(
@@ -65,8 +64,24 @@ class _SupplyRunPlanningScreenState extends State<SupplyRunPlanningScreen> {
         GetIt.I<ISupplyRepository>(),
         GetIt.I<GrafikElementRepository>(),
       ),
-      child: BlocBuilder<SupplyRunPlanningCubit, SupplyRunPlanningState>(
-        builder: (context, state) {
+      child: BlocListener<SupplyRunPlanningCubit, SupplyRunPlanningState>(
+        listener: (context, state) {
+          if (state.success) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Trasa zaplanowana')),
+            );
+            Navigator.of(context).pop();
+          } else if (state.errorMsg != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Błąd: ${state.errorMsg}'),
+                backgroundColor: Theme.of(context).colorScheme.error,
+              ),
+            );
+          }
+        },
+        child: BlocBuilder<SupplyRunPlanningCubit, SupplyRunPlanningState>(
+          builder: (context, state) {
           final cubit = context.read<SupplyRunPlanningCubit>();
           return ResponsiveScaffold(
             drawer: const AppDrawer(),
