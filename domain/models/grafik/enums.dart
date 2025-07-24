@@ -44,3 +44,9 @@ enum DeliveryPlanningCategory {
   Inne,
 }
 
+/// Urgency level for [ServiceRequestElement].
+enum ServiceUrgency {
+  normal,
+  pilne,
+}
+
