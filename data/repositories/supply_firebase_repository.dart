@@ -38,7 +38,16 @@ class SupplyFirebaseRepository implements ISupplyRepository {
   Future<void> placeOrder(SupplyOrder order) async {
     final dto = SupplyOrderDto.fromDomain(order);
     await _orders.add(dto.toJson());
-    // TODO: Integrate with external warehouse system via adapter
+    await sendToWarehouse(order);
+  }
+
+  /// Placeholder for sending orders to the external warehouse system.
+  ///
+  /// This method should be replaced by an implementation that delegates to a
+  /// dedicated service (e.g. `IWarehouseService`) responsible for talking to
+  /// the warehouse API.
+  Future<void> sendToWarehouse(SupplyOrder order) async {
+    // TODO(warehouse): connect to external warehouse system
   }
 
   @override
