@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../feature/auth/auth_cubit.dart';
+import '../feature/permission/permission_widget.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -68,6 +69,20 @@ class AppDrawer extends StatelessWidget {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, '/supplies');
                   },
+                ),
+                PermissionWidget(
+                  permission: 'canCreateServiceTasks',
+                  child: ListTile(
+                    hoverColor: colorScheme.primaryContainer,
+                    selectedTileColor: colorScheme.primaryContainer,
+                    leading: Icon(Icons.build, color: colorScheme.primary),
+                    title: Text('Nowe zgłoszenie',
+                        style: TextStyle(color: colorScheme.onSurface)),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, '/serviceRequest/new');
+                    },
+                  ),
                 ),
                 ListTile(
                   hoverColor: colorScheme.primaryContainer,
