@@ -26,6 +26,9 @@ import 'package:kabast/domain/services/i_grafik_element_service.dart';
 import 'package:kabast/data/repositories/supply_firebase_repository.dart';
 import 'package:kabast/data/repositories/supply_order_repository.dart';
 import 'package:kabast/domain/services/i_supply_repository.dart';
+import 'package:kabast/data/services/firebase/service_request_firebase_service.dart';
+import 'package:kabast/data/repositories/service_request_repository.dart';
+import 'package:kabast/domain/services/i_service_request_service.dart';
 
 
 import 'package:kabast/data/services/task_assignment_firebase_service.dart';
@@ -67,6 +70,10 @@ Future<void> setupLocator() async {
     () => SupplyFirebaseRepository(getIt<FirebaseFirestore>()),
   );
 
+  getIt.registerLazySingleton<IServiceRequestService>(
+    () => ServiceRequestFirebaseService(getIt<FirebaseFirestore>()),
+  );
+
   getIt.registerLazySingleton<SupplyOrderRepository>(
     () => SupplyOrderRepository(getIt<FirebaseFirestore>()),
   );
@@ -89,6 +96,9 @@ Future<void> setupLocator() async {
   );
   getIt.registerLazySingleton<TaskAssignmentRepository>(
     () => TaskAssignmentRepository(getIt<ITaskAssignmentService>()),
+  );
+  getIt.registerLazySingleton<ServiceRequestRepository>(
+    () => ServiceRequestRepository(getIt<IServiceRequestService>()),
   );
   getIt.registerLazySingleton<IGrafikResolver>(
     () => GrafikResolver(getIt<GrafikElementRepository>()),
