@@ -30,7 +30,7 @@ void main() {
     expect(task.taskType, GrafikTaskType.Zaopatrzenie);
     expect(task.orderId, 'ord');
     expect(task.carIds, ['c1']);
-    expect(task.status, GrafikStatus.Realizacja);
+    expect(task.status, GrafikStatus.Zakonczone);
     expect(task.closed, isFalse);
   });
 }
