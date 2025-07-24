@@ -13,6 +13,7 @@ import 'feature/supplies/supply_run_approval_screen.dart';
 import 'feature/assign_employee/assign_employee_screen.dart';
 import 'feature/my_tasks/assign_employee_screen.dart';
 import 'feature/admin/admin_panel_screen.dart';
+import 'feature/service/screens/service_request_form_screen.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -48,6 +49,10 @@ class AppRouter {
             builder: (_) => const SupplyRunApprovalScreen());
       case '/admin':
         return MaterialPageRoute(builder: (_) => const AdminPanelScreen());
+      case '/serviceRequest/new':
+        return MaterialPageRoute(
+          builder: (_) => const ServiceRequestFormScreen(),
+        );
       case '/addGrafik':
         final existingElement = settings.arguments as GrafikElement?;
         return MaterialPageRoute(
