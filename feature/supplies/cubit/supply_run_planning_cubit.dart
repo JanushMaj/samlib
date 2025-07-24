@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain/models/grafik/impl/supply_run_element.dart';
 import '../../../domain/models/grafik/impl/supply_run_to_task_extension.dart';
+import '../../../domain/models/grafik/enums.dart';
 import '../../../domain/models/supply_order.dart';
 import '../../../data/repositories/grafik_element_repository.dart';
 import '../../../domain/services/i_supply_repository.dart';
@@ -94,6 +95,7 @@ class SupplyRunPlanningCubit extends Cubit<SupplyRunPlanningState> {
     emit(state.copyWith(isSubmitting: true, success: false, errorMsg: null));
     final task = run.toTaskElement(
       orderId: orderId,
+      status: GrafikStatus.Zakonczone,
       carIds: carIds,
     );
     try {

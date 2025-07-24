@@ -9,7 +9,7 @@ extension SupplyRunToTask on SupplyRunElement {
   /// [orderId] and [carIds] must be provided to satisfy the task data.
   TaskElement toTaskElement({
     required String orderId,
-    GrafikStatus status = GrafikStatus.Realizacja,
+    GrafikStatus status = GrafikStatus.Zakonczone,
     List<String> carIds = const [],
   }) {
     return TaskElement(
