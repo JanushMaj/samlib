@@ -51,8 +51,14 @@ class _SupplyRunApprovalView extends StatelessWidget {
           end: end,
           types: ['SupplyRunElement'],
         )
-        .map((list) =>
-            list.whereType<SupplyRunElement>().where((e) => !e.closed).toList());
+        .map(
+          (list) => list
+              .whereType<SupplyRunElement>()
+              .where(
+                (e) => !e.closed && e.endDateTime.isBefore(DateTime.now()),
+              )
+              .toList(),
+        );
   }
 
   String _format(DateTime dt) {
