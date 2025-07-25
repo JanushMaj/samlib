@@ -4,6 +4,7 @@ enum UserRole {
   czlowiekZarzadu,
   kierownik,
   kierownikProdukcji,
+  serwisant,
   monter,
   hala,
   user,
@@ -106,6 +107,23 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canSeeAllGrafik': true,
         'canApprove': true,
         'canPlanSupplyRun': true,
+        'canUseApp': true,
+      };
+    case UserRole.serwisant:
+      return {
+        'canEditGrafik': false,
+        'canAddGrafik': false,
+        'canSuggestGrafik': false,
+        'canSeeWeeklySummary': false,
+        'canViewServiceTasks': true,
+        'canCreateServiceTasks': false,
+        'canEditServiceRequests': true,
+        'canEditSettings': false,
+        'canLogout': true,
+        'canChangeDate': true,
+        'canSeeAllGrafik': false,
+        'canApprove': false,
+        'canPlanSupplyRun': false,
         'canUseApp': true,
       };
     default:

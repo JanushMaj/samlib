@@ -80,6 +80,8 @@ UserRole _stringToUserRole(String? value) {
       return UserRole.kierownik;
     case 'kierownikProdukcji':
       return UserRole.kierownikProdukcji;
+    case 'serwisant':
+      return UserRole.serwisant;
     case 'monter':
       return UserRole.monter;
     case 'hala':
@@ -103,6 +105,8 @@ String _userRoleToString(UserRole role) {
       return 'kierownik';
     case UserRole.kierownikProdukcji:
       return 'kierownikProdukcji';
+    case UserRole.serwisant:
+      return 'serwisant';
     case UserRole.monter:
       return 'monter';
     case UserRole.hala:
