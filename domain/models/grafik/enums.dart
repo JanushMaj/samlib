@@ -50,3 +50,9 @@ enum ServiceUrgency {
   pilne,
 }
 
+/// Current status of [ServiceRequestElement].
+enum ServiceRequestStatus {
+  pending,
+  approved,
+}
+

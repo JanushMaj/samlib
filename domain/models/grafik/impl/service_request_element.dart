@@ -14,6 +14,8 @@ class ServiceRequestElement extends GrafikElement {
   final Duration estimatedDuration;
   final int requiredPeopleCount;
   final GrafikTaskType taskType;
+  final ServiceRequestStatus status;
+  final String? taskId;
 
   ServiceRequestElement({
     required String id,
@@ -27,6 +29,8 @@ class ServiceRequestElement extends GrafikElement {
     required this.estimatedDuration,
     required this.requiredPeopleCount,
     this.taskType = GrafikTaskType.Serwis,
+    this.status = ServiceRequestStatus.pending,
+    this.taskId,
   }) : super(
           id: id,
           startDateTime: suggestedDate ?? createdAt,

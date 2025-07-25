@@ -11,6 +11,7 @@ import '../../../domain/models/employee.dart';
 import '../../../domain/models/grafik/impl/service_request_element.dart';
 import '../../../domain/models/grafik/impl/service_request_to_task_extension.dart';
 import '../../../domain/models/grafik/task_assignment.dart';
+import '../../../domain/models/grafik/enums.dart';
 import '../../auth/auth_cubit.dart';
 import '../../auth/screen/no_access_screen.dart';
 import '../../employee/employee_picker.dart';
@@ -47,7 +48,11 @@ class _ServiceRequestApprovalView extends StatelessWidget {
 
   Stream<List<ServiceRequestElement>> _requests(
       ServiceRequestRepository repo) {
-    return repo.watchServiceRequests();
+    return repo
+        .watchServiceRequests()
+        .map((list) => list
+            .where((r) => r.status == ServiceRequestStatus.pending)
+            .toList());
   }
 
   @override
@@ -218,7 +223,22 @@ class ServiceRequestApprovalCubit
         );
         await _assignmentRepo.saveTaskAssignment(assignment);
       }
-      await _requestRepo.deleteServiceRequest(request.id);
+      final updated = ServiceRequestElement(
+        id: request.id,
+        createdBy: request.addedByUserId,
+        createdAt: request.addedTimestamp,
+        location: request.location,
+        description: request.description,
+        orderNumber: request.orderNumber,
+        urgency: request.urgency,
+        suggestedDate: request.suggestedDate,
+        estimatedDuration: request.estimatedDuration,
+        requiredPeopleCount: request.requiredPeopleCount,
+        taskType: request.taskType,
+        status: ServiceRequestStatus.approved,
+        taskId: taskId,
+      );
+      await _requestRepo.saveServiceRequest(updated);
       emit(state.copyWith(isSubmitting: false, success: true));
     } catch (e) {
       emit(state.copyWith(
