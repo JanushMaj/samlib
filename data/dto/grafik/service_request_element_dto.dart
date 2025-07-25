@@ -13,6 +13,8 @@ class ServiceRequestElementDto extends GrafikElementDto {
   final int estimatedDurationMinutes;
   final int requiredPeopleCount;
   final GrafikTaskType taskType;
+  final ServiceRequestStatus status;
+  final String? taskId;
 
   ServiceRequestElementDto({
     required super.id,
@@ -31,6 +33,8 @@ class ServiceRequestElementDto extends GrafikElementDto {
     required this.estimatedDurationMinutes,
     required this.requiredPeopleCount,
     required this.taskType,
+    required this.status,
+    this.taskId,
   });
 
   factory ServiceRequestElementDto.fromJson(Map<String, dynamic> json) {
@@ -68,6 +72,11 @@ class ServiceRequestElementDto extends GrafikElementDto {
         (e) => e.name == (json['taskType'] ?? 'Serwis'),
         orElse: () => GrafikTaskType.Serwis,
       ),
+      status: ServiceRequestStatus.values.firstWhere(
+        (e) => e.name == (json['status'] ?? 'pending'),
+        orElse: () => ServiceRequestStatus.pending,
+      ),
+      taskId: json['taskId'] as String?,
     );
   }
 
@@ -83,6 +92,8 @@ class ServiceRequestElementDto extends GrafikElementDto {
         'estimatedDuration': estimatedDurationMinutes,
         'requiredPeopleCount': requiredPeopleCount,
         'taskType': taskType.name,
+        'status': status.name,
+        'taskId': taskId,
       };
 
   @override
@@ -98,6 +109,8 @@ class ServiceRequestElementDto extends GrafikElementDto {
         estimatedDuration: Duration(minutes: estimatedDurationMinutes),
         requiredPeopleCount: requiredPeopleCount,
         taskType: taskType,
+        status: status,
+        taskId: taskId,
       );
 
   static ServiceRequestElementDto fromDomain(ServiceRequestElement element) =>
@@ -118,6 +131,8 @@ class ServiceRequestElementDto extends GrafikElementDto {
         estimatedDurationMinutes: element.estimatedDuration.inMinutes,
         requiredPeopleCount: element.requiredPeopleCount,
         taskType: element.taskType,
+        status: element.status,
+        taskId: element.taskId,
       );
 
   static ServiceRequestElementDto fromFirestore(DocumentSnapshot doc) {

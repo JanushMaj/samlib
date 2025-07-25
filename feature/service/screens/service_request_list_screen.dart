@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../../data/repositories/service_request_repository.dart';
 import '../../../domain/models/grafik/impl/service_request_element.dart';
+import '../../../domain/models/grafik/enums.dart';
 import '../../auth/auth_cubit.dart';
 import '../../auth/screen/no_access_screen.dart';
 import '../../../shared/app_drawer.dart';
@@ -16,7 +17,9 @@ class ServiceRequestListScreen extends StatelessWidget {
   Stream<List<ServiceRequestElement>> _openRequests(ServiceRequestRepository repo) {
     return repo
         .watchServiceRequests()
-        .map((list) => list.where((r) => !r.closed).toList());
+        .map((list) => list
+            .where((r) => r.status == ServiceRequestStatus.pending)
+            .toList());
   }
 
   @override
