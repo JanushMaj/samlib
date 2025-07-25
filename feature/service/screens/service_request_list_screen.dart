@@ -8,6 +8,7 @@ import '../../auth/auth_cubit.dart';
 import '../../auth/screen/no_access_screen.dart';
 import '../../../shared/app_drawer.dart';
 import '../../../shared/responsive/responsive_layout.dart';
+import 'service_request_details_screen.dart';
 
 class ServiceRequestListScreen extends StatelessWidget {
   const ServiceRequestListScreen({super.key});
@@ -59,7 +60,7 @@ class ServiceRequestListScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (_) => _ServiceRequestDetailScreen(request: req),
+                      builder: (_) => ServiceRequestDetailsScreen(request: req),
                     ),
                   );
                 },
@@ -72,27 +73,3 @@ class ServiceRequestListScreen extends StatelessWidget {
   }
 }
 
-class _ServiceRequestDetailScreen extends StatelessWidget {
-  final ServiceRequestElement request;
-  const _ServiceRequestDetailScreen({required this.request});
-
-  @override
-  Widget build(BuildContext context) {
-    return ResponsiveScaffold(
-      appBar: AppBar(title: Text('Zg\u0142oszenie ${request.orderNumber}')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Lokalizacja: ${request.location}'),
-            const SizedBox(height: 8),
-            Text('Opis: ${request.description}'),
-            const SizedBox(height: 8),
-            Text('Pilno\u015b\u0107: ${request.urgency.name}'),
-          ],
-        ),
-      ),
-    );
-  }
-}
