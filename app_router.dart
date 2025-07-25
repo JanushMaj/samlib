@@ -15,6 +15,8 @@ import 'feature/my_tasks/assign_employee_screen.dart';
 import 'feature/admin/admin_panel_screen.dart';
 import 'feature/service/screens/service_request_form_screen.dart';
 import 'feature/service/screens/service_request_list_screen.dart';
+import 'feature/service/screens/service_request_details_screen.dart';
+import 'domain/models/grafik/impl/service_request_element.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -66,6 +68,14 @@ class AppRouter {
           ),
         );
       default:
+        final name = settings.name ?? '';
+        final match = RegExp(r'^/serviceRequest/([^/]+)$').firstMatch(name);
+        if (match != null) {
+          final request = settings.arguments as ServiceRequestElement;
+          return MaterialPageRoute(
+            builder: (_) => ServiceRequestDetailsScreen(request: request),
+          );
+        }
         return MaterialPageRoute(builder: (_) => const LoginScreen());
     }
   }

@@ -58,10 +58,10 @@ class ServiceRequestListScreen extends StatelessWidget {
                     : req.orderNumber),
                 subtitle: Text(req.description),
                 onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => ServiceRequestDetailsScreen(request: req),
-                    ),
+                  Navigator.pushNamed(
+                    context,
+                    '/serviceRequest/${req.id}',
+                    arguments: req,
                   );
                 },
               );

@@ -71,6 +71,20 @@ class AppDrawer extends StatelessWidget {
                   },
                 ),
                 PermissionWidget(
+                  permission: 'canViewServiceTasks',
+                  child: ListTile(
+                    hoverColor: colorScheme.primaryContainer,
+                    selectedTileColor: colorScheme.primaryContainer,
+                    leading: Icon(Icons.list, color: colorScheme.primary),
+                    title: Text('Zlecenia serwisowe',
+                        style: TextStyle(color: colorScheme.onSurface)),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, '/serviceRequests');
+                    },
+                  ),
+                ),
+                PermissionWidget(
                   permission: 'canCreateServiceTasks',
                   child: ListTile(
                     hoverColor: colorScheme.primaryContainer,
