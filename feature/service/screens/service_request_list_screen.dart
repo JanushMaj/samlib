@@ -37,6 +37,16 @@ class ServiceRequestListScreen extends StatelessWidget {
       drawer: const AppDrawer(),
       appBar: AppBar(
         title: const Text('Zlecenia serwisowe'),
+        actions: [
+          PermissionWidget(
+            permission: 'canEditGrafik',
+            child: IconButton(
+              icon: const Icon(Icons.check),
+              onPressed: () =>
+                  Navigator.pushNamed(context, '/approveServiceRequests'),
+            ),
+          ),
+        ],
       ),
       body: StreamBuilder<List<ServiceRequestElement>>(
         stream: _openRequests(repo),
