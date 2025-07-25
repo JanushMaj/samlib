@@ -19,3 +19,6 @@ flutter doctor
 
 Then run `flutter analyze` in the repository root.
 
+The `/approveServiceRequests` route is used for approving service task
+requests in the app.
+

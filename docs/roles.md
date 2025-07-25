@@ -17,6 +17,12 @@ By default this permission is enabled for the `admin`, `kierownik` and
 `kierownikProdukcji` roles.  Accessing the `/approveSupplyRuns` route requires
 this permission.
 
+## Service request approval
+
+Service requests can be approved by users that have the `canEditGrafik`
+permission. The approval screen lives at `/approveServiceRequests` and becomes
+available as a menu action in the service request list for those users.
+
 ## Example
 
 Initially users were routed directly to specific screens based on permissions.
