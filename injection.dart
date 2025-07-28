@@ -26,6 +26,7 @@ import 'package:kabast/domain/services/i_grafik_element_service.dart';
 import 'package:kabast/data/repositories/supply_firebase_repository.dart';
 import 'package:kabast/data/repositories/supply_order_repository.dart';
 import 'package:kabast/domain/services/i_supply_repository.dart';
+import 'package:kabast/data/repositories/store_repository.dart';
 import 'package:kabast/data/services/firebase/service_request_firebase_service.dart';
 import 'package:kabast/data/repositories/service_request_repository.dart';
 import 'package:kabast/domain/services/i_service_request_service.dart';
@@ -101,6 +102,9 @@ Future<void> setupLocator() async {
   );
   getIt.registerLazySingleton<ServiceRequestRepository>(
     () => ServiceRequestRepository(getIt<IServiceRequestService>()),
+  );
+  getIt.registerLazySingleton<StoreRepository>(
+    () => StoreRepository(getIt<FirebaseFirestore>()),
   );
   getIt.registerLazySingleton<TransportPlanRepository>(
     () => TransportPlanRepository(getIt<GrafikElementRepository>()),
