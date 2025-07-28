@@ -13,10 +13,19 @@ class GrafikElementRepository {
     required DateTime end,
     List<String>? types,
   }) {
+    final queryTypes = types ?? const [
+      'TaskElement',
+      'TimeIssueElement',
+      'TaskPlanningElement',
+      'DeliveryPlanningElement',
+      'SupplyRunElement',
+      'TransportPlan',
+    ];
+
     return _service.getGrafikElementsWithinRangeIncludingPending(
       start: start,
       end: end,
-      types: types,
+      types: queryTypes,
     );
   }
 

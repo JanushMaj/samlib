@@ -14,6 +14,8 @@ import 'delivery_planning_element_dto.dart';
 import 'task_planning_element_dto.dart';
 import 'supply_run_element_dto.dart';
 import 'service_request_element_dto.dart';
+import '../../../lib/data/dto/transport_plan_dto.dart';
+import '../../../domain/models/supplies/transport_plan.dart';
 
 abstract class GrafikElementDto {
   static DateTime parseDateTime(dynamic value, DateTime fallback) {
@@ -80,6 +82,8 @@ abstract class GrafikElementDto {
       case 'TaskPlanningElement':
         return TaskPlanningElementDto.fromDomain(
             element as TaskPlanningElement);
+      case 'TransportPlan':
+        return TransportPlanDto.fromDomain(element as TransportPlan);
       default:
         throw Exception('Unknown element type: ${element.type}');
     }
@@ -100,6 +104,8 @@ abstract class GrafikElementDto {
         return ServiceRequestElementDto.fromJson(json);
       case 'TaskPlanningElement':
         return TaskPlanningElementDto.fromJson(json);
+      case 'TransportPlan':
+        return TransportPlanDto.fromJson(json);
       default:
         return TimeIssueElementDto.fromJson({
           ...json,
