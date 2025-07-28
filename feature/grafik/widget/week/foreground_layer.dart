@@ -6,6 +6,7 @@ import 'package:kabast/domain/models/grafik/impl/delivery_planning_element.dart'
 import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
 import 'package:kabast/domain/models/grafik/impl/supply_run_element.dart';
+import 'package:kabast/domain/models/grafik/impl/transport_plan.dart';
 import 'package:kabast/domain/models/grafik/grafik_element_data.dart';
 import 'package:kabast/feature/grafik/widget/week/tiles/default_week_tile.dart';
 import 'package:kabast/feature/grafik/widget/week/tiles/delivery_planning_week_tile.dart';
@@ -13,6 +14,7 @@ import 'package:kabast/feature/grafik/widget/week/tiles/task_planning_week_tile.
 import 'package:kabast/feature/grafik/widget/week/tiles/task_week_tile.dart';
 import 'package:kabast/feature/grafik/widget/week/tiles/time_issue_week_tile.dart';
 import 'package:kabast/feature/grafik/widget/week/tiles/supply_run_week_tile.dart';
+import 'package:kabast/feature/grafik/widget/week/tiles/transport_plan_week_tile.dart';
 
 import '../../cubit/grafik_cubit.dart';
 import '../../cubit/grafik_state.dart';
@@ -82,6 +84,7 @@ class ForegroundLayer extends StatelessWidget {
           ...state.weekData.taskPlannings,
           ...state.weekData.deliveryPlannings,
           ...state.weekData.supplyRuns,
+          ...state.weekData.transportPlans,
           ...state.weekData.taskElements,
           ...state.weekData.timeIssues,
         ];
@@ -107,6 +110,11 @@ class ForegroundLayer extends StatelessWidget {
             } else if (elem is SupplyRunElement) {
               return SupplyRunWeekTile(
                 supplyRun: elem,
+                data: _supplyRunData(state),
+              );
+            } else if (elem is TransportPlan) {
+              return TransportPlanWeekTile(
+                plan: elem,
                 data: _supplyRunData(state),
               );
             } else if (elem is TaskElement) {

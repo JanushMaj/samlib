@@ -3,6 +3,7 @@ import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/domain/models/grafik/impl/task_planning_element.dart';
 import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
 import 'package:kabast/domain/models/grafik/impl/supply_run_element.dart';
+import 'package:kabast/domain/models/grafik/impl/transport_plan.dart';
 
 class WeekGrafikData {
   final List<TaskElement> taskElements;
@@ -10,6 +11,7 @@ class WeekGrafikData {
   final List<TaskPlanningElement> taskPlannings;
   final List<DeliveryPlanningElement> deliveryPlannings;
   final List<SupplyRunElement> supplyRuns;
+  final List<TransportPlan> transportPlans;
 
   WeekGrafikData({
     required this.taskElements,
@@ -17,6 +19,7 @@ class WeekGrafikData {
     required this.taskPlannings,
     required this.deliveryPlannings,
     required this.supplyRuns,
+    required this.transportPlans,
   });
 
   factory WeekGrafikData.initial() => WeekGrafikData(
@@ -25,6 +28,7 @@ class WeekGrafikData {
         taskPlannings: [],
         deliveryPlannings: [],
         supplyRuns: [],
+        transportPlans: [],
       );
 
   WeekGrafikData copyWith({
@@ -33,6 +37,7 @@ class WeekGrafikData {
     List<TaskPlanningElement>? taskPlannings,
     List<DeliveryPlanningElement>? deliveryPlannings,
     List<SupplyRunElement>? supplyRuns,
+    List<TransportPlan>? transportPlans,
   }) {
     return WeekGrafikData(
       taskElements: taskElements ?? this.taskElements,
@@ -40,6 +45,7 @@ class WeekGrafikData {
       taskPlannings: taskPlannings ?? this.taskPlannings,
       deliveryPlannings: deliveryPlannings ?? this.deliveryPlannings,
       supplyRuns: supplyRuns ?? this.supplyRuns,
+      transportPlans: transportPlans ?? this.transportPlans,
     );
   }
 }

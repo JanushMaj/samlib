@@ -15,6 +15,7 @@ import '../../../domain/models/grafik/impl/delivery_planning_element.dart';
 import '../../../domain/models/grafik/impl/task_element.dart';
 import '../../../domain/models/grafik/impl/task_planning_element.dart';
 import '../../../domain/models/grafik/impl/supply_run_element.dart';
+import '../../../domain/models/grafik/impl/transport_plan.dart';
 import '../../../domain/models/vehicle.dart';
 import '../../../domain/models/grafik/task_assignment.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -88,7 +89,12 @@ class GrafikCubit extends Cubit<GrafikState> {
               _grafikRepo.getElementsWithinRange(
                 start: start,
                 end: end,
-                types: ['TaskElement', 'TimeIssueElement', 'SupplyRunElement'],
+                types: [
+                  'TaskElement',
+                  'TimeIssueElement',
+                  'SupplyRunElement',
+                  'TransportPlan'
+                ],
               ),
               _employeeRepo.getEmployees(),
               _taskAssignmentRepo.getAssignmentsWithinRange(
@@ -107,6 +113,9 @@ class GrafikCubit extends Cubit<GrafikState> {
                     )
                     .toList();
 
+                final transportPlans =
+                    elements.whereType<TransportPlan>().toList();
+
                 final mapping = calculateTaskTimeIssueDisplayMapping(
                   tasks: tasks,
                   issues: issues,
@@ -124,6 +133,7 @@ class GrafikCubit extends Cubit<GrafikState> {
                   'tasks': tasks,
                   'issues': issues,
                   'supplyRuns': supplyRuns,
+                  'transportPlans': transportPlans,
                   'employees': employees,
                   'assignments': assignments,
                   'mapping': mapping,
@@ -140,6 +150,8 @@ class GrafikCubit extends Cubit<GrafikState> {
                       issues: combinedData['issues'] as List<TimeIssueElement>,
                       supplyRuns:
                           combinedData['supplyRuns'] as List<SupplyRunElement>,
+                      transportPlans: combinedData['transportPlans']
+                          as List<TransportPlan>,
                       employees: combinedData['employees'] as List<Employee>,
                       taskTimeIssueDisplayMapping:
                           combinedData['mapping'] as Map<String, List<String>>,
@@ -181,6 +193,7 @@ class GrafikCubit extends Cubit<GrafikState> {
         'TaskPlanningElement',
         'DeliveryPlanningElement',
         'SupplyRunElement',
+        'TransportPlan',
       ],
     );
 
@@ -213,6 +226,8 @@ class GrafikCubit extends Cubit<GrafikState> {
                         FirebaseAuth.instance.currentUser?.uid,
                   )
                   .toList();
+              final transportPlans =
+                  elements.whereType<TransportPlan>().toList();
 
               return {
                 'taskElements': taskElements,
@@ -220,21 +235,24 @@ class GrafikCubit extends Cubit<GrafikState> {
                 'taskPlannings': taskPlannings,
                 'deliveryPlanningElements': deliveryPlannings,
                 'supplyRuns': supplyRuns,
+                'transportPlans': transportPlans,
                 'employees': employees,
               };
             })
             .listen(
               (data) {
-                final updatedWeek = state.weekData.copyWith(
-                  taskElements: data['taskElements'] as List<TaskElement>,
-                  timeIssues: data['timeIssues'] as List<TimeIssueElement>,
-                  taskPlannings:
-                      data['taskPlannings'] as List<TaskPlanningElement>,
-                  deliveryPlannings:
-                      data['deliveryPlanningElements']
-                          as List<DeliveryPlanningElement>,
-                  supplyRuns: data['supplyRuns'] as List<SupplyRunElement>,
-                );
+              final updatedWeek = state.weekData.copyWith(
+                taskElements: data['taskElements'] as List<TaskElement>,
+                timeIssues: data['timeIssues'] as List<TimeIssueElement>,
+                taskPlannings:
+                    data['taskPlannings'] as List<TaskPlanningElement>,
+                deliveryPlannings:
+                    data['deliveryPlanningElements']
+                        as List<DeliveryPlanningElement>,
+                supplyRuns: data['supplyRuns'] as List<SupplyRunElement>,
+                transportPlans:
+                    data['transportPlans'] as List<TransportPlan>,
+              );
                 emit(
                   state.copyWith(
                     weekData: updatedWeek,
