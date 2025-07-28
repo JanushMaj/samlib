@@ -29,6 +29,8 @@ import 'package:kabast/domain/services/i_supply_repository.dart';
 import 'package:kabast/data/services/firebase/service_request_firebase_service.dart';
 import 'package:kabast/data/repositories/service_request_repository.dart';
 import 'package:kabast/domain/services/i_service_request_service.dart';
+import 'package:kabast/data/repositories/transport_plan_repository.dart';
+import 'package:kabast/feature/supplies/cubit/transport_plan_cubit.dart';
 
 
 import 'package:kabast/data/services/task_assignment_firebase_service.dart';
@@ -100,6 +102,9 @@ Future<void> setupLocator() async {
   getIt.registerLazySingleton<ServiceRequestRepository>(
     () => ServiceRequestRepository(getIt<IServiceRequestService>()),
   );
+  getIt.registerLazySingleton<TransportPlanRepository>(
+    () => TransportPlanRepository(getIt<GrafikElementRepository>()),
+  );
   getIt.registerLazySingleton<IGrafikResolver>(
     () => GrafikResolver(getIt<GrafikElementRepository>()),
   );
@@ -128,5 +133,8 @@ Future<void> setupLocator() async {
       getIt<TaskAssignmentRepository>(),
       getIt<DateCubit>(),
     ),
+  );
+  getIt.registerFactory<TransportPlanCubit>(
+    () => TransportPlanCubit(getIt<TransportPlanRepository>()),
   );
 }
