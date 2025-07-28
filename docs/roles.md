@@ -19,9 +19,11 @@ this permission.
 
 ## Service request approval
 
-Service requests can be approved by users that have the `canEditGrafik`
-permission. The approval screen lives at `/approveServiceRequests` and becomes
-available as a menu action in the service request list for those users.
+Service requests can be approved by users that have the
+`canApproveServiceTasks` permission. By default this is granted to the `admin`,
+`kierownik` and `kierownikProdukcji` roles. The approval screen lives at
+`/approveServiceRequests` and becomes available as a menu action in the service
+request list for those users.
 
 ## Example
 
