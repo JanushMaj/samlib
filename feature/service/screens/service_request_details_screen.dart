@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import '../../../data/repositories/service_request_repository.dart';
 import '../../../domain/models/grafik/impl/service_request_element.dart';
 import '../../auth/auth_cubit.dart';
+import '../../auth/screen/no_access_screen.dart';
 import '../cubit/service_request_details_cubit.dart';
 import '../../../shared/form/custom_textfield.dart';
 import '../../../shared/form/enum_picker/enum_picker.dart';
@@ -35,9 +36,16 @@ class _ServiceRequestDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final canEdit = context.select<AuthCubit, bool>((cubit) =>
-        cubit.currentUser?.effectivePermissions['canEditServiceRequests'] ??
-        false);
+    final user = context.watch<AuthCubit>().currentUser;
+    final canEdit =
+        user?.effectivePermissions['canEditServiceRequests'] ?? false;
+    final canView =
+        user?.effectivePermissions['canViewServiceTasks'] ?? false;
+    final addedBy = context
+        .select<ServiceRequestDetailsCubit, String>((cubit) => cubit.state.createdBy);
+    if (user == null || !(canView || user.id == addedBy)) {
+      return const NoAccessScreen();
+    }
     return BlocListener<ServiceRequestDetailsCubit, ServiceRequestDetailsState>(
       listener: (context, state) {
         if (state.success) {
