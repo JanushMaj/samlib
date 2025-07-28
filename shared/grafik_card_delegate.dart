@@ -4,6 +4,7 @@ import 'package:kabast/domain/models/grafik/impl/task_element.dart';
 import 'package:kabast/domain/models/grafik/impl/task_planning_element.dart';
 import 'package:kabast/domain/models/grafik/impl/time_issue_element.dart';
 import 'package:kabast/domain/models/grafik/impl/supply_run_element.dart';
+import 'package:kabast/domain/models/grafik/impl/transport_plan.dart';
 
 abstract class GrafikElementCardDelegate {
   String getLabel();
@@ -81,6 +82,24 @@ class TimeIssueElementCardDelegate implements GrafikElementCardDelegate {
   String getDescription() => issue.additionalInfo;
 }
 
+class TransportPlanCardDelegate implements GrafikElementCardDelegate {
+  final TransportPlan plan;
+  TransportPlanCardDelegate(this.plan);
+
+  @override
+  String getLabel() => plan.comment;
+
+  @override
+  String getTimeInfo() => _formatTime(plan.startDateTime, plan.endDateTime);
+
+  @override
+  String getDescription() {
+    return plan.subtasks
+        .map((e) => '${e.type.name} @ ${e.place}')
+        .join('; ');
+  }
+}
+
 class GrafikElementCardDelegateRegistry {
   static GrafikElementCardDelegate delegateFor(GrafikElement element) {
     switch (element.runtimeType) {
@@ -94,6 +113,8 @@ class GrafikElementCardDelegateRegistry {
         return SupplyRunElementCardDelegate(element as SupplyRunElement);
       case TimeIssueElement:
         return TimeIssueElementCardDelegate(element as TimeIssueElement);
+      case TransportPlan:
+        return TransportPlanCardDelegate(element as TransportPlan);
       default:
         throw ArgumentError('Unsupported element type');
     }

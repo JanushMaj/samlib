@@ -42,6 +42,11 @@ class GrafikElementStyleResolver {
           borderColor: Color(0xFF8A6C4F),
           badgeIcon: Icons.shopping_cart,
         );
+      case 'TransportPlan':
+        return GrafikElementStyle(
+          backgroundColor: Colors.brown.shade100,
+          borderColor: Colors.brown,
+        );
       case 'TimeIssueElement':
         return GrafikElementStyle(
           backgroundColor: Colors.red.shade100,
