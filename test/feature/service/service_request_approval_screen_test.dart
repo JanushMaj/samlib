@@ -14,6 +14,10 @@ import 'package:kabast/domain/services/i_employee_service.dart';
 import 'package:kabast/domain/models/grafik/impl/service_request_element.dart';
 import 'package:kabast/domain/models/grafik/task_assignment.dart';
 import 'package:kabast/domain/models/employee.dart';
+import 'package:kabast/feature/auth/auth_cubit.dart';
+import 'package:kabast/feature/auth/screen/no_access_screen.dart';
+import 'package:kabast/domain/services/i_auth_service.dart';
+import 'package:kabast/domain/models/app_user.dart';
 
 class _DummyGrafikService implements IGrafikElementService {
   @override
@@ -83,6 +87,23 @@ class FakeEmployeeRepository extends EmployeeRepository {
   FakeEmployeeRepository() : super(_DummyEmployeeService());
 }
 
+class FakeAuthService implements IAuthService {
+  final AppUser? user;
+  FakeAuthService(this.user);
+
+  @override
+  Stream<AppUser?> authStateChanges() => Stream.value(user);
+
+  @override
+  Future<void> signUp(String email, String password) async {}
+
+  @override
+  Future<void> signIn(String email, String password) async {}
+
+  @override
+  Future<void> signOut() async {}
+}
+
 void main() {
   testWidgets('approves request and saves assignments', (tester) async {
     final req = ServiceRequestElement(
@@ -106,7 +127,22 @@ void main() {
     GetIt.I.registerSingleton<TaskAssignmentRepository>(assignRepo);
     GetIt.I.registerSingleton<EmployeeRepository>(empRepo);
 
-    await tester.pumpWidget(const MaterialApp(home: ServiceRequestApprovalScreen()));
+    final user = AppUser(
+      id: 'u1',
+      email: 'e',
+      fullName: 'f',
+      employeeId: '',
+      role: UserRole.kierownik,
+      permissionsOverride: const {},
+    );
+    final authCubit = AuthCubit(FakeAuthService(user));
+
+    await tester.pumpWidget(
+      BlocProvider<AuthCubit>.value(
+        value: authCubit,
+        child: const MaterialApp(home: ServiceRequestApprovalScreen()),
+      ),
+    );
     await tester.pump();
 
     expect(find.text('o1'), findsOneWidget);
@@ -121,5 +157,41 @@ void main() {
     expect(reqRepo.impl.deleted, 'r1');
 
     GetIt.I.reset();
+    await authCubit.close();
+  });
+
+  testWidgets('denies access without permission', (tester) async {
+    final reqRepo = FakeServiceRequestRepository(const Stream.empty());
+    final grafikRepo = FakeGrafikElementRepository();
+    final assignRepo = FakeTaskAssignmentRepository();
+    final empRepo = FakeEmployeeRepository();
+
+    GetIt.I.registerSingleton<ServiceRequestRepository>(reqRepo);
+    GetIt.I.registerSingleton<GrafikElementRepository>(grafikRepo);
+    GetIt.I.registerSingleton<TaskAssignmentRepository>(assignRepo);
+    GetIt.I.registerSingleton<EmployeeRepository>(empRepo);
+
+    final user = AppUser(
+      id: 'u2',
+      email: 'e2',
+      fullName: 'f2',
+      employeeId: '',
+      role: UserRole.user,
+      permissionsOverride: const {},
+    );
+    final authCubit = AuthCubit(FakeAuthService(user));
+
+    await tester.pumpWidget(
+      BlocProvider<AuthCubit>.value(
+        value: authCubit,
+        child: const MaterialApp(home: ServiceRequestApprovalScreen()),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.byType(NoAccessScreen), findsOneWidget);
+
+    GetIt.I.reset();
+    await authCubit.close();
   });
 }

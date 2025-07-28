@@ -39,7 +39,7 @@ class ServiceRequestListScreen extends StatelessWidget {
         title: const Text('Zlecenia serwisowe'),
         actions: [
           PermissionWidget(
-            permission: 'canEditGrafik',
+            permission: 'canApproveServiceTasks',
             child: IconButton(
               icon: const Icon(Icons.check),
               onPressed: () =>

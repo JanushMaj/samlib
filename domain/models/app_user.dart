@@ -25,6 +25,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canChangeDate': true,
         'canSeeAllGrafik': true,
         'canApprove': true,
+        'canApproveServiceTasks': true,
         'canPlanSupplyRun': true,
         'canUseApp': true,
       };
@@ -42,6 +43,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canChangeDate': true,
         'canSeeAllGrafik': true,
         'canApprove': false,
+        'canApproveServiceTasks': false,
         'canPlanSupplyRun': false,
         'canUseApp': true,
       };
@@ -58,6 +60,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canChangeDate': true,
         'canSeeAllGrafik': true,
         'canApprove': true,
+        'canApproveServiceTasks': true,
         'canPlanSupplyRun': true,
         'canUseApp': true,
       };
@@ -74,6 +77,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canChangeDate': false,
         'canSeeAllGrafik': false,
         'canApprove': false,
+        'canApproveServiceTasks': false,
         'canPlanSupplyRun': false,
         'canUseApp': true,
       };
@@ -90,6 +94,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canChangeDate': true,
         'canSeeAllGrafik': false,
         'canApprove': false,
+        'canApproveServiceTasks': false,
         'canPlanSupplyRun': false,
         'canUseApp': true,
       };
@@ -106,6 +111,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canChangeDate': true,
         'canSeeAllGrafik': true,
         'canApprove': true,
+        'canApproveServiceTasks': true,
         'canPlanSupplyRun': true,
         'canUseApp': true,
       };
@@ -123,6 +129,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canChangeDate': true,
         'canSeeAllGrafik': false,
         'canApprove': false,
+        'canApproveServiceTasks': false,
         'canPlanSupplyRun': false,
         'canUseApp': true,
       };
@@ -139,6 +146,7 @@ Map<String, bool> getDefaultPermissionsForRole(UserRole role) {
         'canChangeDate': false,
         'canSeeAllGrafik': false,
         'canApprove': false,
+        'canApproveServiceTasks': false,
         'canPlanSupplyRun': false,
         'canUseApp': false, // tylko user nie może
       };

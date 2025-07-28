@@ -25,10 +25,9 @@ class ServiceRequestApprovalScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<AuthCubit>().currentUser;
-    if (user == null ||
-        (user.role != UserRole.kierownik &&
-            user.role != UserRole.kierownikProdukcji &&
-            user.role != UserRole.admin)) {
+    final canApprove =
+        user?.effectivePermissions['canApproveServiceTasks'] ?? false;
+    if (user == null || !canApprove) {
       return const NoAccessScreen();
     }
 
