@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../../data/repositories/service_request_repository.dart';
 import '../../auth/auth_cubit.dart';
+import '../../auth/screen/no_access_screen.dart';
 import '../cubit/service_request_form_cubit.dart';
 import '../../../shared/form/custom_textfield.dart';
 import '../../../shared/form/enum_picker/enum_picker.dart';
@@ -16,6 +17,13 @@ class ServiceRequestFormScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<AuthCubit>().currentUser;
+    final hasPermission =
+        user?.effectivePermissions['canCreateServiceTasks'] ?? false;
+    if (user == null || !hasPermission) {
+      return const NoAccessScreen();
+    }
+
     return BlocProvider(
       create: (_) => ServiceRequestFormCubit(
         GetIt.I<ServiceRequestRepository>(),
