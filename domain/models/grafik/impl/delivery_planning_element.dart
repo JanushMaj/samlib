@@ -1,5 +1,9 @@
 import '../enums.dart';
 import '../grafik_element.dart';
+/// {@template delivery_planning_element_deprecated}
+/// This class is deprecated. Use [TransportPlan] instead.
+/// {@endtemplate}
+@Deprecated("Use TransportPlan instead")
 
 /// Element planowania dostaw.
 class DeliveryPlanningElement extends GrafikElement {
